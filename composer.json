@@ -1,0 +1,21 @@
+{
+    "name": "mehrsystem/admin",
+    "authors": [
+        {
+            "name": "Elham Sadeghi",
+            "email": "e.sadeghi.942@gmail.com"
+        }
+    ],
+    "require": {
+        "rakit/validation": "^0.22.3",
+        "nesbot/carbon": "^2.52"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\Admin\\": "controllers/admin/",
+            "Models\\": "models/",
+            "Systems\\": "systems/",
+            "Controllers\\": "controllers/"
+        }
+    }
+}
