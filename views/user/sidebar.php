@@ -25,42 +25,66 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item has-treeview menu-open">
-                        <a href="#" class="nav-link active">
+                        <a href="user" class="nav-link active">
                             <i class="nav-icon fa fa-dashboard"></i>
+                            <p>داشبورد
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="userComment" class="nav-link active">
+                            <i class="nav-icon fa fa-comment"></i>
                             <p>
-                                داشبوردها
-                                <i class="right fa fa-angle-left"></i>
+                                تیکت ها
+                                <i class="fa fa-angle-left right"></i>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fa fa-edit"></i>
+                            <p>
+                                ویرایش اطلاعات
+                                <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link active">
+                                <a href="edit" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>داشبورد اول</p>
+                                    <p>ویرایش حساب کاربری</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./index2.html" class="nav-link">
+                                <a href="userProfileUpdate" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>داشبورد دوم</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./index3.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>داشبورد سوم</p>
+                                    <p>ویرایش پروفایل</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/widgets.html" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-th"></i>
                             <p>
-                                ویجت‌ها
-                                <span class="right badge badge-danger">جدید</span>
+                                درخواست  فیبر نوری
+                                <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="userRequestCreate" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>درخواست جدید</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="userRequestIndex" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>لیست درخواست ها</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -126,35 +150,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-edit"></i>
-                            <p>
-                                فرم‌ها
-                                <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/forms/general.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>اجزا عمومی</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/forms/advanced.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>پیشرفته</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/forms/editors.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>ویشرایشگر</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-table"></i>

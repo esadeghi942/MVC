@@ -64,8 +64,8 @@
             <div class="card">
                 <div class="card-header"><?php echo $titlecard;?></div>
                 <div class="card-body">
-                    <?php
-                    if (isset($errors))
+                  <!--  --><?php
+/*                    if (isset($errors))
                         if (isset($errors) && count($errors) > 0) {
                             echo "<div class='alert alert-danger alert-dismissible'>
                               <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
@@ -74,4 +74,4 @@
                                 echo "<pre>$error</pre>";
                             echo "</div>";
                         }
-                    ?>
+                    */?>

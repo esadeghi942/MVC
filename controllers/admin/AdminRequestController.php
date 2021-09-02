@@ -1,7 +1,7 @@
 <?php
 namespace Controllers\admin;
 
-class RequestController
+class AdminRequestController
 {
     public function setUp()
     {

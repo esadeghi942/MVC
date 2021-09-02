@@ -4,21 +4,24 @@ namespace Models;
 
 use Systems\Auth;
 use Systems\DataBase;
+use Systems\View;
 
 class User extends DataBase
 {
     const auth = 0, //customer user dont complete profile
         customer = 1,
         admin = 2,
-        superadmin = 3;
+        superadmin = 3,
+        table='users',
+        primary='user_id';
 
     static public function redirect()
     {
         $user = Auth::user();
         $address = '';
-        switch ($user['type']) {
+        switch ($user['user_type']) {
             case 0:
-                $address = '../profile';
+                $address = 'userProfileCreate';
                 break;
             case 1:
                 $address = 'user';
@@ -46,6 +49,12 @@ class User extends DataBase
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public static function find($id){
+        $qb=QB::getInstance();
+        $user=$qb->table(self::table)->where(self::primary,$id)->QGet();
+        return $user[0];
+    }
+
     // Create new acount
     function create_acount($name, $email, $phone, $password, $registerdate)
     {
@@ -59,14 +68,7 @@ class User extends DataBase
     {
         $query = $this->pdo->prepare('SELECT * FROM users WHERE user_session="' . $session . '"');
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    function update_user($id, $username, $firstname, $lastname, $email, $password, $type)
-    {
-        $query = $this->pdo->prepare('UPDATE users SET user_username=?, user_firstname=?, user_lastname=?, user_email=?, user_password=?, user_type=? WHERE user_id=?');
-        $query->execute([$username, $firstname, $lastname, $email, $password, $type, $id]);
-        return $query->errorInfo();
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     function update_session_login($user_id, $sess)

@@ -39,7 +39,7 @@
             <img src="assets/img/loginlogo" alt="فیبر نوری تهران" width="200px">
         </div>
         <p class="login-box-msg">به تهران فیبر خوش آمدید</p>
-        <center><a href="login" style="background-color: #0062cc;color: #fff" class="btn btn-vorod">ورود به پنل</a>
+        <center><a href="<?php echo \Models\User::redirect();?> " style="background-color: #0062cc;color: #fff" class="btn btn-vorod">ورود به پنل</a>
         <a href="register" style="background-color: #0062cc;color: #fff" class="btn btn-vorod">ثبت نام</a></center>
 
     </div>

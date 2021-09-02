@@ -12,27 +12,26 @@ class Filter
 		    	$db = new User();
 		    	$get_user_by_session = $db->get_user_by_session($login);
 		        if($get_user_by_session){
-					$user = $get_user_by_session[0];
-					$user['u_password'] = '******';
-					Session::put('user',$user);
+		            Auth::setSessionLogin($get_user_by_session[0]);
+		            Auth::setCookieLogin();
 					Cookie::put($_COOKIE_LOGIN, $login, time()+3600*24*365, '/', 'www.tehranftth.ir');
 		        }
 		    }else{
-				View::redirect($url);
+				View::redirect($url,['warning'=>'ابتدا  باید وارد سایت شوید']);
 		    }
 		}
 		else{
-			View::redirect($url);
+			View::redirect($url,['warning'=>'ابتدا باید وارد سایت شوید']);
 		}
 	}
 
-	public static function check_customer($url='../profile'){
+	public static function check_customer($url='../userProfileCreate'){
 
 		// Check auth before check is admin
 		self::check_auth();
 
 		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] != \Models\User::customer)){
-			View::redirect($url);
+			View::redirect($url,['warning'=>'ابتدا باید پروفایل خود را کامل کنید']);
 		}
 	}
 
@@ -42,7 +41,7 @@ class Filter
 		self::check_auth();
 
 		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] != \Models\User::admin)){
-			View::redirect($url);
+			View::redirect($url,['danger'=>'شما اجازه دسترسی به این صفحه را ندارید']);
 		}
 	}
 
@@ -52,7 +51,7 @@ class Filter
 		self::check_auth();
 
 		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] != \Models\User::superadmin)){
-			View::redirect($url);
+			View::redirect($url,['danger'=>'شما اجازه دسترسی به این صفحه را ندارید']);
 		}
 	}
 }

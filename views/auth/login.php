@@ -14,9 +14,6 @@ include 'views/auth/header.php';
                name="password" required>
     </div>
     <div class="form-group justify-content-center">
-        <img src="<?php echo $builder->inline(); ?>" />
-    </div>
-    <div class="form-group justify-content-center">
         <div class="row">
             <div class="col-md-6 ltr">
                 <div class="checkbox">

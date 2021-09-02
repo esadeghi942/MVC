@@ -20,6 +20,9 @@ class Cookie
 		}
 		return false;
 	}
+    public static function destroy($name){
+        Cookie::put($name, "", time() + 3600 * 24 * 365, '/', '');
+	}
 	/*
 	public static function unput($sess=null){
 		if($sess){
@@ -27,10 +30,6 @@ class Cookie
 		}else{
 			session_unset();
 		}
-	}
-
-	public static function destroy(){
-		session_destroy();
 	}
 	*/
 
