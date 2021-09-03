@@ -4,6 +4,7 @@ namespace Models;
 
 use Systems\Auth;
 use Systems\DataBase;
+use Systems\U;
 use Systems\View;
 
 class User extends DataBase
@@ -37,8 +38,8 @@ class User extends DataBase
     public function users()
     {
         //$query = $this->dbh->prepare('SELECT * FROM users');
-        $query = (new QB());
-        $query = $query->table('users')->get();
+        $query = QB::getInstance();
+        $query = $query->table(User::table)->get();
         return $query;
     }
 
@@ -71,12 +72,12 @@ class User extends DataBase
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    function update_session_login($user_id, $sess)
-    {
-        $query = $this->pdo->prepare('UPDATE users SET user_session="' . $sess . '" WHERE user_id=' . $user_id);
-        $query->execute();
-        return $query->errorInfo();
-    }
+      /*  function update_session_login($user_id, $sess)
+        {
+            $query = $this->pdo->prepare('UPDATE users SET user_session="' . $sess . '" WHERE user_id=' . $user_id);
+            $query->execute();
+            return $query->errorInfo();
+        }*/
 
     // Get All Users
     function get_all_users($field_name)

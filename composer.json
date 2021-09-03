@@ -8,7 +8,8 @@
     ],
     "require": {
         "rakit/validation": "^0.22.3",
-        "nesbot/carbon": "^2.52"
+        "nesbot/carbon": "^2.52",
+        "hekmatinasser/verta": "^1.12"
     },
     "autoload": {
         "psr-4": {

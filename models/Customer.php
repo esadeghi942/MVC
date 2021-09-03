@@ -1,6 +1,6 @@
 <?php
 namespace Models;
-
+use Carbon\Carbon;
 class Customer
 {
     const table='customers';
@@ -9,15 +9,18 @@ class Customer
 
     public static function find($id){
         $qb=(new QB());
-        $customer=$qb->table(self::table)->where('user_id',$id)->QGet();
+        $customer=$qb->table(self::table)->where(User::primary,$id)->QGet();
         return $customer[0];
     }
 
-    public static function custom_input($id,$input){
-        $res=[];
+    public static function custom_input($id,$input,$edit=false){
+        $res =[];
+        $date= Carbon::now()->toDateTimeString();
+        $str = $edit ?'cu_update':'cu_create';
         foreach (self::fillable as $record){
             $res[$record]=$input[$record];
-            $res['user_id']=$id;
+            $res[User::primary]=$id;
+            $res[$str]=$date;
         }
         return $res;
     }

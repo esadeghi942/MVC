@@ -72,7 +72,7 @@ class AuthController
                 $cookiehash = md5(sha1($username . $user_ip));
                 Cookie::put($_COOKIE_LOGIN, $cookiehash, time() + 3600 * 24 * 365, '/', '');
                 $QB = QB::getInstance();
-                $QB->update('users', ['user_session' => $cookiehash])->where('user_id', $user['user_id'])->exec();
+                $QB->update(User::table, ['user_session' => $cookiehash])->where(User::primary, $user[User::primary])->exec();
             }
             $address = User::redirect();
             if (isset($_POST['reference']) && $_POST['reference'] !== '' && $_POST['reference'] !== $_SERVER['HTTP_ORIGIN'] . '/login/') {
@@ -87,7 +87,7 @@ class AuthController
     function loginAfterRegister($user_id)
     {
         $QB = QB::getInstance();
-        $user = $QB->table('users')->where('user_id', $user_id)->get()->toArray()[0];
+        $user = $QB->table(User::table)->where(User::primary, $user_id)->get()->toArray()[0];
         Auth::setSessionLogin($user);
         $address = User::redirect();
         return View::redirect('../' . $address);
@@ -123,17 +123,16 @@ class AuthController
         // Check exists email & username
         $db = new User();
         $QB = QB::getInstance();
-        $check_email = $QB->table('users')->where('user_email', $email)->QGet();
+        $check_email = $QB->table(User::table)->where('user_email', $email)->QGet();
         if ($check_email)
             return View::redirect('', ['danger' => 'ایمیل وارد شده موجود می باشد .'], true);
-        $check_phone = $QB->table('users')->where('user_phone', $phone)->QGet();
+        $check_phone = $QB->table(User::table)->where('user_phone', $phone)->QGet();
         if (count($check_phone) > 0)
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], true);
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $registerdate = Date::now();
         $create_new_acount = $db->create_acount($name, $email, $phone, $hashedPassword, $registerdate);
-        Session::put('user', $user);
         if ($create_new_acount) {
             return self::loginAfterRegister($create_new_acount);
         } else {
@@ -147,7 +146,7 @@ class AuthController
         $phone = $_POST['phone'];
         //$hashedphone = password_hash($phone, PASSWORD_DEFAULT);
         $QB = QB::getInstance();
-        $check_phone = $QB->table('users')->where('user_phone', $phone)->QGet();
+        $check_phone = $QB->table(User::table)->where('user_phone', $phone)->QGet();
         if (count($check_phone) == 0)
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود نمی باشد .'], null, ['phone' => $phone]);
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
@@ -198,7 +197,7 @@ class AuthController
                 return View::redirect('../forget', ['danger' => ['درخواست نامعتبر است.']]);
         }
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $check = $QB->update('users', ['user_password' => $hashedPassword])->where('user_phone', $phone)->exec();
+        $check = $QB->update(User::table, ['user_password' => $hashedPassword])->where('user_phone', $phone)->exec();
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
         if (!$check)
             return View::redirect('', ['danger' => 'عملیات تغییر رمز موفقیت آمیر نبود.']);
@@ -208,7 +207,7 @@ class AuthController
     function logout()
     {
         $QB = QB::getInstance();
-        $QB->update('users', ['user_session' => NULL])->where('user_id', Auth::id())->exec();
+        $QB->update(User::table, ['user_session' => NULL])->where(User::primary, Auth::id())->exec();
         global $_COOKIE_JWT;
         global $_COOKIE_LOGIN;
         Cookie::destroy($_COOKIE_LOGIN);
@@ -265,19 +264,19 @@ class AuthController
         $user_id = Auth::id();
         // Check exists email & username
         $QB = QB::getInstance();
-        $check_email = $QB->table('users')->where('user_email', $email)->where('user_id', '!=', $user_id)->QGet();
+        $check_email = $QB->table(User::table)->where('user_email', $email)->where(User::primary, '!=', $user_id)->QGet();
         if ($check_email)
             return View::redirect('', ['danger' => 'ایمیل وارد شده موجود می باشد .'], true);
-        $check_phone = $QB->table('users')->where('user_phone', $phone)->where('user_id', '!=', $user_id)->QGet();
+        $check_phone = $QB->table(User::table)->where('user_phone', $phone)->where(User::primary, '!=', $user_id)->QGet();
         if (count($check_phone) > 0)
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], true);
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $registerdate = Date::now();
         $create_new_acount = $QB->update(User::table, ['user_name' => $name,
-            'user_phone' => $phone, 'user_email' => $email, 'user_update' => $registerdate])->where('user_id', $user_id)->exec();
+            'user_phone' => $phone, 'user_email' => $email, 'user_update' => $registerdate])->where(User::primary, $user_id)->exec();
         if (!empty($password))
-            $QB->update(User::table, ['user_password' => $hashedPassword])->where('user_id', $user_id);
+            $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
         if (!$create_new_acount)
             return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
         $user=(new User())->find($user_id);

@@ -13,7 +13,7 @@ class UserController{
     function create(){
         $user=Auth::id();
         $QB=QB::getInstance();
-        $count=$QB->table(Customer::table)->where('user_id',$user)->count();
+        $count=$QB->table(Customer::table)->where(User::primary,$user)->count();
         if($count > 0)
             View::redirect('../userProfileUpdate');
         else
@@ -44,7 +44,7 @@ class UserController{
 
     function editProfile()
     {
-        $user = Auth::user()['user_id'];
+        $user = Auth::user()[User::primary];
         $customer = Customer::find($user);
         return View::make('user/profile/edit', ['profile' => $customer]);
     }
@@ -65,16 +65,11 @@ class UserController{
             return View::redirect('', ['danger' => $msg], true);
         }
         $QB = QB::getInstance();
-        $res=$QB->update(Customer::table, Customer::custom_input($user, $_POST))->where(User::primary,$user)->exec();
+        $res=$QB->update(Customer::table, Customer::custom_input($user, $_POST,true))->where(User::primary,$user)->exec();
         if($res)
             return View::redirect('../user', ['success' => 'پروفایل با موفقیت ویرایش شد .']);
        else
            return View::redirect('', ['danger' => 'مشکلی در ویرایش به وجود آمده):']);
 
-    }
-
-    function comment()
-    {
-        $user = Auth::user()['user_id'];
     }
 }

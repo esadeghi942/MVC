@@ -5,7 +5,6 @@ use Models\User;
 
 class Auth
 {
-    const primary='user_id';
     public static function user(){
         if(Session::has('user')){
             return Session::get('user');
@@ -16,7 +15,7 @@ class Auth
     public static function id(){
         if(Session::has('user')){
             $user=Session::get('user');
-            return $user[self::primary];
+            return $user[User::primary];
         }
         return null;
     }
