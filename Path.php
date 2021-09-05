@@ -1,12 +1,13 @@
 <?php
 
-use Controllers\Admin\AdminRequestController;
 use Controllers\UserController;
 use Controllers\AuthController;
+use Controllers\FileController;
 use Controllers\User\UserRequestController;
-
+use Controllers\Admin\AdminRequestController;
 $paths = array(
     'index' => array('before' => '', 'get' => ['index'], 'post' => '', 'after' => ''),
+    '404' => array('before' => '', 'get' => ['404'], 'post' => '', 'after' => ''),
 
     //Auth
     'login' => array('before' => '', 'get' => ['auth/login'], 'post' => [AuthController::class, 'login'], 'after' => ''),
@@ -27,15 +28,20 @@ $paths = array(
 
     //request
     'userRequestCreate' => array('before' => 'check_customer', 'get' => ['user/request/create'], 'post' => [UserRequestController::class, 'store'], 'after' => ''),
-    'userRequestUpdate' => array('before' => 'check_customer', 'get' => [UserRequestController::class, 'edit'], 'post' => [UserRequestController::class, 'update'], 'after' => ''),
+    'userRequestUpdate' => array('before' => 'check_customer', 'get' => [UserRequestController::class, 'edit'],  'post' => [UserRequestController::class, 'update'], 'after' => ''),
     'userRequestIndex'  => array('before' => 'check_customer', 'get' => [UserRequestController::class, 'index'], 'post' => '', 'after' => ''),
+    'userRequestDelete' => array('before' =>'check_customer', 'get'  => '','post' => [UserRequestController::class, 'delete'], 'after' => ''),
+
+    //file
+    'userFileDelete' => array('before' =>'check_customer', 'get' => '', 'post' => [FileController::class, 'delete'], 'after' => ''),
+
 
     //comment
     'userComment' => array('before' => 'check_customer', 'get' => [UserController::class, 'comment'], 'post' => '', 'after' => ''),
 
     //admin
     'admin' => array('before' => 'check_admin', 'get' => ['admin/index'], 'post' => '', 'after' => ''),
-    'adminRequest' => array('before' => 'check_admin', 'get' => [AdminRequest::class, 'index'], 'post' => '', 'after' => ''),
+    'adminRequest' => array('before' => 'check_admin', 'get' => [AdminRequestController::class, 'index'], 'post' => '', 'after' => ''),
 
     //superAdmin
     'users' => array('before' => 'check_superadmin', 'get' => [UserController::class, 'alluser'], 'post' => '', 'after' => ''),

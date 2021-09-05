@@ -9,7 +9,7 @@
 	RewriteCond %{REQUEST_URI} !\/[^\/]*\.[^\/]+$
 	RewriteRule .* http://%{HTTP_HOST}%{REQUEST_URI}/ [L,R=301]
 
-	RewriteCond %{REQUEST_URI} !(\.bmp|\.ai|\.webp|\.tif|\.3gp|\.ogg|\.7z|\.dwg|\.log|\.svgz|\.apk|\.xml|\.xlsx|\.html|\.htm|\.rar|\.zip|\.x4|\.svg|\.swf|\.mp3|\.wav|\.mp4|\.mpeg|\.avi|\.wmv|\.mpg|\.webm|\.json|\.css|\.js|\.png|\.jpg|\.jpeg|\.gif|\.eot|\.otf|\.ttf|\.woff|\.ico|\.doc|\.docx|\.pdf|robots\.txt)$ [NC]
+	RewriteCond %{REQUEST_URI} !(\.bmp|\.ai|\.webp|\.tif|\.3gp|\.ogg|\.7z|\.dwg|\.log|\.svgz|\.apk|\.xml|\.xlsx|\.html|\.htm|\.rar|\.zip|\.x4|\.svg|\.swf|\.mp3|\.wav|\.mp4|\.mpeg|\.avi|\.wmv|\.mpg|\.webm|\.json|\.css|\.js|\.png|\.jpg|\.jpeg|\.gif|\.eot|\.otf|\.ttf|\.woff|\.ico|\.doc|\.docx|\.pdf|robots|\.txt)$ [NC]
 
 	RewriteRule ^(.*)$ Router.php?ag=$1 [L,QSA]
 </IfModule>

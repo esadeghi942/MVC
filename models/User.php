@@ -4,8 +4,6 @@ namespace Models;
 
 use Systems\Auth;
 use Systems\DataBase;
-use Systems\U;
-use Systems\View;
 
 class User extends DataBase
 {
@@ -21,14 +19,14 @@ class User extends DataBase
         $user = Auth::user();
         $address = '';
         switch ($user['user_type']) {
-            case 0:
+            case User::auth:
                 $address = 'userProfileCreate';
                 break;
-            case 1:
+            case User::customer:
                 $address = 'user';
                 break;
-            case 2:
-            case 3:
+            case User::admin:
+            case User::superadmin:
                 $address = 'admin';
                 break;
         }
@@ -50,7 +48,7 @@ class User extends DataBase
         return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public static function find($id){
+    public function find($id){
         $qb=QB::getInstance();
         $user=$qb->table(self::table)->where(self::primary,$id)->QGet();
         return $user[0];

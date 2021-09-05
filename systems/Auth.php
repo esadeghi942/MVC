@@ -20,12 +20,22 @@ class Auth
         return null;
     }
 
+    public static function isAdmin(){
+        if(Session::has('user')){
+            $user=Session::get('user')['user_type'];
+            if($user == User::admin || $user == User::superadmin)
+                return true;
+            return false;
+        }
+        return false;
+    }
+
     public static function setSessionLogin($user){
         $user['user_password'] = '******';
         Session::put('user', $user);
     }
     public static function updateSessionLogin($id){
-        $user=User::find($id);
+        $user=(new User())->find($id);
         $user['user_password'] = '******';
         Session::put('user', $user);
     }

@@ -36,3 +36,45 @@ $(document).on('click','.close',function (e){
     e.preventDefault();
     $(this).closest('#app-messages').remove();
 });
+
+$('.deletefile').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف فایل مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('file');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'userFileDelete/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('.item').remove();
+            }
+        }
+    });
+});
+
+$('.deleterequest').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف درخواست مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'userRequestDelete/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('tr').remove();
+            }
+        }
+    });
+});

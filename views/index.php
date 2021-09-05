@@ -7,7 +7,6 @@
     <title>فیبر نوری تهران | ورود به پنل</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <base href="../assets/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="developer" content="الهام صادقی">
     <meta name="developer-phone" content="+989365439172">

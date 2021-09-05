@@ -19,6 +19,7 @@ class UserController{
         else
             View::make('user/profile/create');
     }
+
     function storeProfile()
     {
         $user = Auth::id();
@@ -45,9 +46,10 @@ class UserController{
     function editProfile()
     {
         $user = Auth::user()[User::primary];
-        $customer = Customer::find($user);
+        $customer = (new Customer($user))->find();
         return View::make('user/profile/edit', ['profile' => $customer]);
     }
+
     function updateProfile()
     {
         $user = Auth::id();
