@@ -27,11 +27,12 @@ class File extends BaseModel
         $file = self::find();
         if (file_exists($file->file_path))
             unlink($file->file_path);
-        $QB = QB::getInstance();
+       /* $QB = QB::getInstance();
         $i=$QB->delete($this::table)->where($this::primary, $this->id)->exec();
         if($i)
             return true;
-        return false;
+        return false;*/
+        return parent::delete();
     }
 
     public function manege_name_for_upload($name, $file)

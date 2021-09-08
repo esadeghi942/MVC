@@ -21,7 +21,6 @@ class UserRequestController
     }
 
     function store(){
-        $user = Auth::id();
         $validator = new Validator;
         $validation = $validator->make($_POST, [
             'request_count_unit' => 'numeric',
@@ -38,7 +37,7 @@ class UserRequestController
             return View::redirect('', ['danger' => $msg], true);
         }
         $QB = QB::getInstance();
-        $req_id=$QB->insert(Request::table,Request::custom_input($user,$_POST));
+        $req_id=$QB->insert(Request::table,Request::custom_input($_POST));
         $file=new File();
         if($req_id && $_FILES['request_file']['size'][0] > 0)
             $file->upload_file($_FILES['request_file'],$req_id,Request::table);
@@ -56,7 +55,6 @@ class UserRequestController
 
     function update(){
         $req_id=Url::get('id');
-        $user = Auth::id();
         $validator = new Validator;
         $validation = $validator->make($_POST, [
             'request_count_unit' => 'numeric',
@@ -73,7 +71,7 @@ class UserRequestController
             return View::redirect('', ['danger' => $msg], true);
         }
         $QB = QB::getInstance();
-        $QB->update(Request::table,Request::custom_input($user,$_POST,true))->where(Request::primary,$req_id)->exec();
+        $QB->update(Request::table,Request::custom_input($_POST,true))->where(Request::primary,$req_id)->exec();
         $file=new File();
         if($_FILES['request_file']['size'][0] > 0)
             $file->upload_file($_FILES['request_file'],$req_id,Request::table);
@@ -94,7 +92,7 @@ class UserRequestController
             $f->delete();
         }
         $res=$request->delete();
-        if(1)
+        if($res)
             Url::response('success','درخواست با موفقیت حذف شد.');
         else
             Url::response('danger','مشکلی در حذف درخواست به وجود امده.');

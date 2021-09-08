@@ -217,13 +217,14 @@ class AuthController
         return View::redirect('../index');
 
     }
+
     function edit()
     {
         $user = Auth::user();
         return View::make('auth/edit', ['user' => $user]);
     }
 
-    function store()
+    function update()
     {
         $email = $_POST['email'];
         $name = $_POST['name'];
@@ -279,8 +280,7 @@ class AuthController
             $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
         if (!$create_new_acount)
             return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
-        $user=(new User())->find($user_id);
-        Auth::setSessionLogin($user[0]);
+        Auth::updateSessionLogin($user_id);
         return View::redirect('../' . User::redirect(), ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
     }
 

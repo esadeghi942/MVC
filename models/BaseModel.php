@@ -49,4 +49,12 @@ class BaseModel
         $item = $qb->table($this::table)->where($this::primary, $this->id)->get();
         return isset($item[0]) ? $item[0] : [];
     }
+
+    public function delete(){
+        $QB = QB::getInstance();
+        $i=$QB->delete($this::table)->where($this::primary, $this->id)->exec();
+        if($i)
+            return true;
+        return false;
+    }
 }

@@ -25,24 +25,23 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item has-treeview menu-open">
-                        <a href="user" class="nav-link active">
+                        <a href="user" class="nav-link">
                             <i class="nav-icon fa fa-dashboard"></i>
                             <p>داشبورد
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="userComment" class="nav-link active">
+                    <li class="nav-item has-treeview">
+                        <a href="userComment" class="nav-link">
                             <i class="nav-icon fa fa-comment"></i>
                             <p>
                                 تیکت ها
-                                <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-edit"></i>
+                            <i class="nav-icon fa fa-id-card"></i>
                             <p>
                                 ویرایش اطلاعات
                                 <i class="fa fa-angle-left right"></i>
@@ -63,9 +62,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-th"></i>
+                            <i class="nav-icon fa fa-wifi"></i>
                             <p>
                                 درخواست  فیبر نوری
                                 <i class="fa fa-angle-left right"></i>
@@ -88,99 +87,56 @@
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-pie-chart"></i>
+                            <i class="nav-icon fa fa-wrench"></i>
                             <p>
-                                چارت‌ها
+                                اعلام خرابی
                                 <i class="right fa fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="pages/charts/chartjs.html" class="nav-link">
+                                <a href="userBugCreate" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>نمودار ChartJS</p>
+                                    <p>اعلام خرابی جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/charts/flot.html" class="nav-link">
+                                <a href="userBugIndex" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>نمودار Flot</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/charts/inline.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>نمودار Inline</p>
+                                    <p>لیست اعلام خرابی ها</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-tree"></i>
+                            <i class="nav-icon fa fa-outdent"></i>
                             <p>
-                                اشیای گرافیکی
+                                ارسال مدارک
                                 <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="pages/UI/general.html" class="nav-link">
+                                <a href="" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>عمومی</p>
+                                    <p>لیست مدارک ارسالی</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="pages/UI/icons.html" class="nav-link">
+                                <a href="" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>آیکون‌ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/UI/buttons.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>دکمه‌ها</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/UI/sliders.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>اسلایدر‌ها</p>
+                                    <p>جدید</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-table"></i>
+                            <i class="nav-icon fa fa-tty"></i>
                             <p>
-                                جداول
+                                درخواست خط 4 یا 5 رقمی
                                 <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/tables/simple.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>جداول ساده</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/tables/data.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>جداول داده</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-header">مثال‌ها</li>
-                    <li class="nav-item">
-                        <a href="pages/calendar.html" class="nav-link">
-                            <i class="nav-icon fa fa-calendar"></i>
-                            <p>
-                                تقویم
-                                <span class="badge badge-info right">2</span>
                             </p>
                         </a>
                     </li>
@@ -188,131 +144,9 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-envelope-o"></i>
                             <p>
-                                ایمیل‌ باکس
+                                فعال سازی پیامک
                                 <i class="fa fa-angle-left right"></i>
                             </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/mailbox/mailbox.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>اینباکس</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/mailbox/compose.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>ایجاد</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/mailbox/read-mail.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>خواندن</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-book"></i>
-                            <p>
-                                صفحات
-                                <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/examples/invoice.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>سفارشات</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/examples/profile.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>پروفایل</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/examples/login.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>صفحه ورود</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/examples/register.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>صفحه عضویت</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/examples/lockscreen.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>قفل صفحه</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-plus-square-o"></i>
-                            <p>
-                                بیشتر
-                                <i class="fa fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/examples/404.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>ارور 404</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/examples/500.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>ارور 500</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/examples/blank.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>صفحه خالی</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="starter.html" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>صفحه شروع</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-header">متفاوت</li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-file"></i>
-                            <p>مستندات</p>
-                        </a>
-                    </li>
-                    <li class="nav-header">برچسب‌ها</li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-circle-o text-danger"></i>
-                            <p class="text">مهم</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-circle-o text-warning"></i>
-                            <p>هشدار</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-circle-o text-info"></i>
-                            <p>اطلاعات</p>
                         </a>
                     </li>
                 </ul>

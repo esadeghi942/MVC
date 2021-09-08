@@ -13,24 +13,25 @@ class Request extends BaseModel
         userfillable = ['request_address', 'request_buildstatus', 'request_owner', 'request_count_unit', 'request_count_request', 'request_build_request', 'request_fix_number', 'request_base', 'request_karshenasi'],
         adminfillable = ['request_answer'];
 
-   /* public function find()
-    {
-        $qb = QB::getInstance();
-        $request = $qb->table(self::table)->where(self::primary, $this->id)->get();
-        return $request[0];
-    }*/
+    /* public function find()
+     {
+         $qb = QB::getInstance();
+         $request = $qb->table(self::table)->where(self::primary, $this->id)->get();
+         return $request[0];
+     }*/
 
     public function files()
     {
         $qb = QB::getInstance();
-        $request = $qb->table(File::table)->where('file_model',self::table)->
-        where('model_id',$this->id)->get();
+        $request = $qb->table(File::table)->where('file_model', self::table)->
+        where('model_id', $this->id)->get();
         return $request;
     }
 
-    public static function custom_input($id, $input, $edit = false)
+    public static function custom_input($input, $edit = false)
     {
         $res = [];
+        $id=Auth::id();
         $date = Carbon::now()->toDateTimeString();
         $str = $edit ? 'request_update' : 'request_create';
         foreach (self::userfillable as $record) {
@@ -120,13 +121,5 @@ class Request extends BaseModel
             $request->request_karshenasi = $str;
         }
         return $requests;
-    }
-
-    public function delete(){
-        $QB = QB::getInstance();
-        $i=$QB->delete(self::table)->where(self::primary, $this->id)->exec();
-        if($i)
-            return true;
-        return false;
     }
 }

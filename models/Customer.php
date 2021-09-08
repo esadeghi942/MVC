@@ -1,6 +1,7 @@
 <?php
 namespace Models;
 use Carbon\Carbon;
+use Systems\Auth;
 
 class Customer extends BaseModel
 {
@@ -13,8 +14,9 @@ class Customer extends BaseModel
         return $customer[0];
     }
 
-    public static function custom_input($id,$input,$edit=false){
+    public static function custom_input($input,$edit=false){
         $res =[];
+        $id=Auth::id();
         $date= Carbon::now()->toDateTimeString();
         $str = $edit ?'cu_update':'cu_create';
         foreach (self::fillable as $record){

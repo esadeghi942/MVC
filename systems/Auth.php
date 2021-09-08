@@ -34,6 +34,7 @@ class Auth
         $user['user_password'] = '******';
         Session::put('user', $user);
     }
+
     public static function updateSessionLogin($id){
         $user=(new User())->find($id);
         $user['user_password'] = '******';
@@ -53,5 +54,4 @@ class Auth
         //Cookie::put($_COOKIE_LOGIN, $login, time()+3600*24*365, '/', 'www.tehranftth.ir');
         Cookie::put($_COOKIE_JWT, $jwt, time() + 3600 * 24 * 30, '/', '');
     }
-
 }

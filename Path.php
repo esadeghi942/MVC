@@ -3,7 +3,9 @@
 use Controllers\UserController;
 use Controllers\AuthController;
 use Controllers\FileController;
+use Controllers\CommentController;
 use Controllers\User\UserRequestController;
+use Controllers\User\UserBugController;
 use Controllers\Admin\AdminRequestController;
 $paths = array(
     'index' => array('before' => '', 'get' => ['index'], 'post' => '', 'after' => ''),
@@ -16,7 +18,7 @@ $paths = array(
     'forget' => array('before' => '', 'get' => ['auth/forget'], 'post' => [AuthController::class, 'forget_password'], 'after' => ''),
     'recovery_password' => array('before' => '', 'get' => ['auth/recovery_password'], 'post' => [AuthController::class, 'recovery_password'], 'after' => ''),
     'new_password' => array('before' => '', 'get' => ['auth/new_password'], 'post' => [AuthController::class, 'new_password'], 'after' => ''),
-    'edit' => array('before' => 'check_auth', 'get' => [AuthController::class, 'edit'], 'post' => [AuthController::class, 'store'], 'after' => ''),
+    'edit' => array('before' => 'check_auth', 'get' => [AuthController::class, 'edit'], 'post' => [AuthController::class, 'update'], 'after' => ''),
 
 
     //users
@@ -32,12 +34,18 @@ $paths = array(
     'userRequestIndex'  => array('before' => 'check_customer', 'get' => [UserRequestController::class, 'index'], 'post' => '', 'after' => ''),
     'userRequestDelete' => array('before' =>'check_customer', 'get'  => '','post' => [UserRequestController::class, 'delete'], 'after' => ''),
 
+    //bug
+    'userBugCreate' => array('before' => 'check_customer', 'get' => ['user/bug/create'], 'post' => [UserBugController::class, 'store'], 'after' => ''),
+    'userBugUpdate' => array('before' => 'check_customer', 'get' => [UserBugController::class, 'edit'],  'post' => [UserBugController::class, 'update'], 'after' => ''),
+    'userBugIndex'  => array('before' => 'check_customer', 'get' => [UserBugController::class, 'index'], 'post' => '', 'after' => ''),
+    'userBugDelete' => array('before' =>'check_customer', 'get'  => '','post' => [UserBugController::class, 'delete'], 'after' => ''),
+
     //file
     'userFileDelete' => array('before' =>'check_customer', 'get' => '', 'post' => [FileController::class, 'delete'], 'after' => ''),
 
 
     //comment
-    'userComment' => array('before' => 'check_customer', 'get' => [UserController::class, 'comment'], 'post' => '', 'after' => ''),
+    'userComment' => array('before' => 'check_customer', 'get' => [CommentController::class, 'index'], 'post' => [CommentController::class, 'store'], 'after' => ''),
 
     //admin
     'admin' => array('before' => 'check_admin', 'get' => ['admin/index'], 'post' => '', 'after' => ''),

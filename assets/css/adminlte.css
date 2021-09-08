@@ -48,7 +48,6 @@
 }
 
 html {
-  font-family:iranyekan;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -11286,7 +11285,6 @@ label:not(.form-check-label):not(.custom-file-label) {
   bottom: 0;
   width: 4px;
   background: #ddd;
-  left: 31px;
   margin: 0;
   border-radius: 0.25rem;
 }
@@ -11317,7 +11315,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .timeline > li > .timeline-item > .time {
   color: #999;
-  float: right;
+  float: left;
   padding: 10px;
   font-size: 12px;
 }
@@ -11350,7 +11348,7 @@ label:not(.form-check-label):not(.custom-file-label) {
   background: #adb5bd;
   border-radius: 50%;
   text-align: center;
-  left: 18px;
+  right: -18px;
   top: 0;
 }
 

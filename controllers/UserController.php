@@ -10,6 +10,7 @@ use Systems\View;
 use Models\Customer;
 
 class UserController{
+
     function create(){
         $user=Auth::id();
         $QB=QB::getInstance();
@@ -37,7 +38,7 @@ class UserController{
             return View::redirect('', ['danger' => $msg], true);
         }
         $QB = QB::getInstance();
-        $QB->insert(Customer::table, Customer::custom_input($user, $_POST));
+        $QB->insert(Customer::table, Customer::custom_input($_POST));
         $QB->update(User::table, ['user_type' => 1])->where(User::primary,$user)->exec();
         Auth::updateSessionLogin($user);
         return View::redirect('../user', ['success' => 'پروفایل با موفقیت کامل شد .']);
@@ -67,7 +68,7 @@ class UserController{
             return View::redirect('', ['danger' => $msg], true);
         }
         $QB = QB::getInstance();
-        $res=$QB->update(Customer::table, Customer::custom_input($user, $_POST,true))->where(User::primary,$user)->exec();
+        $res=$QB->update(Customer::table, Customer::custom_input($_POST,true))->where(User::primary,$user)->exec();
         if($res)
             return View::redirect('../user', ['success' => 'پروفایل با موفقیت ویرایش شد .']);
        else
