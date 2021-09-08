@@ -27,7 +27,7 @@ class DataBase
     private $user = 'root';
     private $pass = '';
 
-    protected $pdo;
+    public $pdo;
 
     public function __construct()
     {

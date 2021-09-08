@@ -7,8 +7,8 @@ use Systems\DataBase;
 class QB extends Database
 {
     private static $instance = null;
-    private $dbh = null, $table, $columns, $sql, $bindValues, $getSQL,
-        $where, $orWhere, $whereCount = 0, $isOrWhere = false,
+    private $dbh = null, $table,$naturaljoin,$join,$on,$columns, $sql, $bindValues, $getSQL,
+        $where, $orWhere,$group, $whereCount = 0, $isOrWhere = false,
         $rowCount = 0, $limit, $orderBy, $lastIDInserted = 0;
 
     // Initial values for pagination array
@@ -83,6 +83,10 @@ class QB extends Database
     private function resetQuery()
     {
         $this->table = null;
+        $this->naturaljoin = null;
+        $this->group = null;
+        $this->join = null;
+        $this->on = null;
         $this->columns = null;
         $this->sql = null;
         $this->bindValues = null;
@@ -300,6 +304,22 @@ class QB extends Database
     {
         $this->resetQuery();
         $this->table = $table_name;
+        return $this;
+    }
+    public function naturalJoin($table_name)
+    {
+        $this->naturaljoin = $table_name;
+        return $this;
+    }
+    public function group($column)
+    {
+        $this->group = $column;
+        return $this;
+    }
+    public function join($table_name,$on)
+    {
+        $this->join = $table_name;
+        $this->on = $on;
         return $this;
     }
 
@@ -536,8 +556,19 @@ class QB extends Database
 
         $this->sql = "SELECT $select FROM `$this->table`";
 
+        if ($this->naturaljoin !== null) {
+            $this->sql .= " NATURAL JOIN `$this->naturaljoin`";
+        }
+
+        if ($this->join !== null) {
+            $this->sql .= " JOIN `$this->join` ON `$this->on`";
+        }
+
         if ($this->where !== null) {
             $this->sql .= $this->where;
+        }
+        if ($this->group !== null) {
+            $this->sql .= " GROUP BY `$this->group`";
         }
 
         if ($this->orderBy !== null) {
@@ -547,6 +578,14 @@ class QB extends Database
         if ($this->limit !== null) {
             $this->sql .= $this->limit;
         }
+    }
+
+    public function statement()
+    {
+        $this->assimbleQuery();
+        $this->getSQL = $this->sql;
+        $stmt = $this->dbh->prepare($this->sql);
+        return $stmt->queryString;
     }
 
     public function QGet()

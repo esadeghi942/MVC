@@ -81,7 +81,7 @@ class UserBugController
     function delete(){
         $id=$_POST['id'];
         $bug=new Bug($id);
-        $can=$bug->postcan($id);
+        $can=$bug->postcan();
         if(!$can) {
             Url::response('danger','شما اجازه حذف این اعلام خرابی  را ندارید.');
             return;

@@ -81,7 +81,7 @@ class UserRequestController
     function delete(){
         $id=$_POST['id'];
         $request=new Request($id);
-        $can=$request->postcan($id);
+        $can=$request->postcan();
         if(!$can) {
             Url::response('danger','شما اجازه حذف این درخواست را ندارید.');
             return;

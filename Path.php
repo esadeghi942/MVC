@@ -7,6 +7,7 @@ use Controllers\CommentController;
 use Controllers\User\UserRequestController;
 use Controllers\User\UserBugController;
 use Controllers\Admin\AdminRequestController;
+use Controllers\Admin\AdminCommentController;
 $paths = array(
     'index' => array('before' => '', 'get' => ['index'], 'post' => '', 'after' => ''),
     '404' => array('before' => '', 'get' => ['404'], 'post' => '', 'after' => ''),
@@ -23,6 +24,7 @@ $paths = array(
 
     //users
     'user' => array('before' => 'check_auth', 'get' => ['user/index'], 'post' => '', 'after' => ''),
+    'admin' => array('before' => 'check_auth', 'get' => ['admin/index'], 'post' => '', 'after' => ''),
 
     //profile
     'userProfileCreate' => array('before' => 'check_auth', 'get' => [UserController::class,'create'], 'post' => [UserController::class, 'storeProfile'], 'after' => ''),
@@ -32,7 +34,7 @@ $paths = array(
     'userRequestCreate' => array('before' => 'check_customer', 'get' => ['user/request/create'], 'post' => [UserRequestController::class, 'store'], 'after' => ''),
     'userRequestUpdate' => array('before' => 'check_customer', 'get' => [UserRequestController::class, 'edit'],  'post' => [UserRequestController::class, 'update'], 'after' => ''),
     'userRequestIndex'  => array('before' => 'check_customer', 'get' => [UserRequestController::class, 'index'], 'post' => '', 'after' => ''),
-    'userRequestDelete' => array('before' =>'check_customer', 'get'  => '','post' => [UserRequestController::class, 'delete'], 'after' => ''),
+    'userRequestDelete' => array('before' =>'check_customer',  'get'  => '','post' => [UserRequestController::class, 'delete'], 'after' => ''),
 
     //bug
     'userBugCreate' => array('before' => 'check_customer', 'get' => ['user/bug/create'], 'post' => [UserBugController::class, 'store'], 'after' => ''),
@@ -46,10 +48,13 @@ $paths = array(
 
     //comment
     'userComment' => array('before' => 'check_customer', 'get' => [CommentController::class, 'index'], 'post' => [CommentController::class, 'store'], 'after' => ''),
+    'adminComment' => array('before' => 'check_admin', 'get' => [AdminCommentController::class, 'index'], 'post' => '', 'after' => ''),
+    'adminUserCommnet' => array('before' => 'check_admin', 'get' => [AdminCommentController::class, 'userComment'], 'post' => [AdminCommentController::class, 'postComment'], 'after' => ''),
+    'commentDelete' => array('before' => 'check_customer', 'get' => '', 'post' => [CommentController::class, 'delete'], 'after' => ''),
 
     //admin
-    'admin' => array('before' => 'check_admin', 'get' => ['admin/index'], 'post' => '', 'after' => ''),
     'adminRequest' => array('before' => 'check_admin', 'get' => [AdminRequestController::class, 'index'], 'post' => '', 'after' => ''),
+    'adminCustomer' => array('before' => 'check_admin', 'get' => [AdminRequestController::class, 'index'], 'post' => '', 'after' => ''),
 
     //superAdmin
     'users' => array('before' => 'check_superadmin', 'get' => [UserController::class, 'alluser'], 'post' => '', 'after' => ''),

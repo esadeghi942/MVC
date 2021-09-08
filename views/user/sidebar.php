@@ -17,11 +17,15 @@
                 <div class="info">
                     <a href="profile" class="d-block"><?php echo systems\Auth::user()['user_name'] ?></a>
                 </div>
+                <a href="logout" class="pt-1">
+                    <i class="nav-icon fa fa-power-off"></i>
+                </a>
             </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item has-treeview menu-open">
@@ -66,7 +70,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-wifi"></i>
                             <p>
-                                درخواست  فیبر نوری
+                                درخواست فیبر نوری
                                 <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>

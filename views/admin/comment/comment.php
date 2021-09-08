@@ -1,15 +1,15 @@
 <?php
 $title = 'تیکت ها';
 include 'views/partials/header.php';
-include 'views/user/sidebar.php';
+include 'views/admin/sidebar.php';
 ?>
-<style>
-    .card{
-        max-height: 295px;
-        overflow-y: scroll;
-        scroll-behavior: smooth;
-    }
-</style>
+    <style>
+        .card {
+            max-height: 295px;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+    </style>
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -26,19 +26,20 @@ include 'views/user/sidebar.php';
                                     foreach ($comments as $comment) { ?>
                                         <li>
                                             <i class="fa fa-comments bg-yellow"></i>
-                                            <div class="timeline-item <?php echo $comment->user_id == \Systems\Auth::id() ? '' : 'float-left' ?>">
+                                            <div class="timeline-item <?php echo $comment->user_type != \Models\User::customer ? '' : 'float-left' ?>">
                                                 <span class="time"><i
                                                             class="fa fa-clock-o"></i><?php echo verta($comment->comment_create)->format('Y-m-d H:i:s') ?></span>
 
                                                 <h3 class="timeline-header"><span class="text-green"
-                                                                                  href="#"><?php echo $comment->user_id == \Systems\Auth::id() ? \Systems\Auth::user()['user_name'] : 'پشتیبان' ?></span>
+                                                                                  href="#"><?php echo $comment->user_name; ?></span>
                                                     :</h3>
 
-                                                <i class="fa float-left pt-3 <?php echo $comment->comment_readed==1 ? 'fa-check-circle' : 'fa-check-circle-o' ?>"></i>
+                                                <i class="fa float-left pt-3 <?php echo $comment->comment_readed == 1 ? 'fa-check-circle' : 'fa-check-circle-o' ?>"></i>
                                                 <div class="timeline-body"><?php echo $comment->comment_text ?></div>
-                                                <?php if($comment->comment_readed == 0 && $comment->user_id == \Systems\Auth::id()){ ?>
+                                                <?php if ($comment->comment_readed == 0 && $comment->user_id == \Systems\Auth::id()) { ?>
                                                     <div class="timeline-footer">
-                                                        <button type="submit" data-id="<?php echo $comment->comment_id; ?>"
+                                                        <button type="submit"
+                                                                data-id="<?php echo $comment->comment_id; ?>"
                                                                 class="deletecomment btn btn-danger btn-flat btn-xs">
                                                             حذف
                                                         </button>
@@ -62,7 +63,8 @@ include 'views/user/sidebar.php';
                             <label class="ml" for="txt"><?php echo \Systems\Auth::user()['user_name']; ?>
                                 عزیز
                                 تیکت خود را وارد کنید:</label>
-                            <textarea name="comment_text" id="comment_text" class="form-control" rows="3" placeholder="متن تیکت..."></textarea>
+                            <textarea name="comment_text" id="comment_text" class="form-control" rows="3"
+                                      placeholder="متن تیکت..."></textarea>
                         </div>
                         <button type="submit" class="btn btn-sm btn-success btn-flat pull-left">ارسال تیکت</button>
                     </form>

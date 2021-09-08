@@ -29,7 +29,19 @@ class BaseModel
             return View::redirect('../user', ['danger' => 'شما اجازه دسترسی به این صفحه را ندارید']);
     }
 
-    public function postcan($id)
+    public function postcan()
+    {
+        if (Auth::isAdmin())
+            return true;
+        $record = $this->find();
+        $userid = User::primary;
+        $user = $record->$userid;
+        if (Auth::id() != $user)
+           return false;
+        return true;
+    }
+
+    public function postcan2($id)
     {
         if (Auth::isAdmin())
             return;
