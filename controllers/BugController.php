@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\User;
+namespace Controllers;
 
 use Models\Bug;
 use Models\File;
@@ -11,7 +11,7 @@ use Systems\Auth;
 use Systems\Url;
 use Systems\View;
 
-class UserBugController
+class BugController
 {
     function index(){
         $user=Auth::id();

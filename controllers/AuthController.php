@@ -2,16 +2,13 @@
 
 namespace Controllers;
 
-use Firebase\JWT\JWT;
 use Models\QB;
 use Models\User;
 use Rakit\Validation\Validator;
-use Symfony\Component\Translation\Provider\NullProvider;
 use Systems\Auth;
 use Systems\Cookie;
 use Systems\Date;
 use Carbon\Carbon;
-use Systems\Session;
 use Systems\View;
 use Systems\Url;
 
@@ -58,7 +55,7 @@ class AuthController
             $hashedPassword = $check_user[0]["user_password"];
             if (!password_verify($password, $hashedPassword))
                 return View::redirect('', ['danger' => 'نام کاربری یا کلمه عبور نادرست است .'], true);
-            $user=$check_user[0];
+            $user = $check_user[0];
             Auth::setSessionLogin($user);
             if ($remember) {
                 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -99,6 +96,22 @@ class AuthController
         $name = $_POST['name'];
         $phone = $_POST['phone'];
         $password = $_POST['password'];
+        self::check_before_register();
+        // Check exists email & username
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $registerdate = Date::now();
+        $db = new User();
+        $create_new_acount = $db->create_acount($name, $email, $phone, $hashedPassword, $registerdate);
+        if ($create_new_acount) {
+            return self::loginAfterRegister($create_new_acount);
+        } else {
+            return View::redirect('', ['danger' => 'در فرایند ثبت نام مشکلی پیش آمده :('], true);
+        }
+    }
+
+    function check_before_register(){
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
         $validator = new Validator;
         $validation = $validator->make($_POST, [
             'name' => 'required|min:4',
@@ -119,9 +132,6 @@ class AuthController
                 $msg .= "<pre>$error</pre>";
             return View::redirect('', ['danger' => $msg], true);
         }
-
-        // Check exists email & username
-        $db = new User();
         $QB = QB::getInstance();
         $check_email = $QB->table(User::table)->where('user_email', $email)->QGet();
         if ($check_email)
@@ -129,15 +139,6 @@ class AuthController
         $check_phone = $QB->table(User::table)->where('user_phone', $phone)->QGet();
         if (count($check_phone) > 0)
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], true);
-
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $registerdate = Date::now();
-        $create_new_acount = $db->create_acount($name, $email, $phone, $hashedPassword, $registerdate);
-        if ($create_new_acount) {
-            return self::loginAfterRegister($create_new_acount);
-        } else {
-            return View::redirect('', ['danger' => 'در فرایند ثبت نام مشکلی پیش آمده :('], true);
-        }
     }
 
     function forget_password()
@@ -224,10 +225,9 @@ class AuthController
         return View::make('auth/edit', ['user' => $user]);
     }
 
-    function update()
+    function check_before_update($user_id)
     {
         $email = $_POST['email'];
-        $name = $_POST['name'];
         $phone = $_POST['phone'];
         $password = $_POST['password'];
         $validator = new Validator;
@@ -262,7 +262,6 @@ class AuthController
                 return View::redirect('', ['danger' => $msg], true);
             }
         }
-        $user_id = Auth::id();
         // Check exists email & username
         $QB = QB::getInstance();
         $check_email = $QB->table(User::table)->where('user_email', $email)->where(User::primary, '!=', $user_id)->QGet();
@@ -272,6 +271,18 @@ class AuthController
         if (count($check_phone) > 0)
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], true);
 
+    }
+
+    function update()
+    {
+        $user_id = Auth::id();
+        self::check_before_update($user_id);
+
+        $QB = QB::getInstance();
+        $email = $_POST['email'];
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $registerdate = Date::now();
         $create_new_acount = $QB->update(User::table, ['user_name' => $name,
@@ -284,8 +295,43 @@ class AuthController
         return View::redirect('../' . User::redirect(), ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
     }
 
-    function delete()
+    function adminStore()
     {
+        $email = $_POST['email'];
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
+        self::check_before_register();
+        // Check exists email & username
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $registerdate = Date::now();
+        $db = new User();
+        $create_new_acount = $db->create_admin($name, $email, $phone, $hashedPassword, $registerdate);
+        if ($create_new_acount) {
+            return View::redirect('../adminUser', ['succeess' => 'مدیر با موفقیت ثبت شد :)']);
+        } else {
+            return View::redirect('', ['danger' => 'در فرایند ثبت مشکلی پیش آمده :('], true);
+        }
     }
 
+    function adminUpdate()
+    {
+        $user_id = Url::get('id');
+        self::check_before_update($user_id);
+
+        $QB = QB::getInstance();
+        $email = $_POST['email'];
+        $name = $_POST['name'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $registerdate = Date::now();
+        $create_new_acount = $QB->update(User::table, ['user_name' => $name,
+            'user_phone' => $phone, 'user_email' => $email, 'user_update' => $registerdate])->where(User::primary, $user_id)->exec();
+        if (!empty($password))
+            $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
+        if (!$create_new_acount)
+            return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
+        return View::redirect('../adminUser', ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
+    }
 }

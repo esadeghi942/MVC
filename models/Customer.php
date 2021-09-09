@@ -6,7 +6,8 @@ use Systems\Auth;
 class Customer extends BaseModel
 {
     const table='customers';
-    const fillable=['cu_company', 'cu_namayande', 'cu_addresss', 'cu_phone'];
+    const fillable=['cu_company', 'cu_namayande', 'cu_addresss', 'cu_phone'],
+        timecreate='cu_create';
 
     public function find(){
         $qb = QB::getInstance();

@@ -15,7 +15,7 @@
                     <img src="assets/img/user-avatar.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="profile" class="d-block"><?php echo systems\Auth::user()['user_name'] ?></a>
+                    <a class="d-block"><?php echo systems\Auth::user()['user_name'] ?></a>
                 </div>
                 <a href="logout" class="pt-1">
                     <i class="nav-icon fa fa-power-off"></i>
@@ -51,13 +51,14 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="adminCustomer" class="nav-link">
+                        <a href="adminCustomerIndex" class="nav-link">
                             <i class="nav-icon fa fa-users"></i>
                             <p>
                                 مشتریان
                             </p>
                         </a>
                     </li>
+                    <?php if(\Systems\Auth::isSuperAdmin()){ ?>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-id-card"></i>
@@ -68,19 +69,20 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="edit" class="nav-link">
+                                <a href="adminUserCreate" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
                                     <p>افزودن مدیر جدید</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="userProfileUpdate" class="nav-link">
+                                <a href="adminUser" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
                                     <p>لیست مدیران</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
+                    <?php } ?>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-wifi"></i>

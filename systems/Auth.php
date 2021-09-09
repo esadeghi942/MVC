@@ -25,7 +25,15 @@ class Auth
             $user=Session::get('user')['user_type'];
             if($user == User::admin || $user == User::superadmin)
                 return true;
-            return false;
+        }
+        return false;
+    }
+
+    public static function isSuperAdmin(){
+        if(Session::has('user')){
+            $user=Session::get('user')['user_type'];
+            if($user == User::superadmin)
+                return true;
         }
         return false;
     }
@@ -36,7 +44,7 @@ class Auth
     }
 
     public static function updateSessionLogin($id){
-        $user=(new User())->find($id);
+        $user=(new User($id))->find();
         $user['user_password'] = '******';
         Session::put('user', $user);
     }

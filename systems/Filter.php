@@ -1,6 +1,8 @@
 <?php
 namespace Systems;
 use Models\User;
+use const http\Client\Curl\AUTH_ANY;
+
 class Filter
 {
     public static function check_auth($url='../login'){
@@ -40,7 +42,7 @@ class Filter
 		// Check auth before check is admin
 		self::check_auth();
 
-		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] != \Models\User::admin)){
+		if(!Session::has('user') || (Session::has('user') && !Auth::isAdmin())){
 			View::redirect($url,['danger'=>'شما اجازه دسترسی به این صفحه را ندارید']);
 		}
 	}
@@ -50,7 +52,7 @@ class Filter
 		// Check auth before check is admin
 		self::check_auth();
 
-		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] != \Models\User::superadmin)){
+		if(!Session::has('user') || (Session::has('user') && !Auth::isSuperAdmin())){
 			View::redirect($url,['danger'=>'شما اجازه دسترسی به این صفحه را ندارید']);
 		}
 	}

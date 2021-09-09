@@ -11,7 +11,8 @@ class Comment extends BaseModel
 {
     const table = 'comments',
         primary = 'comment_id',
-        fillable = ['comment_text'];
+        fillable = ['comment_text'],
+        timecreate='comment_create';
 
     public static function custom_input($input)
     {
@@ -21,7 +22,7 @@ class Comment extends BaseModel
         foreach (self::fillable as $record) {
             $res[$record] = $input[$record];
             $res['user_id'] = $id;
-            $res['comment_create'] = $date;
+            $res[self::timecreate] = $date;
             if (Auth::isAdmin())
                 $res['comment_to'] = Url::get('id');
         }

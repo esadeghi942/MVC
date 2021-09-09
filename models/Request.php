@@ -11,7 +11,8 @@ class Request extends BaseModel
     const table = 'requests',
         primary = 'request_id',
         userfillable = ['request_address', 'request_buildstatus', 'request_owner', 'request_count_unit', 'request_count_request', 'request_build_request', 'request_fix_number', 'request_base', 'request_karshenasi'],
-        adminfillable = ['request_answer'];
+        adminfillable = ['request_answer'],
+        timecreate = 'request_create';
 
     /* public function find()
      {

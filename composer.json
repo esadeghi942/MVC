@@ -13,8 +13,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Controllers\\Admin\\": "controllers/admin/",
-            "Controllers\\User\\": "controllers/user/",
             "Models\\": "models/",
             "Systems\\": "systems/",
             "Controllers\\": "controllers/"

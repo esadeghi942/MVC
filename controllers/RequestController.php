@@ -1,5 +1,5 @@
 <?php
-namespace Controllers\User;
+namespace Controllers;
 
 use Models\File;
 use Models\QB;
@@ -10,7 +10,7 @@ use Systems\Auth;
 use Systems\Url;
 use Systems\View;
 
-class UserRequestController
+class RequestController
 {
     function index(){
         $user=Auth::id();
@@ -97,4 +97,6 @@ class UserRequestController
         else
             Url::response('danger','مشکلی در حذف درخواست به وجود امده.');
     }
+
+    function adminIndex(){}
 }

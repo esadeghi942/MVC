@@ -11,7 +11,8 @@ use Systems\View;
 class File extends BaseModel
 {
     const primary = 'file_id',
-        table = 'files';
+        table = 'files',
+        timecreate = 'file_create';
 
     /*public static function custom_input($id,$input){
         $res=[];

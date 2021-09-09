@@ -10,7 +10,8 @@ class Bug extends BaseModel
     const table = 'bugs',
         primary = 'bug_id',
         userfillable = ['bug_virtual_number','bug_pan','bug_last', 'bug_description'],
-        adminfillable = ['bug_answer'];
+        adminfillable = ['bug_answer'],
+        timecreate='bug_create';
     public function files()
     {
         $qb = QB::getInstance();

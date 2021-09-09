@@ -62,6 +62,13 @@ class BaseModel
         return isset($item[0]) ? $item[0] : [];
     }
 
+    public function all()
+    {
+        $qb = QB::getInstance();
+        $items = $qb->table($this::table)->naturalJoin('users')->orderBy($this::timecreate)->get();
+        return $items;
+    }
+
     public function delete(){
         $QB = QB::getInstance();
         $i=$QB->delete($this::table)->where($this::primary, $this->id)->exec();
