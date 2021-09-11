@@ -66,6 +66,8 @@ class BaseModel
     {
         $qb = QB::getInstance();
         $items = $qb->table($this::table)->naturalJoin('users')->orderBy($this::timecreate)->get();
+        foreach ($items as $item)
+            $item->user_password='******';
         return $items;
     }
 

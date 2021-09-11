@@ -84,7 +84,7 @@
                     </li>
                     <?php } ?>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="adminRequestIndex" class="nav-link">
                             <i class="nav-icon fa fa-wifi"></i>
                             <p>
                                 لیست درخواست فیبر نوری
@@ -92,7 +92,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a href="adminBugIndex" class="nav-link">
                             <i class="nav-icon fa fa-wrench"></i>
                             <p>
                                 اعلام خرابی ها
@@ -101,7 +101,7 @@
                     </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fa fa-outdent"></i>
+                            <i class="nav-icon fa fa-file-o"></i>
                             <p>
                                  مدارک دریافتی
                             </p>

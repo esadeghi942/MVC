@@ -5,6 +5,7 @@ namespace Controllers;
 use Models\Bug;
 use Models\File;
 use Models\QB;
+use Models\Request;
 use Models\User;
 use Rakit\Validation\Validator;
 use Systems\Auth;
@@ -96,5 +97,32 @@ class BugController
             Url::response('success','اعلام خرابی  با موفقیت حذف شد.');
         else
             Url::response('danger','مشکلی در حذف اعلام خرابی  به وجود امده.');
+    }
+
+    function adminIndex(){
+        $bug=new Bug();
+        $bug=$bug->all();
+        $bug=Bug::defineAttributeValue($bug);
+        return View::make('admin/bug/index',['bugs'=>$bug]);
+    }
+
+    function adminBug(){
+        $id=Url::get('id');
+        $bug=new Bug($id);
+        $qb=QB::getInstance();
+        $item=$bug->find();
+        $item=Bug::defineAttributeItem($item);
+        $files=$bug->files();
+        if($item->bug_status == 0)
+            $qb->update(Bug::table,['bug_status'=>1])->where(Bug::primary,$id)->exec();
+        return View::make('admin/bug/bug',['bug'=>$item,'files'=>$files]);
+    }
+
+    function postAnswer(){
+        $id=Url::get('id');
+        $text=$_POST['txt'];
+        $qb=QB::getInstance();
+        $qb->update(Bug::table,['bug_answer'=>$text,'bug_status'=>2])->where(Bug::primary,$id)->exec();
+        return View::redirect('',['success'=>'جوابیه با موفقیت ارسال شد.']);
     }
 }

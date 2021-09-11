@@ -34,13 +34,19 @@ $paths = array(
     'userRequestUpdate' => array('before' => 'check_customer', 'get' => [RequestController::class, 'edit'],  'post' => [RequestController::class, 'update'], 'after' => ''),
     'userRequestIndex'  => array('before' => 'check_customer', 'get' => [RequestController::class, 'index'], 'post' => '', 'after' => ''),
     'userRequestDelete' => array('before' =>'check_customer',  'get'  => '','post' => [RequestController::class, 'delete'], 'after' => ''),
+//admin
+    'adminRequestIndex' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminIndex'], 'post' => '', 'after' => ''),
+    'adminRequest' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminRequest'], 'post' => [RequestController::class,'postAnswer'], 'after' => ''),
 
     //bug
     'userBugCreate' => array('before' => 'check_customer', 'get' => ['user/bug/create'], 'post' => [BugController::class, 'store'], 'after' => ''),
     'userBugUpdate' => array('before' => 'check_customer', 'get' => [BugController::class, 'edit'],  'post' => [BugController::class, 'update'], 'after' => ''),
     'userBugIndex'  => array('before' => 'check_customer', 'get' => [BugController::class, 'index'], 'post' => '', 'after' => ''),
     'userBugDelete' => array('before' => 'check_customer',  'get'  => '','post' => [BugController::class, 'delete'], 'after' => ''),
-    //////////////admin
+////admin
+    'adminBugIndex' => array('before' => 'check_admin', 'get' => [BugController::class, 'adminIndex'], 'post' => [BugController::class,'postAnswer'], 'after' => ''),
+    'adminBug' => array('before' => 'check_admin', 'get' => [BugController::class, 'adminBug'], 'post' => [BugController::class,'postAnswer'], 'after' => ''),
+
 
     //file
     'userFileDelete' => array('before' =>'check_customer', 'get' => '', 'post' => [FileController::class, 'delete'], 'after' => ''),
@@ -53,8 +59,6 @@ $paths = array(
     'adminComment' => array('before' => 'check_admin', 'get' => [CommentController::class, 'adminIndex'], 'post' => '', 'after' => ''),
     'adminUserCommnet' => array('before' => 'check_admin', 'get' => [CommentController::class, 'userComment'], 'post' => [CommentController::class, 'postComment'], 'after' => ''),
 
-    //admin
-    'adminRequest' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminIndex'], 'post' => '', 'after' => ''),
     'adminCustomerIndex' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminIndex'], 'post' => '', 'after' => ''),
     'adminCustomer' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminCustomer'], 'post' => '', 'after' => ''),
 

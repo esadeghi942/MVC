@@ -2792,9 +2792,9 @@ input[type="button"].btn-block {
   }
 }
 
-.fade:not(.show) {
+/*.fade:not(.show) {
   opacity: 0;
-}
+}*/
 
 .collapse:not(.show) {
   display: none;
@@ -5055,7 +5055,7 @@ button.close, button.mailbox-attachment-close {
 .modal-dialog {
   position: relative;
   width: auto;
-  margin: 0.5rem;
+  margin: 7.75rem;
   pointer-events: none;
 }
 
@@ -5121,12 +5121,6 @@ button.close, button.mailbox-attachment-close {
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
 }
-
-.modal-header .close, .modal-header .mailbox-attachment-close {
-  padding: 1rem;
-  margin: -1rem -1rem -1rem auto;
-}
-
 .modal-title {
   margin-bottom: 0;
   line-height: 1.5;
@@ -5165,7 +5159,7 @@ button.close, button.mailbox-attachment-close {
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 500px;
-    margin: 1.75rem auto;
+    margin: 11rem auto;
   }
   .modal-dialog-centered {
     min-height: calc(100% - (1.75rem * 2));

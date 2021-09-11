@@ -32,7 +32,7 @@ class Request extends BaseModel
     public static function custom_input($input, $edit = false)
     {
         $res = [];
-        $id=Auth::id();
+        $id = Auth::id();
         $date = Carbon::now()->toDateTimeString();
         $str = $edit ? 'request_update' : 'request_create';
         foreach (self::userfillable as $record) {
@@ -122,5 +122,118 @@ class Request extends BaseModel
             $request->request_karshenasi = $str;
         }
         return $requests;
+    }
+
+    public static function defineAttributeValueItem(MareiObj $request)
+    {
+        $res = [];
+        foreach ($request as $k => $i) {
+            $str = '';
+            $val = $i;
+            switch ($k) {
+                case 'request_status';
+                    $str = 'وضعیت درخواست';
+                    switch ($i){
+                        case 0:
+                            $val = 'مشاهده نشده';
+                            break;
+                        case 1:
+                            $val = 'در حال بررسی';
+                            break;
+                        case 2:
+                            $val = 'اعلام نتیجه';
+                            break;
+                    }
+                    break;
+                case 'request_answer';
+                    $str = 'پاسخ کارشناس';
+                    if(empty($i))
+                        $val='هنوز پاسخی ارسال نشده .';
+                    break;
+                case 'request_address';
+                    $str = 'آدرس دقیق برای کارشناسی';
+                    break;
+                case 'request_buildstatus';
+                    $str = 'وضعیت ساختمان';
+                    switch ($i){
+                        case 0:
+                            $val = ' درحال ساخت';
+                            break;
+                        case 1:
+                            $val = 'در حال بازسازی ';
+                            break;
+                        case 2:
+                            $val = 'نوساز ';
+                            break;
+                        case 3:
+                            $val = ' عمر تا 10 سال';
+                            break;
+                        case 4:
+                            $val = 'بیشتر از 10 سال ';
+                            break;
+                    }
+                    break;
+                case 'request_owner';
+                    $str = 'وضعیت مالکیت';
+                    switch ($i) {
+                        case 0:
+                            $val = 'مالک';
+                            break;
+                        case 1:
+                            $val = 'اجاره ای';
+                            break;
+                    }
+                    break;
+                case 'request_count_unit';
+                    $str = 'تعداد واحد ';
+                    break;
+                case 'request_karshenasi';
+                    $str = 'درخواست کارشناسی در محل';
+                    switch ($i) {
+                        case 0:
+                            $val = 'خیر';
+                            break;
+                        case 1:
+                            $val = 'بله';
+                            break;
+                    }
+                    break;
+                case 'request_base';
+                    $str = 'بستر فیبر نوری در ساختمان';
+                    switch ($i) {
+                        case 0:
+                            $val = 'در ساختمان وجود دارد';
+                            break;
+                        case 1:
+                            $val = 'در واحد پریز فیبر نوری وجود دارد';
+                            break;
+                        case 2:
+                            $val = 'در کوچه باکس فیبر نوری دارد';
+                            break;
+                        case 3:
+                            $val = 'همسایه ها سرویس فیبر نوری دارند';
+                            break;
+                        case 4:
+                            $val = 'همسایه ها سرویس فیبر نوری ندارند ';
+                            break;
+                        case 5:
+                            $val = 'نمیدانم';
+                            break;
+                    }
+                    break;
+                case 'request_count_request';
+                    $str = 'تعداد درخواست';
+                    break;
+                case 'request_fix_number';
+                    $str = 'تلفن ثابت';
+                    break;
+                case 'request_create';
+                    $str = 'تاریخ ثبت درخواست';
+                    $val=verta($i);
+                    break;
+            }
+            $res[$str] = $val;
+        }
+        return $res;
     }
 }

@@ -98,5 +98,30 @@ class RequestController
             Url::response('danger','مشکلی در حذف درخواست به وجود امده.');
     }
 
-    function adminIndex(){}
+    function adminIndex(){
+        $request=new Request();
+        $request=$request->all();
+        $request=Request::defineAttributeValue($request);
+        return View::make('admin/request/index',['requests'=>$request]);
+    }
+
+    function adminRequest(){
+        $id=Url::get('id');
+        $request=new Request($id);
+        $qb=QB::getInstance();
+        $item=$request->find();
+        $files=$request->files();
+        if($item->request_status == 0)
+            $qb->update(Request::table,['request_status'=>1])->where(Request::primary,$id)->exec();
+        $item=Request::defineAttributeValueItem($item);
+        return View::make('admin/request/request',['requset'=>$item,'files'=>$files]);
+    }
+
+    function postAnswer(){
+        $id=Url::get('id');
+        $text=$_POST['txt'];
+        $qb=QB::getInstance();
+        $qb->update(Request::table,['request_answer'=>$text,'request_status'=>2])->where(Request::primary,$id)->exec();
+        return View::redirect('',['success'=>'جوابیه با موفقیت ارسال شد.']);
+    }
 }
