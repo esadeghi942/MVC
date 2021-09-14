@@ -10,8 +10,8 @@ class Customer extends BaseModel
         timecreate='cu_create';
 
     public function find(){
-        $qb = QB::getInstance();
-        $customer=$qb->table(self::table)->where(User::primary,$this->id)->QGet();
+        $QB=QB::getInstance();
+        $customer=$QB->table(self::table)->where(User::primary,$this->id)->QGet();
         return $customer[0];
     }
 

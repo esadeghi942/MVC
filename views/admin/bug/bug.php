@@ -47,27 +47,26 @@ include 'views/admin/sidebar.php'; ?>
                             </p>
                             <hr>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class='col-md-6'><strong>شرح خرابی</strong>
+                        <div class="col-md-12">
+                            <strong>شرح خرابی</strong>
                             <p class='text-muted'>
                                 <?php echo $bug->bug_description ?>
                             </p>
                             <hr>
                         </div>
-                        <div class='col-md-6'><strong>متن جوابیه</strong>
+                        <div class="col-md-12">
+                            <strong>متن جوابیه</strong>
                             <p class='text-muted'>
                                 <?php echo $bug->bug_answer ?>
                             </p>
-                            <hr>
                         </div>
                     </div>
-                    <?php
-                    if (isset($files[0])) {
-                    echo "<strong>فایل های آپلود شده</strong>
+                        <?php
+                        if (isset($files[0])) {
+                            echo "<hr><strong>فایل های آپلود شده</strong>
                     <div id='prevfiles' class='row'>";
-                        foreach ($files as $file) {
-                        echo "
+                            foreach ($files as $file) {
+                                echo "
                         <div class='item mt-2 col-md-3 col-sm-12'>
                             <div class='form-control'>
                                 <a target='_blank' href=$file->file_path
@@ -75,15 +74,14 @@ include 'views/admin/sidebar.php'; ?>
                             </div>
                         </div>
                         ";
-                        }
-                        echo "
+                            }
+                            echo "
                     </div>
                     ";
-                    } ?>
+                        } ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div>
     </section>
     <div class="modal fade" id="postanswer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">

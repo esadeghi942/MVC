@@ -64,6 +64,7 @@
             <div class="card">
                 <div class="card-header"><?php echo $titlecard;?></div>
                 <div class="card-body">
+                    <section class="content"></section>
                   <!--  --><?php
 /*                    if (isset($errors))
                         if (isset($errors) && count($errors) > 0) {

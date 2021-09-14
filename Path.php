@@ -22,8 +22,8 @@ $paths = array(
 
 
     //users
-    'user' => array('before' => 'check_auth', 'get' => ['user/index'], 'post' => '', 'after' => ''),
-    'admin' => array('before' => 'check_admin', 'get' => ['admin/index'], 'post' => '', 'after' => ''),
+    'user' => array('before' => 'check_auth', 'get' => [UserController::class,'userIndex'], 'post' =>  [CommentController::class, 'store'], 'after' => ''),
+    'admin' => array('before' => 'check_admin', 'get' => [UserController::class,'adminIndex'], 'post' => '', 'after' => ''),
 
     //profile
     'userProfileCreate' => array('before' => 'check_auth', 'get' => [CustomerController::class,'create'], 'post' => [CustomerController::class, 'storeProfile'], 'after' => ''),
@@ -34,6 +34,7 @@ $paths = array(
     'userRequestUpdate' => array('before' => 'check_customer', 'get' => [RequestController::class, 'edit'],  'post' => [RequestController::class, 'update'], 'after' => ''),
     'userRequestIndex'  => array('before' => 'check_customer', 'get' => [RequestController::class, 'index'], 'post' => '', 'after' => ''),
     'userRequestDelete' => array('before' =>'check_customer',  'get'  => '','post' => [RequestController::class, 'delete'], 'after' => ''),
+    'userRequest' => array('before' =>'check_customer',  'get'  =>  [RequestController::class, 'userRequest'],'post' =>'', 'after' => ''),
 //admin
     'adminRequestIndex' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminIndex'], 'post' => '', 'after' => ''),
     'adminRequest' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminRequest'], 'post' => [RequestController::class,'postAnswer'], 'after' => ''),
@@ -43,6 +44,8 @@ $paths = array(
     'userBugUpdate' => array('before' => 'check_customer', 'get' => [BugController::class, 'edit'],  'post' => [BugController::class, 'update'], 'after' => ''),
     'userBugIndex'  => array('before' => 'check_customer', 'get' => [BugController::class, 'index'], 'post' => '', 'after' => ''),
     'userBugDelete' => array('before' => 'check_customer',  'get'  => '','post' => [BugController::class, 'delete'], 'after' => ''),
+    'userBug' => array('before' => 'check_customer', 'get' => [BugController::class, 'userBug'], 'post' =>'', 'after' => ''),
+
 ////admin
     'adminBugIndex' => array('before' => 'check_admin', 'get' => [BugController::class, 'adminIndex'], 'post' => [BugController::class,'postAnswer'], 'after' => ''),
     'adminBug' => array('before' => 'check_admin', 'get' => [BugController::class, 'adminBug'], 'post' => [BugController::class,'postAnswer'], 'after' => ''),
@@ -60,11 +63,11 @@ $paths = array(
     'adminUserCommnet' => array('before' => 'check_admin', 'get' => [CommentController::class, 'userComment'], 'post' => [CommentController::class, 'postComment'], 'after' => ''),
 
     'adminCustomerIndex' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminIndex'], 'post' => '', 'after' => ''),
-    'adminCustomer' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminCustomer'], 'post' => '', 'after' => ''),
+    'adminCustomer' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminCustomer'], 'post' => [CustomerController::class,'sendComment'], 'after' => ''),
 
     //superAdmin
     'adminUserCreate' => array('before' => 'check_superadmin', 'get' => ['admin/user/create'], 'post' => [AuthController::class, 'adminStore'], 'after' => ''),
-    'adminUser' => array('before' => 'check_superadmin', 'get' => [UserController::class, 'adminAll'], 'post' => '', 'after' => ''),
+    'adminUserIndex' => array('before' => 'check_superadmin', 'get' => [UserController::class, 'adminAll'], 'post' => '', 'after' => ''),
     'adminUserEdit' => array('before' => 'check_superadmin', 'get' => [UserController::class, 'adminEdit'], 'post' => [AuthController::class, 'adminUpdate'], 'after' => ''),
     'adminUserDelete' => array('before' => 'check_superadmin', 'get' => '', 'post' => [UserController::class, 'adminDelete'], 'after' => ''),
 );

@@ -23,7 +23,7 @@ include 'views/admin/sidebar.php'; ?>
                                     <td><?php echo $user->user_name; ?></td>
                                     <td><?php echo $user->user_type; ?></td>
                                     <td><?php echo $user->user_phone; ?></td>
-                                    <td><?php echo verta($user->user_create) ; ?></td>
+                                    <td class="ltr"><?php echo verta($user->user_create) ; ?></td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             <div class="btn-group btn-group-xs">

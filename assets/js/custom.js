@@ -1,11 +1,11 @@
 (function(win){
     var message = (function(){
-        var template = '<div class=\'alert alert-{{type}} alert-dismissible\'>\n' +
+        var template = '<div class=\'alert alert-{{type}} btn-flat alert-dismissible\'>\n' +
             '                              <button type=\'button\' class=\'close\' data-dismiss=\'alert\' aria-hidden=\'true\'>×</button>\n' +
             '                              {{msg}}</div>';
         function show(type, msg, delay){
             if(!$('#app-messages').length){
-                $('body .card-body').prepend('<div id="app-messages"></div>');
+                $('body section.content').prepend('<div id="app-messages"></div>');
             }
             var message_str = template;
             message_str = message_str.replace(/{{type}}/g, type).replace(/{{msg}}/g, msg);
@@ -15,7 +15,9 @@
                     $(this).remove();
                 });
             }else{
-                $('#app-messages').fadeIn(50);
+                $('#app-messages').fadeIn(50).delay(4000).fadeOut(500, function(){
+                    $(this).remove();
+                });
             }
         }
         function hide(){

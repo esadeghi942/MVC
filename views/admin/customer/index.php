@@ -29,7 +29,7 @@ include 'views/admin/sidebar.php'; ?>
                                     <td><?php echo $customer->cu_company; ?></td>
                                     <td><?php echo $customer->cu_namayande; ?></td>
                                     <td><?php echo $customer->cu_addresss; ?></td>
-                                    <td><?php echo verta($customer->cu_create); ?></td>
+                                    <td class="ltr"><?php echo verta($customer->cu_create); ?></td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             <div class="btn-group btn-group-xs">

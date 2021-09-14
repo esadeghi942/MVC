@@ -17,13 +17,15 @@ class BugController
     function index(){
         $user=Auth::id();
         $QB=new QB();
-        $bug=$QB->table(Bug::table)->where(User::primary,$user)->orderBy(Bug::primary, 'DESC')->get();
+        if(Url::get('status') !== null)
+            $bug = $QB->table(Bug::table)->where(User::primary,$user)->where('bug_status',Url::get('status'))->orderBy(Bug::timecreate,'DESC')->get();
+        else
+            $bug = $QB->table(Bug::table)->where(User::primary,$user)->orderBy(Bug::timecreate,'DESC')->get();
         $bug=Bug::defineAttributeValue($bug);
         return View::make('user/bug/index',['bugs'=>$bug]);
     }
 
     function store(){
-        $user = Auth::id();
         $validator = new Validator;
         $validation = $validator->make($_POST, [
             'bug_virtual_number' => 'numeric',
@@ -101,7 +103,10 @@ class BugController
 
     function adminIndex(){
         $bug=new Bug();
-        $bug=$bug->all();
+        $where=null;
+        if(Url::get('status') !== null)
+            $where='bug_status='.Url::get('status');
+        $bug=$bug->all($where);
         $bug=Bug::defineAttributeValue($bug);
         return View::make('admin/bug/index',['bugs'=>$bug]);
     }
@@ -116,6 +121,15 @@ class BugController
         if($item->bug_status == 0)
             $qb->update(Bug::table,['bug_status'=>1])->where(Bug::primary,$id)->exec();
         return View::make('admin/bug/bug',['bug'=>$item,'files'=>$files]);
+    }
+
+    function userBug(){
+        $id=Url::get('id');
+        $bug=new Bug($id);
+        $item=$bug->find();
+        $item=Bug::defineAttributeItem($item);
+        $files=$bug->files();
+        return View::make('user/bug/bug',['bug'=>$item,'files'=>$files]);
     }
 
     function postAnswer(){

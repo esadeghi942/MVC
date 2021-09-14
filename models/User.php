@@ -87,4 +87,11 @@ class User extends BaseModel
         }
         return $users;
     }
+
+    public function find()
+    {
+        $Qb = QB::getInstance();
+        $item = $Qb->table($this::table)->where($this::primary, $this->id)->QGet();
+        return isset($item[0]) ? $item[0] : [];
+    }
 }

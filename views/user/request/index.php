@@ -7,35 +7,41 @@ include 'views/user/sidebar.php'; ?>
             <div class="card">
                 <div class="card-header">لیست درخواست های فیبر نوری</div>
                 <div class="card-body">
+                    <?php if(isset($requests[0])) {?>
                     <table class="table table-bordered">
                         <tr>
                             <th>کد درخواست</th>
-                            <th>وضعیت درخواست</th>
                             <th>درخواست کارشناسی</th>
-                            <th>تلفن ثابت</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ ثبت</th>
                             <th>عملیات</th>
                         </tr>
                         <?php
-                        if (isset($requests))
                             foreach ($requests as $request) {
                                 ?>
                                 <tr>
                                     <td><?php echo $request->request_id; ?></td>
-                                    <td><?php echo $request->request_status; ?></td>
                                     <td><?php echo $request->request_karshenasi; ?></td>
-                                    <td><?php echo $request->request_fix_number; ?></td>
+                                    <td><span class='badge badge-<?php echo $request->status_class;?>'><?php echo $request->request_status; ?></span></td>
+                                    <td class="ltr"><?php echo verta($request->request_create); ?></td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             <div class="btn-group btn-group-xs">
                                                 <a href="userRequestUpdate?id=<?php echo $request->request_id; ?>"
-                                                   class="btn btn-primary">ویرایش</a>
+                                                   class="btn btn-info">ویرایش</a>
+                                                <a href="userRequest?id=<?php echo $request->request_id; ?>"
+                                                   class="btn btn-primary">نمایش</a>
                                                 <button type="submit" data-id="<?php echo $request->request_id; ?>" class="deleterequest btn btn-danger">حذف</button>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            <?php } ?>
-                    </table>
+                            <?php }
+                            echo "</table>";
+                        }
+                        else
+                            echo "<p>موردی وجود ندارد</p>";
+                            ?>
                 </div>
             </div>
         </div>

@@ -7,6 +7,9 @@ include 'views/admin/sidebar.php'; ?>
             <div class="card">
                 <div class="card-header">لیست تیکت های مشتریان</div>
                 <div class="card-body">
+                    <?php
+                         if (isset($comments[0])){  ?>
+
                     <table class="table table-bordered">
                         <tr>
                             <th>نام مشتری</th>
@@ -16,7 +19,6 @@ include 'views/admin/sidebar.php'; ?>
                             <th>عملیات</th>
                         </tr>
                         <?php
-                        if (isset($comments))
                             foreach ($comments as $comment) {
                                 ?>
                                 <tr>
@@ -35,6 +37,13 @@ include 'views/admin/sidebar.php'; ?>
                                 </tr>
                             <?php } ?>
                     </table>
+
+                             <?php
+                         }
+                         else {
+                             echo "<p>موردی وجود ندارد</p>";
+                         }
+                         ?>
                 </div>
             </div>
         </div>

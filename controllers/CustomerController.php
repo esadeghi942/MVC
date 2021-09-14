@@ -2,8 +2,11 @@
 
 namespace Controllers;
 
+use Models\Bug;
+use Models\Comment;
 use Models\Customer;
 use Models\QB;
+use Models\Request;
 use Models\User;
 use Rakit\Validation\Validator;
 use Systems\Auth;
@@ -20,6 +23,13 @@ class CustomerController
 
     function adminCustomer(){
         $id=Url::get('id');
+        $QB = QB::getInstance();
+        $comments = $QB->table(Comment::table)->naturalJoin(User::table)->where(User::primary, $id)->orWhere('comment_to', $id)->orderBy('comment_create')->get();
+        $user = $QB->table(Customer::table)->naturalJoin(User::table)->where(User::primary, $id)->get()[0];
+        $requsts=$QB->table(Request::table)->where(User::primary,$id)->orderBy(Request::timecreate,'DESC')->get();
+        $bugs=$QB->table(Bug::table)->where(User::primary,$id)->orderBy(Bug::timecreate,'DESC')->get();
+        $QB->update(Comment::table, ['comment_readed' => 1])->where(User::primary, $id)->exec();
+        return View::make('admin/customer/customer',['comments'=>$comments,'bugs'=>$bugs,'requsts'=>$requsts,'user'=>$user]);
     }
 
     function create(){
@@ -85,5 +95,11 @@ class CustomerController
         else
             return View::redirect('', ['danger' => 'مشکلی در ویرایش به وجود آمده):']);
 
+    }
+
+    function sendComment(){
+        $QB = QB::getInstance();
+        $QB->insert(Comment::table, Comment::custom_input($_POST));
+        return View::redirect('',['success'=>'تیکت ارسال شد']);
     }
 }

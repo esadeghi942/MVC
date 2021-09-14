@@ -15,8 +15,8 @@ class Bug extends BaseModel
 
     public function files()
     {
-        $qb = QB::getInstance();
-        $bug = $qb->table(File::table)->where('file_model', self::table)->
+        $QB=QB::getInstance();
+        $bug = $QB->table(File::table)->where('file_model', self::table)->
         where('model_id', $this->id)->get();
         return $bug;
     }
@@ -39,18 +39,23 @@ class Bug extends BaseModel
     {
         foreach ($bugs as $bug) {
             $str = '';
+            $class='';
             switch ($bug->bug_status) {
                 case 0:
                     $str = 'مشاهده نشده';
+                    $class='danger';
                     break;
                 case 1:
                     $str = 'در حال بررسی';
+                    $class='warning';
                     break;
                 case 2:
                     $str = 'اعلام نتیجه';
+                    $class='success';
                     break;
             }
             $bug->bug_status = $str;
+            $bug->status_class = $class;
         }
         return $bugs;
     }

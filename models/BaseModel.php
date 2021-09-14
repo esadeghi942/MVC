@@ -37,44 +37,34 @@ class BaseModel
         $userid = User::primary;
         $user = $record->$userid;
         if (Auth::id() != $user)
-           return false;
-        return true;
-    }
-
-    public function postcan2($id)
-    {
-        if (Auth::isAdmin())
-            return;
-        $model = get_called_class();
-        $model = new $model($id);
-        $record = $model->find();
-        $userid = User::primary;
-        $user = $record->$userid;
-        if (Auth::id() != $user)
-           return false;
+            return false;
         return true;
     }
 
     public function find()
     {
-        $qb = QB::getInstance();
-        $item = $qb->table($this::table)->where($this::primary, $this->id)->get();
+        $Qb = QB::getInstance();
+        $item = $Qb->table($this::table)->where($this::primary, $this->id)->get();
         return isset($item[0]) ? $item[0] : [];
     }
 
-    public function all()
+    public function all($whereStatement = null)
     {
-        $qb = QB::getInstance();
-        $items = $qb->table($this::table)->naturalJoin('users')->orderBy($this::timecreate)->get();
+        $Qb = QB::getInstance();
+        if ($whereStatement !== null)
+            $items = $Qb->table($this::table)->naturalJoin(User::table)->whereStatement($whereStatement)->orderBy($this::timecreate,'DESC')->get();
+        else
+            $items = $Qb->table($this::table)->naturalJoin(User::table)->orderBy($this::timecreate,'DESC')->get();
         foreach ($items as $item)
-            $item->user_password='******';
+            $item->user_password = '******';
         return $items;
     }
 
-    public function delete(){
-        $QB = QB::getInstance();
-        $i=$QB->delete($this::table)->where($this::primary, $this->id)->exec();
-        if($i)
+    public function delete()
+    {
+        $Qb = QB::getInstance();
+        $i = $Qb->delete($this::table)->where($this::primary, $this->id)->exec();
+        if ($i)
             return true;
         return false;
     }

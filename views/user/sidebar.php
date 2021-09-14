@@ -113,7 +113,7 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a class="nav-link">
                             <i class="nav-icon fa fa-outdent"></i>
                             <p>
                                 ارسال مدارک
@@ -122,13 +122,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
                                     <p>لیست مدارک ارسالی</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a  class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
                                     <p>جدید</p>
                                 </a>
@@ -136,7 +136,7 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a class="nav-link">
                             <i class="nav-icon fa fa-tty"></i>
                             <p>
                                 درخواست خط 4 یا 5 رقمی
@@ -145,7 +145,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a class="nav-link">
                             <i class="nav-icon fa fa-envelope-o"></i>
                             <p>
                                 فعال سازی پیامک

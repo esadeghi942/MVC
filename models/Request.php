@@ -23,8 +23,8 @@ class Request extends BaseModel
 
     public function files()
     {
-        $qb = QB::getInstance();
-        $request = $qb->table(File::table)->where('file_model', self::table)->
+        $Qb=QB::getInstance();
+        $request = $Qb->table(File::table)->where('file_model', self::table)->
         where('model_id', $this->id)->get();
         return $request;
     }
@@ -47,18 +47,23 @@ class Request extends BaseModel
     {
         foreach ($requests as $request) {
             $str = '';
+            $class='success';
             switch ($request->request_status) {
                 case 0:
                     $str = 'مشاهده نشده';
+                    $class='danger';
                     break;
                 case 1:
                     $str = 'در حال بررسی';
+                    $class='warning';
                     break;
                 case 2:
                     $str = 'اعلام نتیجه';
+                    $class='success';
                     break;
             }
             $request->request_status = $str;
+            $request->status_class = $class;
             $str = '';
             switch ($request->request_buildstatus) {
                 case 0:

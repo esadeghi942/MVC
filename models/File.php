@@ -124,7 +124,7 @@ class File extends BaseModel
                 'model_id' => $request_id,
                 'file_create' => $date
             ];
-            $QB = QB::getInstance();
+            $QB=QB::getInstance();
             $QB->insert(File::table, $inputs);
         }
     }

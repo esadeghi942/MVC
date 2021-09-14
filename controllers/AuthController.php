@@ -277,7 +277,6 @@ class AuthController
     {
         $user_id = Auth::id();
         self::check_before_update($user_id);
-
         $QB = QB::getInstance();
         $email = $_POST['email'];
         $name = $_POST['name'];
@@ -308,7 +307,7 @@ class AuthController
         $db = new User();
         $create_new_acount = $db->create_admin($name, $email, $phone, $hashedPassword, $registerdate);
         if ($create_new_acount) {
-            return View::redirect('../adminUser', ['succeess' => 'مدیر با موفقیت ثبت شد :)']);
+            return View::redirect('../adminUserIndex', ['succeess' => 'مدیر با موفقیت ثبت شد :)']);
         } else {
             return View::redirect('', ['danger' => 'در فرایند ثبت مشکلی پیش آمده :('], true);
         }
@@ -332,6 +331,6 @@ class AuthController
             $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
         if (!$create_new_acount)
             return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
-        return View::redirect('../adminUser', ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
+        return View::redirect('../adminUserIndex', ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
     }
 }

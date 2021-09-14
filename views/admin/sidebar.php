@@ -27,8 +27,8 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="admin" class="nav-link">
+                    <li class="nav-item has-treeview">
+                        <a href="admin" class="active nav-link">
                             <i class="nav-icon fa fa-dashboard"></i>
                             <p>داشبورد
                             </p>
@@ -75,7 +75,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="adminUser" class="nav-link">
+                                <a href="adminUserIndex" class="nav-link">
                                     <i class="fa fa-circle-o nav-icon"></i>
                                     <p>لیست مدیران</p>
                                 </a>
@@ -92,6 +92,14 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
+                        <a href="adminRequestIndex?karshenasi=1" class="nav-link">
+                            <i class="nav-icon fa fa-wifi"></i>
+                            <p>
+                                لیست درخواست کارشناسی
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
                         <a href="adminBugIndex" class="nav-link">
                             <i class="nav-icon fa fa-wrench"></i>
                             <p>
@@ -100,7 +108,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a class="nav-link">
                             <i class="nav-icon fa fa-file-o"></i>
                             <p>
                                  مدارک دریافتی
@@ -108,7 +116,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                        <a class="nav-link">
                             <i class="nav-icon fa fa-outdent"></i>
                             <p>
                                  تراکنش های مالی

@@ -24,6 +24,13 @@
         .content-wrapper{
             min-height: 570px !important;
         }
+        #app-messages{
+            display: inline-block;
+            position: absolute;
+            bottom: 200px;
+            left: 15px;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">

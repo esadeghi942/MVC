@@ -7,7 +7,7 @@ use Systems\DataBase;
 class QB extends Database
 {
     private static $instance = null;
-    private $dbh = null, $table,$naturaljoin,$join,$on,$columns, $sql, $bindValues, $getSQL,
+    private $dbh = null, $table,$naturaljoin,$join,$on,$columns,$whereStatement, $sql, $bindValues, $getSQL,
         $where, $orWhere,$group, $whereCount = 0, $isOrWhere = false,
         $rowCount = 0, $limit, $orderBy, $lastIDInserted = 0;
 
@@ -84,6 +84,7 @@ class QB extends Database
     {
         $this->table = null;
         $this->naturaljoin = null;
+        $this->whereStatement = null;
         $this->group = null;
         $this->join = null;
         $this->on = null;
@@ -309,6 +310,11 @@ class QB extends Database
     public function naturalJoin($table_name)
     {
         $this->naturaljoin = $table_name;
+        return $this;
+    }
+    public function whereStatement($whereStatement)
+    {
+        $this->whereStatement = $whereStatement;
         return $this;
     }
     public function group($column)
@@ -564,7 +570,11 @@ class QB extends Database
             $this->sql .= " JOIN `$this->join` ON `$this->on`";
         }
 
-        if ($this->where !== null) {
+        if ($this->whereStatement !== null) {
+            $this->sql .= 'WHERE '. $this->whereStatement;
+        }
+
+        else if ($this->where !== null) {
             $this->sql .= $this->where;
         }
         if ($this->group !== null) {

@@ -7,25 +7,25 @@ include 'views/admin/sidebar.php'; ?>
             <div class="card">
                 <div class="card-header">لیست درخواست های فیبر نوری</div>
                 <div class="card-body">
-                    <table class="table table-bordered">
+                        <?php
+                        if (isset($requests[0])){
+                            echo ' <table class="table table-bordered">
                         <tr>
                             <th>نام مشتری</th>
                             <th>شماره تماس</th>
                             <th>درخواست کارشناسی</th>
-                            <th>تلفن ثابت</th>
+                            <th>تاریخ ثبت</th>
                             <th>وضعیت درخواست</th>
                             <th>عملیات</th>
-                        </tr>
-                        <?php
-                        if (isset($requests))
+                        </tr>';
                             foreach ($requests as $request) {
                                 ?>
                                 <tr>
                                     <td><?php echo $request->user_name; ?></td>
                                     <td><?php echo $request->user_phone; ?></td>
                                     <td><?php echo $request->request_karshenasi; ?></td>
-                                    <td><?php echo $request->request_fix_number; ?></td>
-                                    <td><?php echo $request->request_status; ?></td>
+                                    <td class="ltr"><?php echo verta($request->request_create); ?></td>
+                                    <td><span class="badge badge-<?php echo $request->status_class; ?>"><?php echo $request->request_status; ?></span></td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             <div class="btn-group btn-group-xs">
@@ -35,8 +35,11 @@ include 'views/admin/sidebar.php'; ?>
                                         </div>
                                     </td>
                                 </tr>
-                            <?php } ?>
-                    </table>
+                            <?php }
+                            echo "</table>";
+                        }
+                        else
+                            echo "<p>موردی وجود ندارد</p>"?>
                 </div>
             </div>
         </div>
