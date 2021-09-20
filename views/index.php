@@ -32,11 +32,11 @@
     <!-- /.login-logo -->
     <div class="login-box-body">
         <div class="login-logo">
-            <img src="assets/img/loginlogo" alt="فیبر نوری تهران" width="200px">
+            <img src="assets/img/loginlogo.png" alt="فیبر نوری تهران" width="200px">
         </div>
         <p class="login-box-msg">به تهران فیبر خوش آمدید</p>
         <center><a href="<?php echo \Models\User::redirect();?> " style="background-color: #0062cc;color: #fff" class="btn btn-vorod">ورود به پنل</a>
-        <a href="register" style="background-color: #0062cc;color: #fff" class="btn btn-vorod">ثبت نام</a></center>
+        <a href="verifie" style="background-color: #0062cc;color: #fff" class="btn btn-vorod">ثبت نام</a></center>
 
     </div>
     <!-- /.login-box-body -->

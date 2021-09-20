@@ -59,7 +59,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="d-flex justify-content-center">
-                <img src="assets/img/loginlogo" alt="فیبر نوری تهران" class="logologin" width="200px">
+                <img src="assets/img/loginlogo.png" alt="فیبر نوری تهران" class="logologin" width="200px">
             </div>
             <div class="card">
                 <div class="card-header"><?php echo $titlecard;?></div>

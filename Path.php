@@ -14,10 +14,15 @@ $paths = array(
     //Auth
     'login' => array('before' => '', 'get' => ['auth/login'], 'post' => [AuthController::class, 'login'], 'after' => ''),
     'logout' => array('before' => '', 'get' => [AuthController::class, 'logout'], 'post' => '', 'after' => ''),
+
     'register' => array('before' => '', 'get' => ['auth/register'], 'post' => [AuthController::class, 'register'], 'after' => ''),
+    'verifie' => array('before' => '', 'get' => ['auth/verifie'], 'post' => [AuthController::class, 'verifie'], 'after' => ''),
+    'sendcode' => array('before' => '', 'get' => ['auth/sendcode'], 'post' => [AuthController::class, 'sendcode'], 'after' => ''),
+
     'forget' => array('before' => '', 'get' => ['auth/forget'], 'post' => [AuthController::class, 'forget_password'], 'after' => ''),
     'recovery_password' => array('before' => '', 'get' => ['auth/recovery_password'], 'post' => [AuthController::class, 'recovery_password'], 'after' => ''),
     'new_password' => array('before' => '', 'get' => ['auth/new_password'], 'post' => [AuthController::class, 'new_password'], 'after' => ''),
+
     'edit' => array('before' => 'check_auth', 'get' => [AuthController::class, 'edit'], 'post' => [AuthController::class, 'update'], 'after' => ''),
 
 

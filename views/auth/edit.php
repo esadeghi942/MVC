@@ -18,13 +18,13 @@ include 'views/auth/header.php';
                    name="email" value="<?php echo $user['user_email']?>" required
                    autofocus>
         </div>
-        <div class="form-group col-md-10">
+        <!--<div class="form-group col-md-10">
             <label class="control-label">شماره موبایل</label>
             <input placeholder="شماره موبایل" id="phone" type="text"
                    class="form-control"
-                   name="phone" value="<?php echo $user['user_phone']?>" required
+                   name="phone" value="<?php /*echo $user['user_phone']*/?>" required
                    autofocus>
-        </div>
+        </div>-->
         <div class="form-group col-md-10">
             <label class="control-label">رمز عبور</label>
             <input placeholder="رمز عبور" id="password" type="password" class="form-control"

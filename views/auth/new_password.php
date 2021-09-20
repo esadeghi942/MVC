@@ -5,6 +5,9 @@ include 'views/auth/header.php';
 ?>
 <form method="POST">
     <div class="form-group justify-content-center">
+        <input type="hidden" id="token" name="token" value="">
+    </div>
+    <div class="form-group justify-content-center">
         <input placeholder="رمز عبور" id="password" type="password" class="form-control"
                name="password" required>
     </div>

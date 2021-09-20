@@ -5,6 +5,9 @@ include 'views/auth/header.php';
 ?>
 <form method="POST">
     <div class="d-flex justify-content-center">
+        <div class="form-group justify-content-center">
+            <input type="hidden" id="token" name="token" value="">
+        </div>
         <div class="form-group col-md-10">
             <label class="control-label">نام و نام خانوداگی</label>
             <input placeholder="نام و نام خانوادگی" id="name" type="text"
@@ -16,13 +19,6 @@ include 'views/auth/header.php';
             <input placeholder="ایمیل" id="email" type="email"
                    class="form-control"
                    name="email" value="" required
-                   autofocus>
-        </div>
-        <div class="form-group col-md-10">
-            <label class="control-label">شماره موبایل</label>
-            <input placeholder="شماره موبایل" id="phone" type="text"
-                   class="form-control"
-                   name="phone" value="" required
                    autofocus>
         </div>
         <div class="form-group col-md-10">

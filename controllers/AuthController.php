@@ -90,25 +90,6 @@ class AuthController
         return View::redirect('../' . $address);
     }
 
-    function register()
-    {
-        $email = $_POST['email'];
-        $name = $_POST['name'];
-        $phone = $_POST['phone'];
-        $password = $_POST['password'];
-        self::check_before_register();
-        // Check exists email & username
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $registerdate = Date::now();
-        $db = new User();
-        $create_new_acount = $db->create_acount($name, $email, $phone, $hashedPassword, $registerdate);
-        if ($create_new_acount) {
-            return self::loginAfterRegister($create_new_acount);
-        } else {
-            return View::redirect('', ['danger' => 'در فرایند ثبت نام مشکلی پیش آمده :('], true);
-        }
-    }
-
     function check_before_register(){
         $email = $_POST['email'];
         $phone = $_POST['phone'];
@@ -116,7 +97,6 @@ class AuthController
         $validation = $validator->make($_POST, [
             'name' => 'required|min:4',
             'email' => 'required|email',
-            'phone' => 'required|numeric',
             'password' => 'required|min:6',
             'confirm-password' => 'required|same:password',
         ]);
@@ -152,7 +132,69 @@ class AuthController
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود نمی باشد .'], null, ['phone' => $phone]);
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
         $QB->insert('resetpassword', ['user_phone' => $phone, 'reset_code' => $code, 'reset_expired' => Carbon::now()->addMinute(4)]);
+        //Send SMS
         return View::redirect('../recovery_password?user=' . $phone);
+    }
+
+    function verifie()
+    {
+        $code = rand(100000, 999999);
+        $phone = $_POST['phone'];
+        $QB = QB::getInstance();
+        $check_phone = $QB->table(User::table)->where('user_phone', $phone)->QGet();
+        if (count($check_phone) > 0)
+            return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], null, ['phone' => $phone]);
+        $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
+        $QB->insert('resetpassword', ['user_phone' => $phone, 'reset_code' => $code, 'reset_expired' => Carbon::now()->addMinute(10)]);
+
+        //Send SMS
+        return View::redirect('../sendcode?user=' . $phone);
+    }
+
+    function sendcode(){
+        $phone = Url::get('user');
+        $QB = QB::getInstance();
+        $code = $_POST['code'];
+        $check_code = $QB->table('resetpassword')->where('user_phone', $phone)->where('reset_code', $code)->QGet();
+        if (count($check_code) == 0)
+            return View::redirect('', ['danger' => ['کد وارد شده صحیح نمی باشد .']]);
+        $expire = Carbon::createFromFormat('Y-m-d H:i:s', $check_code[0]['reset_expired']);
+        if ($expire->isPast())
+            return View::redirect('../verifie', ['danger' => ['کد وارد شده منقضی شده است.']], null, ['phone' => $phone]);
+        $token = password_hash($code, PASSWORD_BCRYPT);
+        return View::redirect('../register?user=' . $phone ,null,null,['token'=>$token]);
+
+    }
+
+    function register()
+    {
+        $phone = Url::get('user');
+        $code = $_POST['token'];
+
+        $QB = QB::getInstance();
+        $check_code = $QB->table('resetpassword')->where('user_phone', $phone)->QGet();
+        if (count($check_code) == 0)
+            return View::redirect('../verifie', ['danger' => ['شماره موبایل شما هنوز تایید نشده.']]);
+        else {
+            $resetcode = $check_code[0]['reset_code'];
+            if (!password_verify($resetcode, $code))
+                return View::redirect('../verifie', ['danger' => ['شماره موبایل شما هنوز تایید نشده.']]);
+        }
+
+        $email = $_POST['email'];
+        $name = $_POST['name'];
+        $password = $_POST['password'];
+        self::check_before_register();
+        // Check exists email & username
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $registerdate = Date::now();
+        $db = new User();
+        $create_new_acount = $db->create_acount($name, $email, $phone, $hashedPassword, $registerdate);
+        if ($create_new_acount) {
+            return self::loginAfterRegister($create_new_acount);
+        } else {
+            return View::redirect('', ['danger' => 'در فرایند ثبت نام مشکلی پیش آمده :('], true);
+        }
     }
 
     function recovery_password()
@@ -166,14 +208,14 @@ class AuthController
         $expire = Carbon::createFromFormat('Y-m-d H:i:s', $check_code[0]['reset_expired']);
         if ($expire->isPast())
             return View::redirect('../forget', ['danger' => ['کد وارد شده منقضی شده است.']], null, ['phone' => $phone]);
-        $token = password_hash($code, PASSWORD_DEFAULT);
-        return View::redirect('../new_password?user=' . $phone . '&token=' . $token);
+        $token = password_hash($code, PASSWORD_BCRYPT);
+        return View::redirect('../new_password?user=' . $phone ,null,null,['token'=>$token]);
     }
 
     function new_password()
     {
         $phone = Url::get('user');
-        $code = Url::get('token');
+        $code = $_POST['token'];
         $password = $_POST['password'];
         $validator = new Validator;
         $validation = $validator->validate($_POST, [
@@ -280,15 +322,15 @@ class AuthController
         $QB = QB::getInstance();
         $email = $_POST['email'];
         $name = $_POST['name'];
-        $phone = $_POST['phone'];
+        //$phone = $_POST['phone'];
         $password = $_POST['password'];
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $registerdate = Date::now();
-        $create_new_acount = $QB->update(User::table, ['user_name' => $name,
-            'user_phone' => $phone, 'user_email' => $email, 'user_update' => $registerdate])->where(User::primary, $user_id)->exec();
+        $acount = $QB->update(User::table, ['user_name' => $name,
+            /*'user_phone' => $phone,*/ 'user_email' => $email, 'user_update' => $registerdate])->where(User::primary, $user_id)->exec();
         if (!empty($password))
             $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
-        if (!$create_new_acount)
+        if (!$acount)
             return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
         Auth::updateSessionLogin($user_id);
         return View::redirect('../' . User::redirect(), ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
@@ -325,11 +367,11 @@ class AuthController
         $password = $_POST['password'];
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $registerdate = Date::now();
-        $create_new_acount = $QB->update(User::table, ['user_name' => $name,
+        $acount = $QB->update(User::table, ['user_name' => $name,
             'user_phone' => $phone, 'user_email' => $email, 'user_update' => $registerdate])->where(User::primary, $user_id)->exec();
         if (!empty($password))
             $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
-        if (!$create_new_acount)
+        if (!$acount)
             return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
         return View::redirect('../adminUserIndex', ['success' => 'اطلاعات با موفقیت به روز رسانی شد.']);
     }

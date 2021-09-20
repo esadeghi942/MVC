@@ -38,7 +38,7 @@ class Url
 
     public static function baseURL()
     {
-        return 'localhost/tehran/';
+        return 'localhost/panel/';
         //return $_SERVER['HTTP_HOST'];
     }
 
