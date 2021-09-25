@@ -5,10 +5,9 @@ namespace Controllers;
 use Models\File;
 use Models\QB;
 use Models\Request;
-use Models\User;
-use Rakit\Validation\Validator;
 use Systems\Auth;
 use Systems\Url;
+use Systems\Validation;
 use Systems\View;
 
 class RequestController
@@ -30,26 +29,19 @@ class RequestController
 
     function store()
     {
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
+        Validation::Validate($_POST, [
             'request_count_unit' => 'numeric',
             'request_count_request' => 'numeric',
             'request_build_request' => 'numeric',
-        ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
-        }
+        ],$_FILES['request_file']);
+
         $QB = QB::getInstance();
         $req_id = $QB->insert(Request::table, Request::custom_input($_POST));
         $file = new File();
         if ($req_id && $_FILES['request_file']['size'][0] > 0)
             $file->upload_file($_FILES['request_file'], $req_id, Request::table);
+        if($_POST['request_karshenasi'] == 1)
+            return  View::redirect('../payment?request_id='.$req_id);
         return View::redirect('../userRequestIndex', ['success' => 'درخواست با موفقیت ثبت شد.']);
     }
 
@@ -66,26 +58,20 @@ class RequestController
     function update()
     {
         $req_id = Url::get('id');
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
-            'request_count_unit' => 'numeric',
-            'request_count_request' => 'numeric',
-            'request_build_request' => 'numeric',
-        ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
-        }
+        Validation::Validate($_POST, [
+            'request_count_unit' => 'required|numeric',
+            'request_count_request' => 'required|numeric',
+            'request_build_request' => 'required|numeric',
+            'request_address' => 'required',
+        ],$_FILES['request_file']);
         $QB = QB::getInstance();
         $QB->update(Request::table, Request::custom_input($_POST, true))->where(Request::primary, $req_id)->exec();
         $file = new File();
         if ($_FILES['request_file']['size'][0] > 0)
             $file->upload_file($_FILES['request_file'], $req_id, Request::table);
+        $request=(new Request($req_id))->find();
+        if($_POST['request_karshenasi'] == 1 && $request->request_payment==0)
+            return  View::redirect('../payment?request_id='.$req_id);
         return View::redirect('../userRequestIndex', ['success' => 'درخواست با موفقیت به روز رسانی شد.']);
     }
 
@@ -97,11 +83,6 @@ class RequestController
         if (!$can) {
             Url::response('danger', 'شما اجازه حذف این درخواست را ندارید.');
             return;
-        }
-        $files = $request->files();
-        foreach ($files as $file) {
-            $f = new File($file->file_id);
-            $f->delete();
         }
         $res = $request->delete();
         if ($res)

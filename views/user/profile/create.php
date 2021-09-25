@@ -8,39 +8,78 @@ include 'views/user/sidebar.php'; ?>
                 <div class="card-header">تکمیل پروفایل</div>
                 <div class="card-body">
                     <form method="post">
-                        <!-- Small boxes (Stat box) -->
+                        <div class="form-group col-md-6">
+                            <div class="form-check">
+                                <input name="user_type_customer" class="form-check-input" type="radio"
+                                       value="0">
+                                <label class="form-check-label">مشتری حقیقی</label>
+                            </div>
+                            <div class="form-check">
+                                <input name="user_type_customer" class="form-check-input" type="radio" value="1">
+                                <label class="form-check-label">مشتری حقوقی</label>
+                            </div>
+                        </div>
+                        <div id="hoghooghy" style="display: none">
+                            <div class="row">
+                                <div class="form-group col-md-10">
+                                    <label class="control-label">نام شرکت</label>
+                                    <input placeholder="نام شرکت" id="company" type="text"
+                                           class="form-control"
+                                           name="company" value="" autofocus>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <label class="control-label">نام نماینده</label>
+                                    <input placeholder="نام نماینده" id="namayande" type="text"
+                                           class="form-control"
+                                           name="namayande" value="" autofocus>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="haghigy" style="display: none">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">شغل</label>
+                                    <input placeholder="شغل" id="job" type="text"
+                                           class="form-control"
+                                           name="job" value="" autofocus>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">نحوه آشنایی</label>
+                                    <input placeholder="نحوه آشنایی" id="familarity" type="text"
+                                           class="form-control"
+                                           name="familarity" value="" autofocus>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="form-group col-md-10">
-                                <label class="control-label">نام شرکت</label>
-                                <input placeholder="نام شرکت" id="cu_company" type="text"
-                                       class="form-control"
-                                       name="cu_company" value="" autofocus>
-                            </div>
-                            <div class="form-group col-md-10">
-                                <label class="control-label">نام نماینده</label>
-                                <input placeholder="نام نماینده" id="cu_namayande" type="text"
-                                       class="form-control"
-                                       name="cu_namayande" value="" autofocus>
-                            </div>
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-12">
                                 <label class="control-label">تلفن ثابت</label>
-                                <input placeholder="تلفن ثابت" id="cu_phone" type="text"
+                                <input placeholder="تلفن ثابت" id="user_fix_number" type="text"
                                        class="form-control"
-                                       name="cu_phone" value="" autofocus>
+                                       name="user_fix_number" value="" autofocus>
                             </div>
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-12">
                                 <label class="control-label">آدرس</label>
-                                <textarea name="cu_addresss" class="form-control" rows="3"></textarea>
+                                <textarea name="user_address" class="form-control" rows="3"></textarea>
                             </div>
-                            <!-- ./col -->
                         </div>
                         <button type="submit" class="btn btn-primary btn-flat mb-2">ثبت</button>
                     </form>
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
+    <script>
+        $('input[name=user_type_customer]').on('change', function () {
+            if ($(this).val() == 0) {
+                $('#hoghooghy').hide();
+                $('#haghigy').show();
+            } else {
+                $('#hoghooghy').show();
+                $('#haghigy').hide();
+            }
+        });
+    </script>
 <?php
 include 'views/partials/footer.php';
 ?>

@@ -6,6 +6,9 @@ include 'views/user/sidebar.php'; ?>
         body{
             padding-right: 0 !important;
         }
+        .text-muted{
+            direction: ltr;
+        }
     </style>
     <section class="content">
         <div class="container-fluid">
@@ -16,7 +19,7 @@ include 'views/user/sidebar.php'; ?>
                     <div class="row">
                         <?php foreach ($requset as $key => $item)
                             if (!empty($key)) {
-                                echo "<div class='col-md-6'><strong><i class='fa fa-book mr-1'></i> $key</strong>
+                                echo "<div class='col-md-6'><strong><i class='fa fa-check mr-1'></i> $key</strong>
                         <p class='text-muted'>
                             $item
                         </p>

@@ -2,19 +2,28 @@
 
 namespace Controllers;
 
+use Carbon\Carbon;
 use Models\Bug;
 use Models\Comment;
 use Models\Customer;
 use Models\QB;
 use Models\Request;
 use Models\User;
-use Rakit\Validation\Validator;
 use Systems\Auth;
 use Systems\Url;
+use Systems\Validation;
 use Systems\View;
 
 class CustomerController
 {
+    function index(){
+        $user = Auth::id();
+        $user = (new User($user))->find();
+        $descrition=json_decode($user['user_description'],true);
+        $descrition=Customer::defineAttributeValueItem($descrition);
+        return View::make('user/profile/index',['user' => $user,'description'=>$descrition]);
+    }
+
     function adminIndex(){
         $customers=new Customer();
         $customers=$customers->all();
@@ -25,7 +34,7 @@ class CustomerController
         $id=Url::get('id');
         $QB = QB::getInstance();
         $comments = $QB->table(Comment::table)->naturalJoin(User::table)->where(User::primary, $id)->orWhere('comment_to', $id)->orderBy('comment_create')->get();
-        $user = $QB->table(Customer::table)->naturalJoin(User::table)->where(User::primary, $id)->get()[0];
+        $user = $QB->table(User::table)->where(User::primary, $id)->get()->first();
         $requsts=$QB->table(Request::table)->where(User::primary,$id)->orderBy(Request::timecreate,'DESC')->get();
         $bugs=$QB->table(Bug::table)->where(User::primary,$id)->orderBy(Bug::timecreate,'DESC')->get();
         $QB->update(Comment::table, ['comment_readed' => 1])->where(User::primary, $id)->exec();
@@ -33,9 +42,8 @@ class CustomerController
     }
 
     function create(){
-        $user=Auth::id();
         $QB=QB::getInstance();
-        $count=$QB->table(Customer::table)->where(User::primary,$user)->count();
+        $count=$QB->table(User::table)->where('user_type',User::customer)->count();
         if($count > 0)
             View::redirect('../userProfileUpdate');
         else
@@ -45,51 +53,68 @@ class CustomerController
     function storeProfile()
     {
         $user = Auth::id();
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
-            'phone' => 'numeric'
+        Validation::Validate($_POST, [
+            'phone' => 'numeric',
+            'user_type_customer'=>'required'
         ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
+        if($_POST['user_type_customer'] == '0') {
+            Validation::Validate($_POST, [
+                'national_code' => 'required|numeric',
+            ]);
+        }
+        else{
+            Validation::Validate($_POST, [
+                'company' => 'required',
+                'namayande' => 'required',
+                'phone_namayande' => 'required',
+                'activity' => 'required',
+            ]);
         }
         $QB = QB::getInstance();
-        $QB->insert(Customer::table, Customer::custom_input($_POST));
-        $QB->update(User::table, ['user_type' => 1])->where(User::primary,$user)->exec();
-        Auth::updateSessionLogin($user);
-        return View::redirect('../user', ['success' => 'پروفایل با موفقیت کامل شد .']);
+        $date= Carbon::now()->toDateTimeString();
+        $description=Customer::custom_input($_POST);
+        $res=$QB->update(User::table, ['user_type' => 1,'user_fix_number'=>$_POST['user_fix_number'],'user_address'=>$_POST['user_address'],'user_description'=>$description,'user_update'=>$date])->where(User::primary,$user)->exec();
+        if($res) {
+            Auth::updateSessionLogin($user);
+            return View::redirect('../user', ['success' => 'پروفایل با موفقیت کامل شد .']);
+        }
+        else
+            return View::redirect('../user', ['danger' => 'مشکلی در تکمیل پروفایل به وجود آمده):']);
     }
 
     function editProfile()
     {
-        $user = Auth::user()[User::primary];
-        $customer = (new Customer($user))->find();
-        return View::make('user/profile/edit', ['profile' => $customer]);
+        $user = Auth::id();
+        $user = (new User($user))->find();
+        $descrition=json_decode($user['user_description'],true);
+        return View::make('user/profile/edit', ['user' => $user,'description'=>$descrition]);
     }
 
     function updateProfile()
     {
         $user = Auth::id();
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
-            'phone' => 'numeric'
+        Validation::Validate($_POST, [
+            'phone' => 'numeric',
+            'user_type_customer'=>'required'
         ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
+        if($_POST['user_type_customer'] == '0') {
+            Validation::Validate($_POST, [
+                'national_code' => 'required|numeric',
+            ]);
+        }
+        else{
+            Validation::Validate($_POST, [
+                'company' => 'required',
+                'namayande' => 'required',
+                'phone_namayande' => 'required',
+                'activity' => 'required',
+            ]);
         }
         $QB = QB::getInstance();
-        $res=$QB->update(Customer::table, Customer::custom_input($_POST,true))->where(User::primary,$user)->exec();
+        $date= Carbon::now()->toDateTimeString();
+        $description=Customer::custom_input($_POST);
+
+        $res=$QB->update(User::table, ['user_fix_number'=>$_POST['user_fix_number'],'user_address'=>$_POST['user_address'],'user_description'=>$description,'user_update'=>$date])->where(User::primary,$user)->exec();
         if($res)
             return View::redirect('../user', ['success' => 'پروفایل با موفقیت ویرایش شد .']);
         else

@@ -11,24 +11,16 @@ use Systems\Date;
 use Carbon\Carbon;
 use Systems\View;
 use Systems\Url;
+use Systems\Validation;
 
 class AuthController
 {
     function login()
     {
-        $validator = new Validator();
-        $validation = $validator->validate($_POST, [
+        Validation::Validate($_POST,[
             'phone' => 'required|numeric',
             'password' => 'required'
         ]);
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $errors->$msg], true);
-        }
         global $_COOKIE_LOGIN;
         $username = $_POST['phone'];
         $password = $_POST['password'];
@@ -91,27 +83,16 @@ class AuthController
     }
 
     function check_before_register(){
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
+
+        Validation::Validate($_POST,[
             'name' => 'required|min:4',
             'email' => 'required|email',
             'password' => 'required|min:6',
             'confirm-password' => 'required|same:password',
         ]);
-        $validation->setMessages([
-            //'phone:numeric' => 'شماره تلفن وارد شده معتبر نیست',
-        ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
-        }
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+
         $QB = QB::getInstance();
         $check_email = $QB->table(User::table)->where('user_email', $email)->QGet();
         if ($check_email)
@@ -217,19 +198,10 @@ class AuthController
         $phone = Url::get('user');
         $code = $_POST['token'];
         $password = $_POST['password'];
-        $validator = new Validator;
-        $validation = $validator->validate($_POST, [
+        Validation::Validate($_POST,[
             'password' => 'required|min:6',
             'confirm-password' => 'required|same:password',
         ]);
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg]);
-        }
         $QB = QB::getInstance();
         $check_code = $QB->table('resetpassword')->where('user_phone', $phone)->QGet();
         if (count($check_code) == 0)
@@ -270,49 +242,23 @@ class AuthController
     function check_before_update($user_id)
     {
         $email = $_POST['email'];
-        $phone = $_POST['phone'];
         $password = $_POST['password'];
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
+        Validation::Validate($_POST,[
             'name' => 'required|min:4',
             'email' => 'required|email',
-            'phone' => 'required|numeric',
         ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
-        }
 
         if (!empty($password)) {
-            $validator = new Validator;
-            $validation = $validator->make($_POST, [
+            Validation::Validate($_POST,[
                 'password' => 'min:6',
                 'confirm-password' => 'required|same:password',
             ]);
-            $validation->validate();
-            if ($validation->fails()) {
-                $errors = $validation->errors();
-                $errors = $errors->firstOfAll();
-                $msg = '';
-                foreach ($errors as $error)
-                    $msg .= "<pre>$error</pre>";
-                return View::redirect('', ['danger' => $msg], true);
-            }
         }
         // Check exists email & username
         $QB = QB::getInstance();
         $check_email = $QB->table(User::table)->where('user_email', $email)->where(User::primary, '!=', $user_id)->QGet();
         if ($check_email)
             return View::redirect('', ['danger' => 'ایمیل وارد شده موجود می باشد .'], true);
-        $check_phone = $QB->table(User::table)->where('user_phone', $phone)->where(User::primary, '!=', $user_id)->QGet();
-        if (count($check_phone) > 0)
-            return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], true);
-
     }
 
     function update()

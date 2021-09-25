@@ -10,7 +10,7 @@ class Bug extends BaseModel
     const table = 'bugs',
         primary = 'bug_id',
         userfillable = ['bug_virtual_number', 'bug_pan', 'bug_last', 'bug_description'],
-        adminfillable = ['bug_answer'],
+        adminfillable = ['bug_answer','bug_payment'],
         timecreate = 'bug_create';
 
     public function files()
@@ -33,6 +33,16 @@ class Bug extends BaseModel
             $res[$str] = $date;
         }
         return $res;
+    }
+
+    public function delete()
+    {
+        $files = self::files();
+        foreach ($files as $file) {
+            $f = new File($file->file_id);
+            $f->delete();
+        }
+        return parent::delete();
     }
 
     public static function defineAttributeValue(MareiCollection $bugs)

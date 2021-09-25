@@ -14,7 +14,7 @@ include 'views/user/sidebar.php'; ?>
                             <th>شماره مجازی</th>
                             <th>زمان ثبت</th>
                             <th>وضعیت</th>
-                            <th>پاسخ ارسالی</th>
+                            <th>هزینه</th>
                             <th>عملیات</th>
                         </tr>
                         <?php
@@ -27,18 +27,20 @@ include 'views/user/sidebar.php'; ?>
                                 <td>
                                     <span class='badge badge-<?php echo $bug->status_class; ?>'><?php echo $bug->bug_status; ?></span>
                                 </td>
-                                <td><?php echo $bug->bug_answer; ?></td>
+                                <td><?php echo isset($bug->bug_payment) ? number_format($bug->bug_payment) .' ریال' : "<span class='badge badge-warning'>اعلام نشده</span>"?></td>
                                 <td>
-                                    <div class="btn-group btn-group-xs">
-                                        <div class="btn-group btn-group-xs">
-                                            <a href="userBugUpdate?id=<?php echo $bug->bug_id; ?>"
-                                               class="btn btn-primary">ویرایش</a>
-                                            <a href="userBug?id=<?php echo $bug->bug_id; ?>"
-                                               class="btn btn-info">نمایش</a>
-                                            <button type="submit" data-id="<?php echo $bug->bug_id; ?>"
-                                                    class="deletebug btn btn-danger">حذف
-                                            </button>
-                                        </div>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="userBugUpdate?id=<?php echo $bug->bug_id; ?>"
+                                           class="btn btn-success">ویرایش</a>
+                                        <a href="userBug?id=<?php echo $bug->bug_id; ?>"
+                                           class="btn btn-primary">نمایش</a>
+                                        <button type="submit" data-id="<?php echo $bug->bug_id; ?>"
+                                                class="deletebug btn btn-danger">حذف
+                                        </button>
+                                        <?php
+                                        echo "<a href='payment?bug_id=$bug->bug_id'
+                                           class='btn btn-warning'>پرداخت هزینه</a>";
+                                        ?>
                                     </div>
                                 </td>
                             </tr>

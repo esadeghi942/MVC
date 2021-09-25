@@ -13,7 +13,7 @@ include 'views/user/sidebar.php'; ?>
                             <div class="form-group col-md-6">
                                 <label class="control-label">شماره مجازی</label>
                                 <input placeholder="شماره مجازی" id="bug_virtual_number" type="text"
-                                       class="form-control"
+                                       class="form-control" required
                                        name="bug_virtual_number" value="<?php echo $bug->bug_virtual_number; ?>" autofocus>
                             </div>
                             <div class="form-group col-md-12">
@@ -48,7 +48,7 @@ include 'views/user/sidebar.php'; ?>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">شرح خرابی</label>
-                                <textarea name="bug_description" class="form-control" rows="3"><?php echo $bug->bug_description; ?></textarea>
+                                <textarea name="bug_description" required class="form-control" rows="3"><?php echo $bug->bug_description; ?></textarea>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">آپلود عکس</label>

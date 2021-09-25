@@ -34,8 +34,8 @@ class BaseModel
         if (Auth::isAdmin())
             return true;
         $record = $this->find();
-        $userid = User::primary;
-        $user = $record->$userid;
+        $user_id=User::primary;
+        $user = $record->$user_id;
         if (Auth::id() != $user)
             return false;
         return true;
@@ -44,8 +44,7 @@ class BaseModel
     public function find()
     {
         $Qb = QB::getInstance();
-        $item = $Qb->table($this::table)->where($this::primary, $this->id)->get();
-        return isset($item[0]) ? $item[0] : [];
+        return $Qb->table($this::table)->where($this::primary, $this->id)->get()->first();
     }
 
     public function all($whereStatement = null)

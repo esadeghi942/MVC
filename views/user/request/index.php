@@ -21,18 +21,21 @@ include 'views/user/sidebar.php'; ?>
                                 ?>
                                 <tr>
                                     <td><?php echo $request->request_id; ?></td>
-                                    <td><?php echo $request->request_karshenasi; ?></td>
+                                    <td><span class='badge badge-<?php echo $request->karsh_class;?>'><?php echo $request->request_karshenasi; ?></span></td>
                                     <td><span class='badge badge-<?php echo $request->status_class;?>'><?php echo $request->request_status; ?></span></td>
                                     <td class="ltr"><?php echo verta($request->request_create); ?></td>
                                     <td>
-                                        <div class="btn-group btn-group-xs">
-                                            <div class="btn-group btn-group-xs">
-                                                <a href="userRequestUpdate?id=<?php echo $request->request_id; ?>"
-                                                   class="btn btn-info">ویرایش</a>
-                                                <a href="userRequest?id=<?php echo $request->request_id; ?>"
-                                                   class="btn btn-primary">نمایش</a>
-                                                <button type="submit" data-id="<?php echo $request->request_id; ?>" class="deleterequest btn btn-danger">حذف</button>
-                                            </div>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="userRequestUpdate?id=<?php echo $request->request_id; ?>"
+                                               class="btn btn-success">ویرایش</a>
+                                            <a href="userRequest?id=<?php echo $request->request_id; ?>"
+                                               class="btn btn-primary">نمایش</a>
+                                            <?php
+                                            if($request->request_status == 'مشاهده نشده')
+                                                echo "<button type='submit' data-id='$request->request_id' class='deleterequest btn btn-danger'>حذف</button>";
+                                            if($request->request_karshenasi== 'بله' && $request-> request_payment_status ==0)
+                                                echo "<a href='payment?request_id=$request->request_id' class='btn btn-warning'>پرداخت هزینه کارشناسی</a>";
+                                             ?>
                                         </div>
                                     </td>
                                 </tr>

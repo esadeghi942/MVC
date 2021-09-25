@@ -7,11 +7,9 @@ use Models\Comment;
 use Models\QB;
 use Models\Request;
 use Models\User;
-use Rakit\Validation\Validator;
 use Systems\Auth;
 use Systems\Url;
 use Systems\View;
-use Models\Customer;
 
 class UserController
 {
@@ -28,7 +26,7 @@ class UserController
         $newbug=$qb->table(Bug::table)->where(User::primary,$user)->where('bug_status',0)->count();
         $contbug=$qb->table(Bug::table)->where(User::primary,$user)->where('bug_status',1)->count();
         $finigbug=$qb->table(Bug::table)->where(User::primary,$user)->where('bug_status',2)->count();
-        $user=$qb->table(User::table)->naturalJoin(Customer::table)->where(User::primary,$user)->get()[0];
+        $user=$qb->table(User::table)->where(User::primary,$user)->get()->first();
         return View::make('user/index',['comments'=>$comment,
             'req'=>[$newreq,$continuereq,$finishreq],
             'karsh'=>[$newkar,$continuekar,$finishkarsh],
@@ -41,8 +39,6 @@ class UserController
         $comment=$qb->table(Comment::table)->naturalJoin(User::table)->whereStatement('`comment_to` is null')->limit(10)->orderBy(Comment::timecreate,'DESC')->get();
         $karshenasi=$qb->table(Request::table)->naturalJoin(User::table)->where('request_karshenasi',1)->limit(5)->orderBy(Request::timecreate,'DESC')->get();
         $bugs=$qb->table(Bug::table)->naturalJoin(User::table)->limit(5)->orderBy(Bug::timecreate,'DESC')->get();
-        //$customer=$qb->table(Customer::table)->naturalJoin(User::table)->limit(5)->orderBy(Customer::timecreate,'DESC')->get();
-        //$user=$qb->table(User::table)->where('user_type',User::admin)->orWhere('user_type',User::superadmin)->limit(5)->orderBy(Customer::timecreate,'DESC')->get();
         $newreq=$qb->table(Request::table)->where('request_status',0)->where('request_karshenasi',0)->count();
         $continuereq=$qb->table(Request::table)->where('request_status',1)->where('request_karshenasi',0)->count();
         $finishreq=$qb->table(Request::table)->where('request_status',2)->where('request_karshenasi',0)->count();

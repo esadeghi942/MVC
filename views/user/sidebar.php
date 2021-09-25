@@ -15,7 +15,7 @@
                     <img src="assets/img/user-avatar.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="profile" class="d-block"><?php echo systems\Auth::user()['user_name'] ?></a>
+                    <a href="userProfile" class="d-block"><?php echo systems\Auth::user()['user_name'] ?></a>
                 </div>
                 <a href="logout" class="pt-1">
                     <i class="nav-icon fa fa-power-off"></i>
@@ -113,43 +113,26 @@
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a href="document" class="nav-link">
                             <i class="nav-icon fa fa-outdent"></i>
                             <p>
                                 ارسال مدارک
-                                <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>لیست مدارک ارسالی</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a  class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>جدید</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="nav-item has-treeview">
                         <a class="nav-link">
                             <i class="nav-icon fa fa-tty"></i>
                             <p>
                                 درخواست خط 4 یا 5 رقمی
-                                <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a href="http://sms.tehranftth.ir/UserRegister.aspx" class="nav-link">
                             <i class="nav-icon fa fa-envelope-o"></i>
                             <p>
                                 فعال سازی پیامک
-                                <i class="fa fa-angle-left right"></i>
                             </p>
                         </a>
                     </li>

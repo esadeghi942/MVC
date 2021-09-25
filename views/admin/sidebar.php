@@ -35,6 +35,13 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
+                        <a href="adminSetPayment" class="active nav-link">
+                            <i class="nav-icon fa fa-dashboard"></i>
+                            <p>هزینه کارشناسی
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
                         <a href="edit" class="nav-link">
                             <i class="nav-icon fa fa-id-card"></i>
                             <p>

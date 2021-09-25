@@ -7,6 +7,8 @@ use Controllers\CommentController;
 use Controllers\RequestController;
 use Controllers\BugController;
 use Controllers\CustomerController;
+use Controllers\MaliController;
+
 $paths = array(
     'index' => array('before' => '', 'get' => ['index'], 'post' => '', 'after' => ''),
     '404' => array('before' => '', 'get' => ['404'], 'post' => '', 'after' => ''),
@@ -33,6 +35,9 @@ $paths = array(
     //profile
     'userProfileCreate' => array('before' => 'check_auth', 'get' => [CustomerController::class,'create'], 'post' => [CustomerController::class, 'storeProfile'], 'after' => ''),
     'userProfileUpdate' => array('before' => 'check_customer', 'get' => [CustomerController::class, 'editProfile'], 'post' => [CustomerController::class, 'updateProfile'], 'after' => ''),
+    'userProfile' => array('before' => 'check_auth', 'get' => [CustomerController::class, 'index'], 'post' => [CustomerController::class, 'updateProfile'], 'after' => ''),
+//document
+    'document' => array('before' => 'check_customer', 'get' => [FileController::class, 'document'], 'post' => [FileController::class, 'storeDocument'], 'after' => ''),
 
     //request
     'userRequestCreate' => array('before' => 'check_customer', 'get' => ['user/request/create'], 'post' => [RequestController::class, 'store'], 'after' => ''),
@@ -40,9 +45,14 @@ $paths = array(
     'userRequestIndex'  => array('before' => 'check_customer', 'get' => [RequestController::class, 'index'], 'post' => '', 'after' => ''),
     'userRequestDelete' => array('before' =>'check_customer',  'get'  => '','post' => [RequestController::class, 'delete'], 'after' => ''),
     'userRequest' => array('before' =>'check_customer',  'get'  =>  [RequestController::class, 'userRequest'],'post' =>'', 'after' => ''),
+
+    //PayPal
+    'payment' => array('before' =>'check_customer',  'get'  =>  [MaliController::class, 'request'],'post' =>'', 'after' => ''),
+    'verify_payment' => array('before' =>'check_customer',  'get'  =>  [MaliController::class, 'verify'],'post' =>'', 'after' => ''),
 //admin
     'adminRequestIndex' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminIndex'], 'post' => '', 'after' => ''),
     'adminRequest' => array('before' => 'check_admin', 'get' => [RequestController::class, 'adminRequest'], 'post' => [RequestController::class,'postAnswer'], 'after' => ''),
+    'adminSetPayment' => array('before' => 'check_admin', 'get' => [MaliController::class, 'adminPayment'], 'post' => [MaliController::class,'adminSetPayment'], 'after' => ''),
 
     //bug
     'userBugCreate' => array('before' => 'check_customer', 'get' => ['user/bug/create'], 'post' => [BugController::class, 'store'], 'after' => ''),

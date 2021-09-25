@@ -27,19 +27,17 @@ include 'views/user/sidebar.php'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="control-label"> درخواست کارشناسی حضوری و حضور کارشناس در محل را
-                                    دارید؟</label>
+                                <label class="control-label"> درخواست کارشناسی حضوری و حضور کارشناس در محل را دارید؟</label>
                                 <div class="form-check">
-                                    <input name="request_karshenasi"
-                                           class="form-check-input" <?php echo $request->request_karshenasi == 1 ? 'checked="checked"' : '' ?>
-                                           type="radio" value="1">
-                                    <label class="form-check-label">بله</label>
+                                    <input name="request_karshenasi" class="form-check-input" type="radio"
+                                           <?php echo $request->request_karshenasi == 1 ? 'checked="checked"' : '' ?> value="1">
+                                    <label class="form-check-label">بله <small>(باید هزینه ایاب و ذهاب به مبلغ <?php  echo (new \Models\Mali())->payment ?>ریال را به صورت آنلاین پرداخت نمایید.)</small></label>
                                 </div>
                                 <div class="form-check">
-                                    <input name="request_karshenasi"
-                                           class="form-check-input" <?php echo $request->request_karshenasi == 0 ? 'checked="checked"' : '' ?>
+                                    <input name="request_karshenasi" class="form-check-input"
+                                           <?php echo $request->request_karshenasi == 0 ? 'checked="checked"' : '' ?>
                                            type="radio" value="0">
-                                    <label class="form-check-label">خیر</label>
+                                    <label class="form-check-label">خیر <small>( به صورت رایگان)</small></label>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -114,37 +112,52 @@ include 'views/user/sidebar.php'; ?>
                                     <label class="form-check-label">نمیدانم</label>
                                 </div>
                             </div>
+                           <div class="form-group col-md-6">
+                                    <label class="control-label">نوع کاربری</label>
+                                    <div class="form-check">
+                                        <input name="request_karbary" class="form-check-input" type="radio"
+                                               value="1" <?php echo $request->request_karbary == 1 ? 'checked="checked"' : '' ?>>
+                                        <label class="form-check-label">اداری</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input name="request_karbary" class="form-check-input" <?php echo $request->request_karbary == 0 ? 'checked="checked"' : '' ?>
+                                               type="radio" value="0">
+                                        <label class="form-check-label">مسکونی</label>
+                                    </div>
+                                </div>
+                            <div class="row">
                             <div class="form-group col-md-6">
                                 <label class="control-label">تعداد واحد</label>
                                 <input placeholder="تعداد واحد" id="request_count_unit" type="text"
                                        class="form-control"
                                        name="request_count_unit" value="<?php echo $request->request_count_unit; ?>"
-                                       autofocus>
+                                       autofocus required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">تعداد درخواست شما</label>
                                 <input placeholder="تعداد درخواست شما" id="request_count_request" type="text"
                                        class="form-control"
                                        name="request_count_request" value="<?php echo $request->request_count_unit; ?>"
-                                       autofocus>
+                                       autofocus required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">تعداد متقاضی در ساختمان</label>
                                 <input placeholder="تعداد متقاضی در ساختمان" id="request_build_request" type="text"
                                        class="form-control"
-                                       name="request_build_request"
+                                       name="request_build_request" required
                                        value="<?php echo $request->request_build_request; ?>" autofocus>
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">تلفن ثابت</label>
                                 <input placeholder="تلفن ثابت" id="request_fix_number" type="text"
-                                       class="form-control"
+                                       class="form-control" required
                                        name="request_fix_number" value="<?php echo $request->request_fix_number; ?>"
                                        autofocus>
                             </div>
+                            </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">آدرس دقیق برای کارشناسی</label>
-                                <textarea name="request_address" class="form-control"
+                                <textarea name="request_address" required class="form-control"
                                           rows="3"><?php echo $request->request_address; ?>
                                 </textarea>
                             </div>
@@ -176,13 +189,30 @@ include 'views/user/sidebar.php'; ?>
                             </div>
                             <!-- ./col -->
                         </div>
-                        <button type="submit" class="btn btn-primary btn-flat mb-2">ثبت</button>
+                        <?php
+                        if($request->request_payment_status || !$request->request_karshenasi)
+                            echo "<button type='submit' class='btn btn-primary btn-flat mb-2'>ثبت</button>";
+                        else
+                            echo "<button type='submit' class='btn btn-primary btn-flat mb-2'>پرداخت آنلاین و ثبت درخواست</button>";
+                        ?>
                     </form>
                 </div>
             </div>
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
     </section>
+    <script>
+        $('input[name=request_karshenasi]').on('change',function (){
+            if($(this).val()==0)
+                    $('button[type=submit]').html('ثبت');
+            else {
+                if(!<?php echo intval($request->request_payment_status) ?>)
+                    $('button[type=submit]').html('پرداخت آنلاین و ثبت درخواست');
+                else
+                    $('button[type=submit]').html('ثبت');
+                }
+        });
+    </script>
 <?php
 include 'views/partials/footer.php';
 ?>

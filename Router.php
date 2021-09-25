@@ -1,13 +1,7 @@
 <?php
-use Systems\Filter;
+use Systems\Middleware;
 use Systems\View;
-// echo 'wait...';return;
-// locale_set_default('fa_IR.UTF-8');
-// locale_set_default('fa_IR');
-// setlocale(LC_ALL, 'fa_IR');
-// setlocale(LC_ALL, 'fa_IR.UTF-8');
-// define('AJXP_LOCALE', 'fa_IR.UTF-8');
-// TODO
+
 ob_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -33,21 +27,16 @@ $method_exist = 0;
 if (count($URL_base) - $sub == 2) {
     View::redirect('index');
 } else if (count($URL_base) - $sub == 3) {
-    // }else{
     $URL = $URL_base[count($URL_base) - 2];
     foreach ($paths as $path => $actions) {
-
         if (strtoupper($URL) == strtoupper($path)) {
             $url_exist++;
             foreach ($actions as $method => $action) {
-
-                // todo -> check for project access
-                //Filter::permissions();
-                // Filter before
+                // Middleware before
                 if ((strtoupper($method) == 'BEFORE' || strtoupper($method) == 'AFTER') && !empty($action)) {
                     $action = explode(',', str_replace(' ', '', $action));
                     foreach ($action as $act) {
-                        (new Filter)->$act();
+                        (new Middleware)->$act();
                     }
                 }
 

@@ -1,9 +1,8 @@
 <?php
 namespace Systems;
 use Models\User;
-use const http\Client\Curl\AUTH_ANY;
 
-class Filter
+class Middleware
 {
     public static function check_auth($url='../login'){
         global $_COOKIE_LOGIN;

@@ -27,14 +27,15 @@ include 'views/user/sidebar.php'; ?>
                                     دارید؟</label>
                                 <div class="form-check">
                                     <input name="request_karshenasi" class="form-check-input" type="radio" value="1">
-                                    <label class="form-check-label">بله</label>
+                                    <label class="form-check-label">بله <small>(باید هزینه ایاب و ذهاب به مبلغ <?php  echo (new \Models\Mali())->payment ?>ریال را به صورت آنلاین پرداخت نمایید.)</small></label>
                                 </div>
                                 <div class="form-check">
                                     <input name="request_karshenasi" class="form-check-input" checked="checked" type="radio"
                                            value="0">
-                                    <label class="form-check-label">خیر</label>
+                                    <label class="form-check-label">خیر <small>( به صورت رایگان)</small></label>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-6">
                                 <label class="control-label">وضعیت ساختمان</label>
                                 <div class="form-check">
@@ -88,36 +89,51 @@ include 'views/user/sidebar.php'; ?>
                                     <label class="form-check-label">نمیدانم</label>
                                 </div>
                             </div>
+
+                                <div class="form-group col-md-6">
+                                    <label class="control-label">نوع کاربری</label>
+                                    <div class="form-check">
+                                        <input name="request_karbary" class="form-check-input" type="radio"
+                                               value="1">
+                                        <label class="form-check-label">اداری</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input name="request_karbary" class="form-check-input" checked="checked" type="radio" value="0">
+                                        <label class="form-check-label">مسکونی</label>
+                                    </div>
+                                </div>
+                            <div class="row col-12">
                             <div class="form-group col-md-6">
                                 <label class="control-label">تعداد واحد</label>
                                 <input placeholder="تعداد واحد" id="request_count_unit" type="text"
-                                       class="form-control"
+                                       class="form-control" required
                                        name="request_count_unit" value="" autofocus>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-6">
                                 <label class="control-label">تعداد درخواست شما</label>
                                 <input placeholder="تعداد درخواست شما" id="request_count_request" type="text"
-                                       class="form-control"
+                                       class="form-control" required
                                        name="request_count_request" value="" autofocus>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-6">
                                 <label class="control-label">تعداد متقاضی در ساختمان</label>
                                 <input placeholder="تعداد متقاضی در ساختمان" id="request_build_request" type="text"
-                                       class="form-control"
+                                       class="form-control" required
                                        name="request_build_request" value="" autofocus>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-6">
                                 <label class="control-label">تلفن ثابت</label>
                                 <input placeholder="تلفن ثابت" id="request_fix_number" type="text"
-                                       class="form-control"
+                                       class="form-control" required
                                        name="request_fix_number" value="" autofocus>
+                            </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">آدرس دقیق برای کارشناسی</label>
-                                <textarea name="request_address" class="form-control" rows="3"></textarea>
+                                <textarea name="request_address" class="form-control" required rows="3"></textarea>
                             </div>
                             <div class="form-group col-md-12">
-                                <label class="control-label">آپلود عکس باکس فیبر نوری</label>
+                                <label class="control-label">آپلود عکس باکس فیبر نوری <small>(امکان بارگزاری چندین عکس)</small></label>
                                 <input name="request_file[]" multiple="multiple" type="file" class="form-control">
                             </div>
                             <div class="form-group col-md-12">
@@ -135,6 +151,14 @@ include 'views/user/sidebar.php'; ?>
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
     </section>
+<script>
+    $('input[name=request_karshenasi]').on('change',function (){
+        if($(this).val()==0)
+            $('button[type=submit]').html('ثبت');
+        else
+            $('button[type=submit]').html('پرداخت آنلاین و ثبت درخواست');
+    });
+</script>
 <?php
 include 'views/partials/footer.php';
 ?>

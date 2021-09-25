@@ -10,7 +10,7 @@ class Request extends BaseModel
 {
     const table = 'requests',
         primary = 'request_id',
-        userfillable = ['request_address', 'request_buildstatus', 'request_owner', 'request_count_unit', 'request_count_request', 'request_build_request', 'request_fix_number', 'request_base', 'request_karshenasi'],
+        userfillable = ['request_address', 'request_buildstatus', 'request_owner', 'request_count_unit', 'request_count_request','request_karbary', 'request_build_request', 'request_fix_number', 'request_base', 'request_karshenasi'],
         adminfillable = ['request_answer'],
         timecreate = 'request_create';
 
@@ -24,9 +24,19 @@ class Request extends BaseModel
     public function files()
     {
         $Qb=QB::getInstance();
-        $request = $Qb->table(File::table)->where('file_model', self::table)->
+        $files = $Qb->table(File::table)->where('file_model', self::table)->
         where('model_id', $this->id)->get();
-        return $request;
+        return $files;
+    }
+
+    public function delete()
+    {
+        $files = self::files();
+        foreach ($files as $file) {
+            $f = new File($file->file_id);
+            $f->delete();
+        }
+        return parent::delete();
     }
 
     public static function custom_input($input, $edit = false)
@@ -94,6 +104,16 @@ class Request extends BaseModel
             }
             $request->request_owner = $str;
             $str = '';
+            switch ($request->request_karbary) {
+                case 0:
+                    $str = 'مسکونی';
+                    break;
+                case 1:
+                    $str = 'اداری';
+                    break;
+            }
+            $request->request_karbary = $str;
+            $str = '';
             switch ($request->request_base) {
                 case 0:
                     $str = 'در ساختمان وجود دارد';
@@ -116,15 +136,19 @@ class Request extends BaseModel
             }
             $request->request_base = $str;
             $str = '';
+            $karsh_class='';
             switch ($request->request_karshenasi) {
                 case 0:
                     $str = 'خیر';
+                    $karsh_class='danger';
                     break;
                 case 1:
                     $str = 'بله';
+                    $karsh_class='success';
                     break;
             }
             $request->request_karshenasi = $str;
+            $request->karsh_class = $karsh_class;
         }
         return $requests;
     }
@@ -136,7 +160,7 @@ class Request extends BaseModel
             $str = '';
             $val = $i;
             switch ($k) {
-                case 'request_status';
+                case 'request_status':
                     $str = 'وضعیت درخواست';
                     switch ($i){
                         case 0:
@@ -150,15 +174,15 @@ class Request extends BaseModel
                             break;
                     }
                     break;
-                case 'request_answer';
+                case 'request_answer':
                     $str = 'پاسخ کارشناس';
                     if(empty($i))
                         $val='هنوز پاسخی ارسال نشده .';
                     break;
-                case 'request_address';
+                case 'request_address':
                     $str = 'آدرس دقیق برای کارشناسی';
                     break;
-                case 'request_buildstatus';
+                case 'request_buildstatus':
                     $str = 'وضعیت ساختمان';
                     switch ($i){
                         case 0:
@@ -178,7 +202,7 @@ class Request extends BaseModel
                             break;
                     }
                     break;
-                case 'request_owner';
+                case 'request_owner':
                     $str = 'وضعیت مالکیت';
                     switch ($i) {
                         case 0:
@@ -189,10 +213,21 @@ class Request extends BaseModel
                             break;
                     }
                     break;
-                case 'request_count_unit';
+                case 'request_karbary':
+                    $str = 'وضعیت کاربری';
+                    switch ($i) {
+                        case 0:
+                            $val = 'مسکونی';
+                            break;
+                        case 1:
+                            $val = 'اداری';
+                            break;
+                    }
+                    break;
+                case 'request_count_unit':
                     $str = 'تعداد واحد ';
                     break;
-                case 'request_karshenasi';
+                case 'request_karshenasi':
                     $str = 'درخواست کارشناسی در محل';
                     switch ($i) {
                         case 0:
@@ -203,7 +238,7 @@ class Request extends BaseModel
                             break;
                     }
                     break;
-                case 'request_base';
+                case 'request_base':
                     $str = 'بستر فیبر نوری در ساختمان';
                     switch ($i) {
                         case 0:
@@ -226,13 +261,13 @@ class Request extends BaseModel
                             break;
                     }
                     break;
-                case 'request_count_request';
+                case 'request_count_request':
                     $str = 'تعداد درخواست';
                     break;
-                case 'request_fix_number';
+                case 'request_fix_number':
                     $str = 'تلفن ثابت';
                     break;
-                case 'request_create';
+                case 'request_create':
                     $str = 'تاریخ ثبت درخواست';
                     $val=verta($i);
                     break;

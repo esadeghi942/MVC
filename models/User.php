@@ -49,6 +49,7 @@ class User extends BaseModel
         $query->execute();
         return $DB->pdo->lastInsertId();
     }
+
     function create_admin($name, $email, $phone, $password, $registerdate)
     {
         $DB=new DataBase();

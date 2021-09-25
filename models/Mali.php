@@ -1,59 +1,46 @@
 <?php
 namespace Models;
 
-use Systems\PackPay;
-use Systems\Url;
-use Systems\View;
+use Carbon\Carbon;
+use Systems\Auth;
 
-class Mali
+class Mali extends BaseModel
 {
-    public function request()
+    const primary = 'mali_id',
+        table = 'malis',
+        fillable = [''],
+        timecreate = 'mali_create';
+    public $payment;
+    public function __construct($id = 0)
     {
-        $GateWay = new PackPay();
-        $token = $GateWay->refresh_token();
-        if (!$token)
-            return View::redirect('', ['danger' => 'در اتصال به درگاه پرداخت مشکلی پیش امده لطفا بعدا دوباره تلاش کنید.'], true);
-        /*
-         * ارسال به بانک
-         */
-        $data = [
-            'access_token' => $token,
-            'amount' => 50000, //مبلغ به ریال
-            'callback_url' => Url::baseURL() . '/verify/', //آدرس بازگشت به سایت شما بعد از اتمام عملیات پرداخت
-            'payer_id' => '09101111111',//فیلد اختیاری شماره تلفن پرداخت کننده
-            'payer_name' => 'محمد محمدی',//فیلد اختیاری نام پرداخت کننده
-            'verify_on_request' => true
-        ];
-        $send_to_bank_result = $GateWay->send_to_bank($data);
-        if ($send_to_bank_result['status'] == "0") {
-            $reference_code = $send_to_bank_result['reference_code'];
-            //کاربر را به آدرس زیر هدایت کنید
-            //redirect user to this url
-            $redirect_url = "https://dashboard.packpay.ir/bank/purchase/send/?RefId=${reference_code}";
-            header("location:$redirect_url");
-        } else {
-            return View::redirect('', ['danger' => 'دراتصال به درگاه پرداخت مشکلی پیش امده لطفا بعدا دوباره تلاش کنید.'], true);
-            //خطا رخ داده و این خطا را به صلاح دید خود هندل کنید
-            //echo $send_to_bank_result['message'];
-            //return;
-        }
+        $QB=QB::getInstance();
+        $payment=$QB->table('admin')->get()[0];
+        $this->payment=$payment->payment_amount;
+        parent::__construct($id);
     }
-    public function verify(){
-        $GateWay=new PackPay();
-        $token = $GateWay->refresh_token();
-        $reference_code = $_GET['reference_code']; //کد رفرنس دریافتی از طریق درخواست get
-        $data = [
-            'access_token' => $token,
-            'reference_code' => $reference_code,
-        ];
-        $verify_result = $GateWay->verify($data);
-        if ($verify_result['status']=="0"){
-            echo $verify_result['message'];
-            //در اینجا عملیات پردات موفقیت آمیز بوده و میتوانید پردازش مربوطه را انجام دهید
-        }else{
-            //خطا رخ داده و این خطا را به صلاح دید خود هندل کنید
-            //یکی از اتفاقات رایج انصراف کاربر از بانک است
-            echo $verify_result['message'];
+
+    public function setPayment($amount){
+        $this->payment=$amount;
+        $QB=QB::getInstance();
+        $QB->update('admin',['payment_amount'=>$this->payment])->exec();
+    }
+
+    public static function custom_input($input)
+    {
+        $id = Auth::id();
+        $res = [];
+        $date = Carbon::now()->toDateTimeString();
+        foreach (self::fillable as $record) {
+            $res[$record] = $input[$record];
+            $res['user_id'] = $id;
+            $res['mali_phone'] = Auth::user()['user_phone'];
+            $res[self::timecreate] = $date;
         }
+        return $res;
+    }
+
+    public function find_referece($reference_code){
+        $QB=QB::getInstance();
+        return $QB->table(Mali::table)->where('mali_reference_code',$reference_code)->get()->first();
     }
 }

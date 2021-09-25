@@ -10,6 +10,7 @@ use Models\User;
 use Rakit\Validation\Validator;
 use Systems\Auth;
 use Systems\Url;
+use Systems\Validation;
 use Systems\View;
 
 class BugController
@@ -26,20 +27,10 @@ class BugController
     }
 
     function store(){
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
-            'bug_virtual_number' => 'numeric',
+        Validation::Validate($_POST , [
+            'bug_virtual_number' => 'required|numeric',
             'bug_description' => 'required',
-        ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
-        }
+        ],$_FILES['bug_file']);
         $QB = QB::getInstance();
         $bug_id=$QB->insert(Bug::table,Bug::custom_input($_POST));
         $file=new File();
@@ -59,20 +50,10 @@ class BugController
 
     function update(){
         $bug_id=Url::get('id');
-        $validator = new Validator;
-        $validation = $validator->make($_POST, [
-            'bug_virtual_number' => 'numeric',
+        Validation::Validate($_POST,[
+            'bug_virtual_number' => 'required|numeric',
             'bug_description' => 'required',
-        ]);
-        $validation->validate();
-        if ($validation->fails()) {
-            $errors = $validation->errors();
-            $errors = $errors->firstOfAll();
-            $msg = '';
-            foreach ($errors as $error)
-                $msg .= "<pre>$error</pre>";
-            return View::redirect('', ['danger' => $msg], true);
-        }
+        ],$_FILES['bug_file']);
         $QB = QB::getInstance();
         $QB->update(Bug::table,Bug::custom_input($_POST,true))->where(Bug::primary,$bug_id)->exec();
         $file=new File();
@@ -88,11 +69,6 @@ class BugController
         if(!$can) {
             Url::response('danger','شما اجازه حذف این اعلام خرابی  را ندارید.');
             return;
-        }
-        $files=$bug->files();
-        foreach ($files as $file){
-            $f=new File($file->file_id);
-            $f->delete();
         }
         $res=$bug->delete();
         if($res)
