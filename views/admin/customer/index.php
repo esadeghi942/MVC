@@ -11,9 +11,7 @@ include 'views/admin/sidebar.php'; ?>
                         <tr>
                             <th>نام مشتری</th>
                             <th>شماره موبایل</th>
-                            <th>نام شرکت</th>
-                            <th>نام نماینده</th>
-                            <th>آدرس</th>
+                            <th>تلفن ثابت</th>
                             <th>تاریخ ثبت</th>
                             <th>عملیات</th>
                         </tr>
@@ -26,16 +24,13 @@ include 'views/admin/sidebar.php'; ?>
                                     <td><a href="adminCustomer?id=<?php echo $customer->user_id; ?>">
                                         <?php echo $customer->user_name; ?></a></td>
                                     <td><?php echo $customer->user_phone; ?></td>
-                                    <td><?php echo $customer->cu_company; ?></td>
-                                    <td><?php echo $customer->cu_namayande; ?></td>
-                                    <td><?php echo $customer->cu_addresss; ?></td>
-                                    <td class="ltr"><?php echo verta($customer->cu_create); ?></td>
+                                    <td><?php echo $customer->user_fix_number; ?></td>
+                                    <td class="ltr"><?php echo verta($customer->user_create); ?></td>
                                     <td>
-                                        <div class="btn-group btn-group-xs">
-                                            <div class="btn-group btn-group-xs">
-                                                <a href="adminDeleteCustomer?id=<?php echo $customer->user_id; ?>"
-                                                   class="btn btn-primary">حذف</a>
-                                            </div>
+                                        <div class="btn-group btn-group-sm">
+                                            <button type="submit" data-id="<?php echo $customer->user_id ?>"
+                                                    class="deletecustomer btn btn-danger">حذف
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

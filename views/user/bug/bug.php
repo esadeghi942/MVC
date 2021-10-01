@@ -32,6 +32,12 @@ include 'views/user/sidebar.php'; ?>
                             </p>
                             <hr>
                         </div>
+                        <div class='col-md-6'><strong>هزینه(ریال)</strong>
+                            <p class='text-muted'>
+                                <?php echo !empty($bug->bug_payment) ? number_format($bug->bug_payment) : 'اعلام نشده' ?>
+                            </p>
+                            <hr>
+                        </div>
                         <div class='col-md-6'><strong>وضعیت چراغ پان مودم</strong>
                             <p class='text-muted'>
                                 <?php echo $bug->bug_pan ?>
@@ -51,13 +57,21 @@ include 'views/user/sidebar.php'; ?>
                             </p>
                             <hr>
                         </div>
-                        <div class="col-md-12">
-                            <strong>متن جوابیه</strong>
-                            <p class='text-muted'>
-                                <?php echo $bug->bug_answer ?>
-                            </p>
-                        </div>
                     </div>
+                         <?php
+                        if(isset($answers[0]))
+                        {
+                            echo "<strong><i class='fa fa-reply mr-1'></i>جوابیه ها</strong>";
+                            foreach ($answers as $answer) {
+                                echo "<div class='item'><div class='card-footer card-comments'>
+                                     <div class='text-muted ltr'>".verta($answer->answer_create)."<i class='fa fa-clock-o'></i></div>
+                                     <div class='card-comment mt-1'>
+                                        $answer->asnswer_text
+                                </div></div></div>";
+                            }
+                        }
+                        ?>
+
                         <?php
                         if (isset($files[0])) {
                             echo "<hr><strong>فایل های آپلود شده</strong>

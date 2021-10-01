@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Bug;
 use Models\Comment;
+use Models\GroupComment;
 use Models\QB;
 use Models\Request;
 use Models\User;
@@ -16,7 +17,13 @@ class UserController
     function userIndex(){
         $qb=QB::getInstance();
         $user=Auth::id();
-        $comment=$qb->table(Comment::table)->naturalJoin(User::table)->where('comment_to',$user)->orWhere(User::primary,$user)->limit(10)->orderBy(Comment::timecreate,'DESC')->get();
+        $comment=$qb->table(GroupComment::table)->where(User::primary,$user)->limit(10)->orderBy(GroupComment::timecreate,'DESC')->get();
+        $unrcoment = (new GroupComment())->unreadcomment();
+        $res = [];
+        foreach ($unrcoment as $item)
+            $res[$item['gcomment_id']]['count'] = $item['count_unread'];
+        foreach ($comment as $record)
+            $record->count_unread = isset($res[$record->gcomment_id]['count']) ? $res[$record->gcomment_id]['count'] : 0;
         $newreq=$qb->table(Request::table)->where(User::primary,$user)->where('request_status',0)->where('request_karshenasi',0)->count();
         $continuereq=$qb->table(Request::table)->where(User::primary,$user)->where('request_status',1)->where('request_karshenasi',0)->count();
         $finishreq=$qb->table(Request::table)->where(User::primary,$user)->where('request_status',2)->where('request_karshenasi',0)->count();
@@ -27,7 +34,7 @@ class UserController
         $contbug=$qb->table(Bug::table)->where(User::primary,$user)->where('bug_status',1)->count();
         $finigbug=$qb->table(Bug::table)->where(User::primary,$user)->where('bug_status',2)->count();
         $user=$qb->table(User::table)->where(User::primary,$user)->get()->first();
-        return View::make('user/index',['comments'=>$comment,
+        return View::make('user/index',['gcomments'=>$comment,
             'req'=>[$newreq,$continuereq,$finishreq],
             'karsh'=>[$newkar,$continuekar,$finishkarsh],
             'cbug'=>[$newbug,$contbug,$finigbug],
@@ -36,7 +43,13 @@ class UserController
 
     function adminIndex(){
         $qb=QB::getInstance();
-        $comment=$qb->table(Comment::table)->naturalJoin(User::table)->whereStatement('`comment_to` is null')->limit(10)->orderBy(Comment::timecreate,'DESC')->get();
+        $comment=$qb->table(GroupComment::table)->naturalJoin(User::table)->limit(10)->orderBy(GroupComment::timecreate,'DESC')->get();
+        $unrcoment = (new GroupComment())->unreadcomment();
+        $res = [];
+        foreach ($unrcoment as $item)
+            $res[$item['gcomment_id']]['count'] = $item['count_unread'];
+        foreach ($comment as $record)
+            $record->count_unread = isset($res[$record->gcomment_id]['count']) ? $res[$record->gcomment_id]['count'] : 0;
         $karshenasi=$qb->table(Request::table)->naturalJoin(User::table)->where('request_karshenasi',1)->limit(5)->orderBy(Request::timecreate,'DESC')->get();
         $bugs=$qb->table(Bug::table)->naturalJoin(User::table)->limit(5)->orderBy(Bug::timecreate,'DESC')->get();
         $newreq=$qb->table(Request::table)->where('request_status',0)->where('request_karshenasi',0)->count();

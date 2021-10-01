@@ -16,6 +16,9 @@ class Validation
                $size = $file['size'][$i];
                if( $size > 1000000)
                    return View::redirect('', ['danger' => 'حجم فایل پیوستی باید حداکثر 1 مگابایت باشد.'],true);
+                $type = pathinfo($file['name'][$i], PATHINFO_EXTENSION);
+                if(!in_array($type,['pdf','png','jpeg','jpg']))
+                    return View::redirect('', ['danger' => 'نوع فایل پیوستی معتبر نیست'],true);
            }
        }
         $validator = new Validator();
@@ -27,12 +30,15 @@ class Validation
             foreach ($errors as $error)
                 $msg .= "<pre>$error</pre>";
 
-            $validation->setMessages([
-                //'phone:numeric' => 'شماره تلفن وارد شده معتبر نیست',
-                //name,email,password,confirm-password
-                //numeric,min,required|email|same:password
-            ]);
+            $validation->setMessages(self::fa_message());
             return View::redirect('', ['danger' => $msg], true);
         }
+    }
+    function fa_message(){
+        return[
+            'phone:numeric' => 'شماره تلفن وارد شده معتبر نیست',
+            //name,email,password,confirm-password
+            //numeric,min,required|email|same:password
+        ];
     }
 }

@@ -19,18 +19,21 @@ class User extends BaseModel
     {
         $user = Auth::user();
         $address = '';
-        switch ($user['user_type']) {
-            case User::auth:
-                $address = 'userProfileCreate';
-                break;
-            case User::customer:
-                $address = 'user';
-                break;
-            case User::admin:
-            case User::superadmin:
-                $address = 'admin';
-                break;
-        }
+        if($user == null)
+            $address='login';
+        else
+            switch ($user['user_type']) {
+                case User::auth:
+                    $address = 'userProfileCreate';
+                    break;
+                case User::customer:
+                    $address = 'user';
+                    break;
+                case User::admin:
+                case User::superadmin:
+                    $address = 'admin';
+                    break;
+            }
         return $address;
     }
 
@@ -94,5 +97,10 @@ class User extends BaseModel
         $Qb = QB::getInstance();
         $item = $Qb->table($this::table)->where($this::primary, $this->id)->QGet();
         return isset($item[0]) ? $item[0] : [];
+    }
+
+    public function customers(){
+        $qb=QB::getInstance();
+        return $qb->table('users')->where('user_type',User::customer)->get();
     }
 }

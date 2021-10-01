@@ -14,20 +14,20 @@ include 'views/admin/sidebar.php';
                                 <label class="control-label">نام و نام خانوداگی</label>
                                 <input placeholder="نام و نام خانوادگی" id="name" type="text"
                                        class="form-control"
-                                       name="name" value="<?php echo $user->user_name ?>" required autofocus>
+                                       name="name" value="<?php echo $user['user_name'] ?>" required autofocus>
                             </div>
                             <div class="form-group col-md-10">
                                 <label class="control-label">ایمیل</label>
                                 <input placeholder="ایمیل" id="email" type="email"
                                        class="form-control"
-                                       name="email" value="<?php echo $user->user_email ?>" required
+                                       name="email" value="<?php echo $user['user_email'] ?>" required
                                        autofocus>
                             </div>
                             <div class="form-group col-md-10">
                                 <label class="control-label">شماره موبایل</label>
                                 <input placeholder="شماره موبایل" id="phone" type="text"
                                        class="form-control"
-                                       name="phone" value="<?php echo $user->user_phone ?>" required
+                                       name="phone" value="<?php echo $user['user_phone'] ?>" required
                                        autofocus>
                             </div>
                             <div class="form-group col-md-10">

@@ -38,8 +38,9 @@ include 'views/user/sidebar.php'; ?>
                                                 class="deletebug btn btn-danger">حذف
                                         </button>
                                         <?php
-                                        echo "<a href='payment?bug_id=$bug->bug_id'
-                                           class='btn btn-warning'>پرداخت هزینه</a>";
+                                        if($bug->bug_payment !== null && !intval($bug->bug_payment_status))
+                                            echo "<a href='payment?bug_id=$bug->bug_id'
+                                               class='btn btn-warning'>پرداخت هزینه</a>";
                                         ?>
                                     </div>
                                 </td>

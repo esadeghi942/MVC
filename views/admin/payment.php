@@ -11,10 +11,10 @@ include 'views/admin/sidebar.php';
                     <form method="POST">
                         <div class="row">
                             <div class="form-group col-md-10">
-                                <label class="control-label"><small>(ریال)</small>هزینه کارشناسی</label>
+                                <label class="control-label">هزینه کارشناسی<small>(ریال)</small></label>
                                 <input id="payment_amount" type="text"
                                        class="form-control"
-                                       name="payment_amount" value="<?php echo payment_amount ?>" required autofocus>
+                                       name="payment_amount" value="<?php echo $payment_amount ?>" required autofocus>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">

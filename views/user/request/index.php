@@ -34,7 +34,7 @@ include 'views/user/sidebar.php'; ?>
                                             if($request->request_status == 'مشاهده نشده')
                                                 echo "<button type='submit' data-id='$request->request_id' class='deleterequest btn btn-danger'>حذف</button>";
                                             if($request->request_karshenasi== 'بله' && $request-> request_payment_status ==0)
-                                                echo "<a href='payment?request_id=$request->request_id' class='btn btn-warning'>پرداخت هزینه کارشناسی</a>";
+                                                echo "<a href='payment?request_id=$request->request_id' class='btn btn-warning'>پرداخت هزینه کارشناسی<small>(به مبلغ ".number_format($payment). " ریال) <a/></small>";
                                              ?>
                                         </div>
                                     </td>

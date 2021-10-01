@@ -35,8 +35,8 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="adminSetPayment" class="active nav-link">
-                            <i class="nav-icon fa fa-dashboard"></i>
+                        <a href="adminSetPayment" class="nav-link">
+                            <i class="nav-icon fa fa-money"></i>
                             <p>هزینه کارشناسی
                             </p>
                         </a>
@@ -115,15 +115,15 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link">
-                            <i class="nav-icon fa fa-file-o"></i>
+                        <a href="adminDocumentIndex" class="nav-link">
+                            <i class="nav-icon fa fa-files-o"></i>
                             <p>
                                  مدارک دریافتی
                             </p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a class="nav-link">
+                        <a href="adminMaliIndex" class="nav-link">
                             <i class="nav-icon fa fa-outdent"></i>
                             <p>
                                  تراکنش های مالی

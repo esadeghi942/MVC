@@ -67,4 +67,12 @@ class BaseModel
             return true;
         return false;
     }
+
+    public function answers()
+    {
+        $Qb=QB::getInstance();
+        $answers = $Qb->table(Bnswer::table)->where('answer_model', $this::table)->where('model_id', $this->id)->orderBy(Bnswer::timecreate)->get();
+        return $answers;
+    }
+
 }

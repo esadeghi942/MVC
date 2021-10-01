@@ -36,6 +36,11 @@ class Request extends BaseModel
             $f = new File($file->file_id);
             $f->delete();
         }
+        $answers=self::answers();
+        foreach ($answers as $item){
+            $a=new Bnswer($item->answer_id);
+            $a->delete();
+        }
         return parent::delete();
     }
 
@@ -45,11 +50,10 @@ class Request extends BaseModel
         $id = Auth::id();
         $date = Carbon::now()->toDateTimeString();
         $str = $edit ? 'request_update' : 'request_create';
-        foreach (self::userfillable as $record) {
+        foreach (self::userfillable as $record)
             $res[$record] = $input[$record];
-            $res[User::primary] = $id;
-            $res[$str] = $date;
-        }
+        $res[User::primary] = $id;
+        $res[$str] = $date;
         return $res;
     }
 
@@ -72,6 +76,18 @@ class Request extends BaseModel
                     $class='success';
                     break;
             }
+            $color='';
+
+            if($request->request_karshenasi && $request->request_status==2) {
+                $color='rgb(200, 255, 200)';
+            }
+            if($request->request_karshenasi && $request->request_status==1) {
+                $color='rgb(255,255,200)';
+            }
+            if($request->request_karshenasi && $request->request_status==0) {
+                $color='rgb(255,180,180)';
+            }
+            $request->color=$color;
             $request->request_status = $str;
             $request->status_class = $class;
             $str = '';
@@ -149,6 +165,21 @@ class Request extends BaseModel
             }
             $request->request_karshenasi = $str;
             $request->karsh_class = $karsh_class;
+            $str='';
+            if(!$request->request_karshenasi) {
+                $payment_class = 'warning';
+                $str = 'فاقد هزینه';
+            }
+            elseif($request->request_karshenasi && $request->request_payment_status){
+                $str = 'پرداخت شده';
+                $payment_class='success';
+            }
+            elseif($request->request_karshenasi && !$request->request_payment_status){
+                $str = 'پرداخت نشده';
+                $payment_class='danger';
+            }
+            $request->request_payment_status=$str;
+            $request->request_payment_class=$payment_class;
         }
         return $requests;
     }

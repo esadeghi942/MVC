@@ -79,7 +79,7 @@ include 'views/user/sidebar.php'; ?>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="control-label">کد ملی <small class="text-danger">*</small></label>
-                                    <input placeholder="شغل" id="national_code" type="text"
+                                    <input placeholder="کد ملی" id="national_code" type="text"
                                            class="form-control"
                                            name="national_code"
                                            value="<?php echo isset($description['national_code']) ? $description['national_code'] : ''; ?>"

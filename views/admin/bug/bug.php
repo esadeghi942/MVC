@@ -17,9 +17,29 @@ include 'views/admin/sidebar.php'; ?>
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class='col-md-6'><strong>نام مشتری</strong>
+                            <p class='text-muted'>
+                                <a href=adminCustomer/?id=<?php echo $user['user_id'].">".$user['user_name']."</a>"; ?>
+                            </p>
+                            <hr>
+                        </div>
+
+                        <div class='col-md-6'><strong>شماره موبایل</strong>
+                            <p class='text-muted'>
+                                <?php echo $user['user_phone'] ?>
+                            </p>
+                            <hr>
+                        </div>
+
                         <div class='col-md-6'><strong> شماره مجازی</strong>
                             <p class='text-muted'>
                                 <?php echo $bug->bug_virtual_number ?>
+                            </p>
+                            <hr>
+                        </div>
+                        <div class='col-md-6'><strong>هزینه(ریال)</strong>
+                            <p class='text-muted'>
+                                <?php echo !empty($bug->bug_payment) ? number_format($bug->bug_payment) : 'اعلام نشده' ?>
                             </p>
                             <hr>
                         </div>
@@ -52,16 +72,22 @@ include 'views/admin/sidebar.php'; ?>
                             <p class='text-muted'>
                                 <?php echo $bug->bug_description ?>
                             </p>
-                            <hr>
-                        </div>
-                        <div class="col-md-12">
-                            <strong>متن جوابیه</strong>
-                            <p class='text-muted'>
-                                <?php echo $bug->bug_answer ?>
-                            </p>
                         </div>
                     </div>
                         <?php
+                        if(isset($answers[0]))
+                        {
+                            echo "<hr><strong><i class='fa fa-reply mr-1'></i>جوابیه ها</strong>";
+                            foreach ($answers as $answer) {
+                                echo "<div class='item'><div class='card-footer card-comments'>
+                                      <a class='close deleteanswer float-left' alt='delete'
+                                                       data-id=$answer->answer_id>×</a>
+                                     <div class='text-muted ltr'>".verta($answer->answer_create)."<i class='fa fa-clock-o'></i></div>
+                                     <div class='card-comment mt-1'>
+                                        $answer->asnswer_text
+                                </div></div></div>";
+                            }
+                        }
                         if (isset($files[0])) {
                             echo "<hr><strong>فایل های آپلود شده</strong>
                     <div id='prevfiles' class='row'>";
@@ -95,6 +121,10 @@ include 'views/admin/sidebar.php'; ?>
                 </div>
                 <form action="" method="post">
                     <div class="modal-body">
+                        <label class="control-label">هزینه (ریال)</label>
+                        <input placeholder="هزینه به ریال" id="bug_payment" type="text"
+                               class="form-control"
+                               name="bug_payment" value="<?php echo !empty($bug->bug_payment) ? $bug->bug_payment :'' ?>" autofocus>
                         <div class="form-group">
                             <label class="ml" for="txt"><?php echo \Systems\Auth::user()['user_name'] ?> عزیز
                                 پاسخ خود را وارد کنید:</label>

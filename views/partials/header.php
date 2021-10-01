@@ -27,7 +27,7 @@
         #app-messages{
             display: inline-block;
             position: absolute;
-            bottom: 200px;
+            top: 20px;
             left: 15px;
             z-index: 9999;
         }

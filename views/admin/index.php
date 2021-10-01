@@ -323,14 +323,18 @@ include 'views/admin/sidebar.php'; ?>
                             if (isset($comments[0]))
                                 foreach ($comments as $comment) { ?>
                                     <div class="card-comment">
-                                        <div class="comment-text">
-                        <span class="username">
-                         <?php echo $comment->user_name; ?>
-                          <span class="text-muted float-left ltr"><i
-                                      class="fa fa-clock-o"></i><?php echo verta($comment->comment_create); ?></span>
-                        </span>
-                                            <?php echo $comment->comment_text ?>
-                                        </div>
+                                        <a href="adminUserCommnet/?gid=<?php echo $comment->gcomment_id ?>" class="comment-text">
+                                            <span class="username">
+                                             <?php echo $comment->user_name; ?>
+                                              <span class="text-muted float-left ltr"><i
+                                                          class="fa fa-clock-o"></i><?php echo verta($comment->gcomment_create); ?></span>
+                                            </span>
+                                            <?php echo $comment->gcomment_label ?>
+                                            <small class="float-left">
+                                                تعداد پیام خوانده نشده:
+                                                <?php echo $comment->count_unread ?>
+                                            </small>
+                                        </a>
                                     </div>
                                 <?php }
                             else

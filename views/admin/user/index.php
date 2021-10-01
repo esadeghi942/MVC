@@ -10,7 +10,7 @@ include 'views/admin/sidebar.php'; ?>
                     <table class="table table-bordered">
                         <tr>
                             <th>نام </th>
-                            <th>مسيولیت</th>
+                            <th>مسئولیت</th>
                             <th>شماره تماس</th>
                             <th>تاریخ ثبت</th>
                             <th>عملیات</th>
@@ -25,16 +25,16 @@ include 'views/admin/sidebar.php'; ?>
                                     <td><?php echo $user->user_phone; ?></td>
                                     <td class="ltr"><?php echo verta($user->user_create) ; ?></td>
                                     <td>
-                                        <div class="btn-group btn-group-xs">
-                                            <div class="btn-group btn-group-xs">
-                                                <a href="adminUserEdit?id=<?php echo $user->user_id; ?>"
+                                        <div class="btn-group btn-group-sm">
+                                                <a href="adminUserEdit?id=<?php echo $user->user_id ?>"
                                                    class="btn btn-primary">ویرایش</a>
-                                                <button type="submit"
-                                                        data-id="<?php echo $user->user_id; ?>"
-                                                        class="deleteuser btn btn-danger btn-flat btn-xs">
-                                                    حذف
-                                                </button>
-                                            </div>
+                                                <?php if($user->user_type !='مدیر کل')
+                                                    echo "<button type='submit'
+                                                            data-id='<?php echo $user->user_id; ?>'
+                                                            class='deleteuser btn btn-danger btn-flat btn-xs'>
+                                                        حذف
+                                                    </button>";
+                                            ?>
                                         </div>
                                     </td>
                                 </tr>

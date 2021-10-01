@@ -8,36 +8,38 @@ include 'views/admin/sidebar.php'; ?>
                 <div class="card-header">لیست تیکت های مشتریان</div>
                 <div class="card-body">
                     <?php
-                         if (isset($comments[0])){  ?>
-
+                         if (isset($gcomments[0])){  ?>
                     <table class="table table-bordered">
                         <tr>
+                            <th>فعال بودن تیکت</th>
                             <th>نام مشتری</th>
-                            <th>آخرین تاریخ کامنت</th>
-                            <th>آخرین متن کامنت</th>
+                            <th>عنوان تیکت</th>
                             <th>تعداد پیام خوانده نشده</th>
+                            <th> تاریخ ایجاد</th>
                             <th>عملیات</th>
                         </tr>
                         <?php
-                            foreach ($comments as $comment) {
+                            foreach ($gcomments as $comment) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $comment->user_name; ?></td>
-                                    <td><?php echo verta($comment->comment_create) ; ?></td>
-                                    <td><?php echo $comment->comment_text; ?></td>
+                                    <td><?php echo $comment->gcomment_active? '<span class="badge badge-success">باز</span>' : '<span class="badge badge-danger">بسته</span>' ?></td>
+                                    <td><a href="adminCustomer/?id=<?php echo $comment->user_id ?>"><?php echo $comment->user_name; ?></a></td>
+                                    <td><?php echo $comment->gcomment_label; ?></td>
                                     <td><?php echo $comment->count_unread; ?></td>
+                                    <td class="ltr"><?php echo verta($comment->gcomment_create) ; ?></td>
                                     <td>
-                                        <div class="btn-group btn-group-xs">
-                                            <div class="btn-group btn-group-xs">
-                                                <a href="adminUserCommnet?id=<?php echo $comment->user_id; ?>"
-                                                   class="btn btn-primary">ارسال پاسخ</a>
-                                            </div>
+                                        <div class="btn-group btn-group-sm">
+                                                <a href="adminUserCommnet?gid=<?php echo $comment->gcomment_id ?>"
+                                                   class="btn btn-primary">نمایش پیام ها</a>
+                                            <button type='submit' data-id='<?php echo $comment->gcomment_id ?>' class='deletegroupcomment btn btn-danger'>حذف</button>
+                                            <a href="groupCommentTClose?id=<?php echo $comment->gcomment_id ?>"
+                                               class="btn btn-warning"><?php echo $comment->gcomment_active ? 'بستن تیکت':'فعال کردن ' ?></a>
+
                                         </div>
                                     </td>
                                 </tr>
                             <?php } ?>
                     </table>
-
                              <?php
                          }
                          else {

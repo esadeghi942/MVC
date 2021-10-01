@@ -8,6 +8,7 @@ use Controllers\RequestController;
 use Controllers\BugController;
 use Controllers\CustomerController;
 use Controllers\MaliController;
+use Controllers\AnswerController;
 
 $paths = array(
     'index' => array('before' => '', 'get' => ['index'], 'post' => '', 'after' => ''),
@@ -36,8 +37,13 @@ $paths = array(
     'userProfileCreate' => array('before' => 'check_auth', 'get' => [CustomerController::class,'create'], 'post' => [CustomerController::class, 'storeProfile'], 'after' => ''),
     'userProfileUpdate' => array('before' => 'check_customer', 'get' => [CustomerController::class, 'editProfile'], 'post' => [CustomerController::class, 'updateProfile'], 'after' => ''),
     'userProfile' => array('before' => 'check_auth', 'get' => [CustomerController::class, 'index'], 'post' => [CustomerController::class, 'updateProfile'], 'after' => ''),
+
 //document
     'document' => array('before' => 'check_customer', 'get' => [FileController::class, 'document'], 'post' => [FileController::class, 'storeDocument'], 'after' => ''),
+
+//admin
+    'adminDocumentIndex' => array('before' => 'check_admin', 'get' => [FileController::class, 'AdminIndex'], 'post' => [FileController::class, 'DeleteDocument'], 'after' => ''),
+    'adminDocument' => array('before' => 'check_admin', 'get' => [FileController::class, 'AdminDocument'], 'post' => '', 'after' => ''),
 
     //request
     'userRequestCreate' => array('before' => 'check_customer', 'get' => ['user/request/create'], 'post' => [RequestController::class, 'store'], 'after' => ''),
@@ -65,20 +71,29 @@ $paths = array(
     'adminBugIndex' => array('before' => 'check_admin', 'get' => [BugController::class, 'adminIndex'], 'post' => [BugController::class,'postAnswer'], 'after' => ''),
     'adminBug' => array('before' => 'check_admin', 'get' => [BugController::class, 'adminBug'], 'post' => [BugController::class,'postAnswer'], 'after' => ''),
 
+//mali
+    'adminMaliIndex' => array('before' => 'check_admin', 'get' => [MaliController::class, 'adminIndex'], 'post' => [MaliController::class,'DeleteMali'], 'after' => ''),
 
     //file
     'userFileDelete' => array('before' =>'check_customer', 'get' => '', 'post' => [FileController::class, 'delete'], 'after' => ''),
+    'answerDelete' => array('before' =>'check_admin', 'get' => '', 'post' => [AnswerController::class, 'delete'], 'after' => ''),
 
 
     //comment
-    'userComment' => array('before' => 'check_customer', 'get' => [CommentController::class, 'index'], 'post' => [CommentController::class, 'store'], 'after' => ''),
+    'userGroupComment' => array('before' => 'check_customer', 'get' => [CommentController::class, 'index'], 'post' => [CommentController::class, 'newGroupComment'], 'after' => ''),
+    'userComment' => array('before' => 'check_customer', 'get' => [CommentController::class, 'comments'], 'post' => [CommentController::class, 'store'], 'after' => ''),
     'commentDelete' => array('before' => 'check_customer', 'get' => '', 'post' => [CommentController::class, 'delete'], 'after' => ''),
+    'groupCommentDelete' => array('before' => 'check_customer', 'get' => '', 'post' => [CommentController::class, 'deletegroup'], 'after' => ''),
+    'groupCommentTClose' => array('before' => 'check_customer', 'get' => [CommentController::class, 'toggleclosegroup'], 'post' =>'', 'after' => ''),
+
     ////////admin
     'adminComment' => array('before' => 'check_admin', 'get' => [CommentController::class, 'adminIndex'], 'post' => '', 'after' => ''),
     'adminUserCommnet' => array('before' => 'check_admin', 'get' => [CommentController::class, 'userComment'], 'post' => [CommentController::class, 'postComment'], 'after' => ''),
+    'commentAdminDelete' => array('before' => 'check_admin', 'get' => '', 'post' => [CommentController::class, 'admindelete'], 'after' => ''),
 
     'adminCustomerIndex' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminIndex'], 'post' => '', 'after' => ''),
-    'adminCustomer' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminCustomer'], 'post' => [CustomerController::class,'sendComment'], 'after' => ''),
+    'adminCustomer' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminCustomer'], 'post' => [CommentController::class,'newGroupComment'], 'after' => ''),
+    'adminDeleteCustomer' => array('before' => 'check_admin', 'get' => '', 'post' => [CustomerController::class,'delete'], 'after' => ''),
 
     //superAdmin
     'adminUserCreate' => array('before' => 'check_superadmin', 'get' => ['admin/user/create'], 'post' => [AuthController::class, 'adminStore'], 'after' => ''),

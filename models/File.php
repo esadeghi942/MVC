@@ -5,7 +5,6 @@ namespace Models;
 use Carbon\Carbon;
 use Systems\Url;
 use Systems\Auth;
-use Hekmatinasser\Verta\Verta;
 use Systems\View;
 
 class File extends BaseModel
@@ -28,18 +27,18 @@ class File extends BaseModel
         $file = self::find();
         if (file_exists($file->file_path))
             unlink($file->file_path);
+
         return parent::delete();
     }
 
-    public function manege_name_for_upload($name, $file,$custom=null)
+    public function manege_name_for_upload($name, $file, $custom = null)
     {
         $user_id = Auth::id();
         $guessExtension = pathinfo($name, PATHINFO_EXTENSION);
-        if(isset($custom)) {
-            $custom=preg_replace("/[^a-zA-Z0-9\-\._]/", '', $custom);
+        if (isset($custom)) {
+            $custom = preg_replace("/[^a-zA-Z0-9\-\._]/", '', $custom);
             $title = $custom . '.' . $guessExtension;
-        }
-        else
+        } else
             $title = $user_id . '_' . md5_file($file) . '.' . $guessExtension;
         return $title;
     }
@@ -99,29 +98,32 @@ class File extends BaseModel
         return $path;
     }
 
-    public function upload_file($file, $model_id, $model,$customfilename=null)
+    public function upload_file($file, $model_id, $model, $customfilename = null)
     {
         $total = count($file['name']);
         $path = self::manege_path_for_upload($model);
-        $id_insert=[];
+        $id_insert = [];
         for ($i = 0; $i < $total; $i++) {
             $size = $file['size'][$i];
-            if($size == 0 || empty($customfilename[$i]))
+            if ($customfilename != null && ($size == 0 || empty($customfilename[$i])))
                 continue;
             $title = $file['name'][$i];
             $tmp = $file["tmp_name"][$i];
+            if (!in_array(pathinfo($title, PATHINFO_EXTENSION),['pdf','png','jpeg','jpg']))
+                return View::redirect('', ['danger' => 'نوع فایل پیوستی معتبر نیست .'], true, ['inserted' => $id_insert]);
             $file_name = self::manege_name_for_upload($file["name"][$i], $file["tmp_name"][$i]);
             $UploadPath = $path . $file_name;
             //check image type to reduce quality
             if (self::valid_image_type($title)) {
                 $res = self::compressImage($tmp, $UploadPath, 50);
                 if (!$res)
-                    return View::redirect('', ['danger' => 'مشکلی در ذخیره فایل پیوستی به وجود آمده'], true,['inserted'=>$id_insert]);
-            } else
+                    return View::redirect('', ['danger' => 'مشکلی در ذخیره فایل پیوستی به وجود آمده'], true, ['inserted' => $id_insert]);
+            }
+            else
                 move_uploaded_file($tmp, $path . $file_name);
             $date = Carbon::now()->toDateTimeString();
-            if(!empty($customfilename[$i]))
-                $title=$customfilename[$i];
+            if (!empty($customfilename[$i]))
+                $title = $customfilename[$i];
             $inputs = [
                 'file_title' => $title,
                 'file_model' => $model,
@@ -130,9 +132,9 @@ class File extends BaseModel
                 'model_id' => $model_id,
                 'file_create' => $date
             ];
-            $QB=QB::getInstance();
-            $file_id=$QB->insert(File::table, $inputs);
-            $id_insert[]=$file_id;
+            $QB = QB::getInstance();
+            $file_id = $QB->insert(File::table, $inputs);
+            $id_insert[] = $file_id;
         }
     }
 }

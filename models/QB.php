@@ -336,10 +336,10 @@ class QB extends Database
             $columns[$key] = trim($column);
         }
 
-        $columns = implode('`, `', $columns);
+        $columns = implode(',', $columns);
 
 
-        $this->columns = "`{$columns}`";
+        $this->columns = "{$columns}";
         return $this;
     }
 

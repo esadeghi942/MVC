@@ -2,14 +2,12 @@
 
 namespace Models;
 
-use Carbon\Carbon;
-use Systems\Auth;
-
 class Customer extends BaseModel
 {
     const table = 'users';
     const haghygi_fillable = ['user_type_customer', 'job', 'familarity', 'national_code'],
-        hoghoogi_fillable = ['user_type_customer', 'company', 'namayande', 'sabt_number','ecomonic_number','phone_namayande','activity'],
+        hoghoogi_fillable = ['user_type_customer', 'company', 'namayande', 'sabt_number',
+        'ecomonic_number','nathnal_code','phone_namayande','activity'],
         timecreate = User::timecreate,
         primary = User::primary;
 
@@ -67,7 +65,7 @@ class Customer extends BaseModel
                     $str = 'شماره اقتصادی';
                     break;
                 case 'nathnal_code':
-                    $str = 'شماره ثبت';
+                    $str = 'شماره ملی';
                     break;
                 case 'phone_namayande':
                     $str = 'شماره نماینده';

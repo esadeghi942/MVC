@@ -56,20 +56,21 @@ include 'views/admin/sidebar.php';
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <form method="post">
-                        <div class="form-group">
-                            <label class="ml" for="txt"><?php echo \Systems\Auth::user()['user_name']; ?>
-                                عزیز
-                                تیکت خود را وارد کنید:</label>
-                            <textarea name="comment_text" id="comment_text" class="form-control" rows="3"
-                                      placeholder="متن تیکت..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-success btn-flat pull-left">ارسال تیکت</button>
-                    </form>
+            <?php if($active == 1){ ?>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <form method='post'>
+                            <div class='form-group'>
+                                <label class='ml' for='txt'>
+                                    تیکت خود را وارد کنید:</label>
+                                <textarea name='comment_text' id='comment_text' class='form-control' rows='3'
+                                          placeholder='متن تیکت...'></textarea>
+                            </div>
+                            <button type='submit' class='btn btn-sm btn-success btn-flat pull-left'>ارسال تیکت</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
     </section>
     <script type="text/javascript">

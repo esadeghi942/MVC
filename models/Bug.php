@@ -21,17 +21,17 @@ class Bug extends BaseModel
         return $bug;
     }
 
+
     public static function custom_input($input, $edit = false)
     {
         $res = [];
         $id = Auth::id();
         $date = Carbon::now()->toDateTimeString();
         $str = $edit ? 'bug_update' : 'bug_create';
-        foreach (self::userfillable as $record) {
+        foreach (self::userfillable as $record)
             $res[$record] = $input[$record];
-            $res[User::primary] = $id;
-            $res[$str] = $date;
-        }
+        $res[User::primary] = $id;
+        $res[$str] = $date;
         return $res;
     }
 
@@ -41,6 +41,11 @@ class Bug extends BaseModel
         foreach ($files as $file) {
             $f = new File($file->file_id);
             $f->delete();
+        }
+        $answers=self::answers();
+        foreach ($answers as $item){
+            $a=new Bnswer($item->answer_id);
+            $a->delete();
         }
         return parent::delete();
     }
@@ -66,7 +71,19 @@ class Bug extends BaseModel
             }
             $bug->bug_status = $str;
             $bug->status_class = $class;
-        }
+            if($bug->bug_payment_status==1) {
+                $bug->bug_payment_status = 'پرداخت شده';
+                $bug->status_payment = 'success';
+            }
+            if($bug->bug_payment_status==0 && empty($bug->bug_payment)) {
+                $bug->bug_payment_status = 'فاقد هزینه';
+                $bug->status_payment = 'warning';
+            }
+            if($bug->bug_payment_status==0 && !empty($bug->bug_payment)) {
+                $bug->bug_payment_status = 'پرداخت نشده';
+                $bug->status_payment = 'danger';
+            }
+            }
         return $bugs;
     }
 

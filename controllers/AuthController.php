@@ -9,6 +9,7 @@ use Systems\Auth;
 use Systems\Cookie;
 use Systems\Date;
 use Carbon\Carbon;
+use Systems\SMS;
 use Systems\View;
 use Systems\Url;
 use Systems\Validation;
@@ -114,7 +115,10 @@ class AuthController
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
         $QB->insert('resetpassword', ['user_phone' => $phone, 'reset_code' => $code, 'reset_expired' => Carbon::now()->addMinute(4)]);
         //Send SMS
-        return View::redirect('../recovery_password?user=' . $phone);
+        $res=SMS::send($phone, $code."سامانه فیبر نوری تهران \n بازیابی رمز عبور کد تایید شما :");
+        if($res)
+            return View::redirect('../recovery_password?user=' . $phone,['success'=>'کد تایید به شماره موبایل وارد شده ارسال شد.']);
+        return View::redirect('',['danger'=>'خطایی در ارسال کد تایید به وجود آمده.']);
     }
 
     function verifie()
@@ -127,9 +131,12 @@ class AuthController
             return View::redirect('', ['danger' => 'شماره تلفن وارد شده موجود می باشد .'], null, ['phone' => $phone]);
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
         $QB->insert('resetpassword', ['user_phone' => $phone, 'reset_code' => $code, 'reset_expired' => Carbon::now()->addMinute(10)]);
-
         //Send SMS
-        return View::redirect('../sendcode?user=' . $phone);
+        $res=SMS::send($phone, $code."سامانه فیبر نوری تهران \n  کد تایید شما :");
+        if($res)
+            return View::redirect('../sendcode?user=' . $phone,['success'=>'کد تایید به شماره موبایل وارد شده ارسال شد.']);
+        return View::redirect('',['danger'=>'خطایی در ارسال کد تایید به وجود آمده.']);
+
     }
 
     function sendcode(){
@@ -275,7 +282,7 @@ class AuthController
         $acount = $QB->update(User::table, ['user_name' => $name,
             /*'user_phone' => $phone,*/ 'user_email' => $email, 'user_update' => $registerdate])->where(User::primary, $user_id)->exec();
         if (!empty($password))
-            $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id);
+            $QB->update(User::table, ['user_password' => $hashedPassword])->where(User::primary, $user_id)->exec();
         if (!$acount)
             return View::redirect('', ['danger' => 'در فرایند ویرایش مشکلی پیش آمده :('], true);
         Auth::updateSessionLogin($user_id);
@@ -295,7 +302,7 @@ class AuthController
         $db = new User();
         $create_new_acount = $db->create_admin($name, $email, $phone, $hashedPassword, $registerdate);
         if ($create_new_acount) {
-            return View::redirect('../adminUserIndex', ['succeess' => 'مدیر با موفقیت ثبت شد :)']);
+            return View::redirect('../adminUserIndex', ['success' => 'مدیر با موفقیت ثبت شد :)']);
         } else {
             return View::redirect('', ['danger' => 'در فرایند ثبت مشکلی پیش آمده :('], true);
         }

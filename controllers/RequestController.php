@@ -2,9 +2,13 @@
 
 namespace Controllers;
 
+use Carbon\Carbon;
+use Models\Bnswer;
 use Models\File;
+use Models\Mali;
 use Models\QB;
 use Models\Request;
+use Models\User;
 use Systems\Auth;
 use Systems\Url;
 use Systems\Validation;
@@ -15,7 +19,7 @@ class RequestController
     function index()
     {
         $user = Auth::id();
-        $QB = new QB();
+        $QB =QB::getInstance();
         $where[]='user_id='.$user;
         if(Url::get('status') !== null)
             $where[]='request_status='.Url::get('status');
@@ -24,15 +28,17 @@ class RequestController
         $where=count($where) ? implode(' AND ',$where):null;
         $request = $QB->table(Request::table)->whereStatement($where)->orderBy(Request::timecreate, 'DESC')->get();
         $request = Request::defineAttributeValue($request);
-        return View::make('user/request/index', ['requests' => $request]);
+        $amount=(new Mali())->payment;
+        return View::make('user/request/index', ['requests' => $request,'payment'=> $amount]);
     }
 
     function store()
     {
         Validation::Validate($_POST, [
-            'request_count_unit' => 'numeric',
-            'request_count_request' => 'numeric',
-            'request_build_request' => 'numeric',
+            'request_count_unit' => 'required|numeric',
+            'request_count_request' => 'required|numeric',
+            'request_build_request' => 'required|numeric',
+            'request_address' => 'required',
         ],$_FILES['request_file']);
 
         $QB = QB::getInstance();
@@ -115,18 +121,19 @@ class RequestController
         return View::make('user/request/request', ['requset' => $item, 'files' => $files]);
     }
 
-
     function adminRequest()
     {
         $id = Url::get('id');
         $request = new Request($id);
         $qb = QB::getInstance();
         $item = $request->find();
+        $user=(new User($item->user_id))->find();
         $files = $request->files();
+        $answer=$request->answers();
         if ($item->request_status == 0)
             $qb->update(Request::table, ['request_status' => 1])->where(Request::primary, $id)->exec();
         $item = Request::defineAttributeValueItem($item);
-        return View::make('admin/request/request', ['requset' => $item, 'files' => $files]);
+        return View::make('admin/request/request', ['requset' => $item,'user'=>$user, 'files' => $files, 'answers' => $answer ]);
     }
 
     function postAnswer()
@@ -134,7 +141,9 @@ class RequestController
         $id = Url::get('id');
         $text = $_POST['txt'];
         $qb = QB::getInstance();
-        $qb->update(Request::table, ['request_answer' => $text, 'request_status' => 2])->where(Request::primary, $id)->exec();
+        $qb->update(Request::table, ['request_status' => 2])->where(Request::primary, $id)->exec();
+        $date = Carbon::now()->toDateTimeString();
+        $qb->insert(Bnswer::table,['answer_model'=>Request::table,'model_id'=>$id,'asnswer_text'=>$text,'answer_create'=>$date]);
         return View::redirect('', ['success' => 'جوابیه با موفقیت ارسال شد.']);
     }
 }

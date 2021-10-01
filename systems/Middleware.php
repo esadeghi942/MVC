@@ -31,7 +31,7 @@ class Middleware
 		// Check auth before check is admin
 		self::check_auth();
 
-		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] != \Models\User::customer)){
+		if(!Session::has('user') || (Session::has('user') && Session::get('user')['user_type'] < \Models\User::customer)){
 			View::redirect($url,['warning'=>'ابتدا باید پروفایل خود را کامل کنید']);
 		}
 	}

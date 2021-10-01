@@ -17,15 +17,42 @@ include 'views/admin/sidebar.php'; ?>
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class='col-md-6'><strong>نام مشتری</strong>
+                            <p class='text-muted'>
+                                <a href=adminCustomer/?id=<?php echo $user['user_id'].">".$user['user_name']."</a>"; ?>
+                            </p>
+                            <hr>
+                        </div>
+
+                        <div class='col-md-6'><strong>شماره موبایل</strong>
+                            <p class='text-muted'>
+                                <?php echo $user['user_phone'] ?>
+                            </p>
+                            <hr>
+                        </div>
+
                         <?php foreach ($requset as $key => $item)
                             if (!empty($key)) {
                                 echo "<div class='col-md-6'><strong><i class='fa fa-book mr-1'></i> $key</strong>
-                        <p class='text-muted'>
-                            $item
-                        </p>
-                        <hr></div>";
+                                    <p class='text-muted'>
+                                        $item
+                                    </p>
+                                   </div>";
                             }
                         echo "</div>";
+                        if(isset($answers[0]))
+                        {
+                            echo "<strong><i class='fa fa-reply mr-1'></i>جوابیه ها</strong>";
+                            foreach ($answers as $answer) {
+                                echo "<div class='item'><div class='card-footer card-comments'>
+                                      <a class='close deleteanswer float-left' alt='delete'
+                                                       data-id=$answer->answer_id>×</a>
+                                     <div class='text-muted ltr'>".verta($answer->answer_create)."<i class='fa fa-clock-o'></i></div>
+                                     <div class='card-comment mt-1'>
+                                        $answer->asnswer_text
+                                </div></div></div>";
+                            }
+                        }
                         if (isset($files[0])) {
                             echo "<strong><i class='fa fa-book mr-1'></i>فایل های آپلود شده</strong>
 <div id='prevfiles' class='row'>";
@@ -60,7 +87,7 @@ include 'views/admin/sidebar.php'; ?>
                         <div class="form-group">
                             <label class="ml" for="txt"><?php echo  \Systems\Auth::user()['user_name'] ?> عزیز
                                 پاسخ خود را وارد کنید:</label>
-                            <textarea name="txt" id="txt" class="form-control" rows="3"
+                            <textarea name="txt" id="txt" class="form-control" required rows="3"
                                       placeholder="متن جوابیه..."></textarea>
                         </div>
 

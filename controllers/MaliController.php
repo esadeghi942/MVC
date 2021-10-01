@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Models\Bug;
 use Models\Mali;
 use Models\Request;
+use Models\User;
 use Systems\Auth;
 use Systems\PackPay;
 use Systems\Url;
@@ -34,7 +35,7 @@ class MaliController
         $GateWay = new PackPay();
         $token = $GateWay->refresh_token();
         if (!$token)
-            return View::redirect($url, ['danger' => 'خطایی در سرور رخ داده لطفا بعدا دوباره تلاش کنید.']);
+            return View::redirect($url, ['danger' => 'خطایی در اتصال به درگاه بانکی رخ داده لطفا دوباره نسبت به پرداخت اقدام کنید.']);
 
         $data = [
             'access_token' => $token,
@@ -106,5 +107,22 @@ class MaliController
     public function adminPayment(){
         $amount=(new Mali())->payment;
         return View::make('admin/payment',['payment_amount'=>$amount]);
+    }
+
+    function adminIndex(){
+        $QB=QB::getInstance();
+        $mali=$QB->table(Mali::table)->naturalJoin(User::table)->get();
+        $mali=Mali::defineAttributeValue($mali);
+        return View::make('admin/mali/index',['malis'=>$mali]);
+    }
+
+    function DeleteMali(){
+        $id=$_POST['id'];
+        $mali=new Mali($id);
+        $res=$mali->delete();
+        if($res)
+            Url::response('success','تراکنش با موفقیت حذف شد.');
+        else
+            Url::response('danger','مشکلی در حذف  به وجود امده.');
     }
 }

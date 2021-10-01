@@ -137,40 +137,42 @@ include 'views/user/sidebar.php'; ?>
                 <div class="col-md-8 col-sm-12">
                     <div class="card card-widget">
                         <div class="card-header">
-                            <h6><i class="fa fa-comments-o"></i> آخرین تیکت ها</h6>
+                            <h6 class="float-right"><i class="fa fa-comments-o"></i> آخرین تیکت ها</h6>
+                            <a href="userGroupComment" class="float-left btn btn-success btn-sm mt-2">
+                                تیکت ها
+                            </a>
                         </div>
-                        <div class="card-footer card-comments">
-                            <?php
-                            if (isset($comments[0]))
-                                foreach ($comments as $comment) { ?>
-                                    <div class="card-comment">
-                                        <div class="comment-text">
-                                            <span class="username"><?php echo $comment->user_id == \Systems\Auth::id() ? \Systems\Auth::user()['user_name'] : 'پشتیبان' ?>
-                                            <span class="text-muted float-left ltr"><i
-                                                        class="fa fa-clock-o"></i><?php echo verta($comment->comment_create); ?></span></span>
-                                            <?php echo $comment->comment_text ?>
-                                        </div>
-                                    </div>
-                                <?php }
-                            else
-                                echo "<p>موردی وجود ندارد</p>";
-                            ?>
-                            <div class="col-md-12 mt-2">
-                                <form method="post">
-                                    <div class="form-group">
-                                        <label class="ml"
-                                               for="txt"><?php echo \Systems\Auth::user()['user_name']; ?>
-                                            عزیز
-                                            تیکت خود را وارد کنید:</label>
-                                        <textarea name="comment_text" id="comment_text" class="form-control"
-                                                  rows="3" placeholder="متن تیکت..."></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-sm btn-success btn-flat pull-left">
-                                        ارسال تیکت
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                                <?php
+                                if (isset($gcomments[0])){  ?>
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>فعال بودن تیکت</th>
+                                            <th>عنوان تیکت</th>
+                                            <th>تعداد پیام خوانده نشده</th>
+                                            <th>عملیات</th>
+                                        </tr>
+                                        <?php
+                                        foreach ($gcomments as $comment) {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $comment->gcomment_active? '<span class="badge badge-success">باز</span>' : '<span class="badge badge-danger">بسته</span>' ?></td>
+                                                <td><?php echo $comment->gcomment_label; ?></td>
+                                                <td><?php echo $comment->count_unread; ?></td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="userComment?gid=<?php echo $comment->gcomment_id ?>"
+                                                           class="btn btn-primary">نمایش پیام ها</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </table>
+                                    <?php
+                                }
+                                else {
+                                    echo "<p class='mr-2'>موردی وجود ندارد</p>";
+                                }
+                                ?>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12">

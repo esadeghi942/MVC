@@ -14,11 +14,11 @@
                 $('#app-messages').fadeIn(50).delay(delay).fadeOut(500, function(){
                     $(this).remove();
                 });
-            }else{
+            }/*else{
                 $('#app-messages').fadeIn(50).delay(4000).fadeOut(500, function(){
                     $(this).remove();
                 });
-            }
+            }*/
         }
         function hide(){
             $('#app-messages').stop().fadeOut(500).remove();
@@ -80,6 +80,69 @@ $('.deleterequest').click(function (e) {
         }
     });
 });
+
+$('.deleteanswer').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف پاسخ مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'answerDelete/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('.item').remove();
+            }
+        }
+    });
+});
+
+$('.deletedocument').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف مدرک مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'adminDocumentIndex/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('tr').remove();
+            }
+        }
+    });
+});
+
+$('.deletemali').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف تراکنش مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'adminMaliIndex/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('tr').remove();
+            }
+        }
+    });
+});
 $('.deletebug').click(function (e) {
     e.preventDefault();
     var conf=window.confirm('آیا برای حذف اعلام خرابی مطمئن هستید؟')
@@ -100,6 +163,27 @@ $('.deletebug').click(function (e) {
         }
     });
 });
+
+$('.deletecustomer').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف مشتری مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'adminDeleteCustomer/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('tr').remove();
+            }
+        }
+    });
+});
 $('.deletecomment').click(function (e) {
     e.preventDefault();
     var conf=window.confirm('آیا برای حذف تیکت مطمئن هستید؟')
@@ -110,6 +194,47 @@ $('.deletecomment').click(function (e) {
     $.ajax({
         type: 'Post',
         url: 'commentDelete/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('li').remove();
+            }
+        }
+    });
+});
+
+$('.deletegroupcomment').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف  عنوان تیکت مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'groupCommentDelete/',
+        data: {'id':id},
+        success: function (result) {
+            result = $.parseJSON(result);
+            message.show(result.status, result.message, 3000);
+            if (result.status == 'success') {
+                item.closest('tr').remove();
+            }
+        }
+    });
+});
+$('.commentadmindelete').click(function (e) {
+    e.preventDefault();
+    var conf=window.confirm('آیا برای حذف تیکت مطمئن هستید؟')
+    if(!conf)
+        return;
+    var id = $(this).data('id');
+    var item=$(this);
+    $.ajax({
+        type: 'Post',
+        url: 'commentAdminDelete/',
         data: {'id':id},
         success: function (result) {
             result = $.parseJSON(result);

@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a href="userComment" class="nav-link">
+                        <a href="userGroupComment" class="nav-link">
                             <i class="nav-icon fa fa-comment"></i>
                             <p>
                                 تیکت ها

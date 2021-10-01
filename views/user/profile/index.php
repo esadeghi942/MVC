@@ -11,32 +11,32 @@ include 'views/user/sidebar.php'; ?>
                 <div class="card-body">
                     <div class="row">
                         <div class='col-md-6'>
-                            <strong><i class='fa fa-book mr-1'></i>نام و و نام خانوادگی</strong>
+                            <strong><i class='fa fa-id-card-o mr-1'></i> نام و و نام خانوادگی </strong>
                             <p class='text-muted'><?php echo $user['user_name']?></p>
                             <hr>
                         </div>
                         <div class='col-md-6'>
-                            <strong><i class='fa fa-book mr-1'></i>شماره موبایل</strong>
+                            <strong><i class='fa fa-phone mr-1'></i> شماره موبایل </strong>
                             <p class='text-muted'><?php echo $user['user_phone']?></p>
                             <hr>
                         </div>
                         <div class='col-md-6'>
-                            <strong><i class='fa fa-book mr-1'></i>آدرس</strong>
+                            <strong><i class='fa fa-map-marker mr-1'></i> آدرس </strong>
                             <p class='text-muted'><?php echo $user['user_phone']?></p>
                             <hr>
                         </div>
                         <div class='col-md-6'>
-                            <strong><i class='fa fa-book mr-1'></i>تلفن ثابت</strong>
+                            <strong><i class='fa fa-phone mr-1'></i> تلفن ثابت </strong>
                             <p class='text-muted'><?php echo $user['user_phone']?></p>
                             <hr>
                         </div>
                         <div class='col-md-6'>
-                            <strong><i class='fa fa-book mr-1'></i>ایمیل</strong>
+                            <strong><i class='fa fa-envelope-o mr-1'></i> ایمیل </strong>
                             <p class='text-muted'><?php echo $user['user_phone']?></p>
                             <hr>
                         </div>
                         <div class='col-md-6'>
-                            <strong><i class='fa fa-book mr-1'></i>تاریخ ثبت نام</strong>
+                            <strong><i class='fa fa-clock-o mr-1'></i> تاریخ ثبت نام </strong>
                             <p class='text-muted'><?php echo $user['user_phone']?></p>
                             <hr>
                         </div>
@@ -44,8 +44,9 @@ include 'views/user/sidebar.php'; ?>
                         foreach ($description as $k=>$desc){
                             if(!empty($k))
                                 echo"<div class='col-md-6'>
-                                    <strong><i class='fa fa-book mr-1'></i>$k</strong>
+                                    <strong><i class='fa fa-book mr-1'></i> $k</strong>
                                     <p class='text-muted'>$desc</p>
+                                    <hr>
                                 </div>";
                         }
                     if (isset($files[0])) {

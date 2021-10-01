@@ -2,12 +2,12 @@
 
 namespace Controllers;
 
+use Carbon\Carbon;
 use Models\Bug;
 use Models\File;
 use Models\QB;
-use Models\Request;
+use Models\Bnswer;
 use Models\User;
-use Rakit\Validation\Validator;
 use Systems\Auth;
 use Systems\Url;
 use Systems\Validation;
@@ -17,7 +17,7 @@ class BugController
 {
     function index(){
         $user=Auth::id();
-        $QB=new QB();
+        $QB=QB::getInstance();
         if(Url::get('status') !== null)
             $bug = $QB->table(Bug::table)->where(User::primary,$user)->where('bug_status',Url::get('status'))->orderBy(Bug::timecreate,'DESC')->get();
         else
@@ -92,27 +92,35 @@ class BugController
         $bug=new Bug($id);
         $qb=QB::getInstance();
         $item=$bug->find();
+        $user=(new User($item->user_id))->find();
+        $answer=$bug->answers();
         $item=Bug::defineAttributeItem($item);
         $files=$bug->files();
-        if($item->bug_status == 0)
+        if($item->bug_status == '0')
             $qb->update(Bug::table,['bug_status'=>1])->where(Bug::primary,$id)->exec();
-        return View::make('admin/bug/bug',['bug'=>$item,'files'=>$files]);
+        return View::make('admin/bug/bug',['bug'=>$item,'user'=>$user,'files'=>$files,'answers'=>$answer]);
     }
 
     function userBug(){
         $id=Url::get('id');
         $bug=new Bug($id);
+        $answer=$bug->answers();
         $item=$bug->find();
         $item=Bug::defineAttributeItem($item);
         $files=$bug->files();
-        return View::make('user/bug/bug',['bug'=>$item,'files'=>$files]);
+        return View::make('user/bug/bug',['bug'=>$item,'files'=>$files,'answers'=>$answer]);
     }
 
     function postAnswer(){
+        Validation::Validate($_POST,['bug_payment'=>'numeric']);
         $id=Url::get('id');
         $text=$_POST['txt'];
+        $payment=$_POST['bug_payment'];
         $qb=QB::getInstance();
-        $qb->update(Bug::table,['bug_answer'=>$text,'bug_status'=>2])->where(Bug::primary,$id)->exec();
+        $qb->update(Bug::table,['bug_status'=>2,'bug_payment'=>$payment])->where(Bug::primary,$id)->exec();
+        $date = Carbon::now()->toDateTimeString();
+        if(!empty($text))
+            $qb->insert(Bnswer::table,['answer_model'=>Bug::table,'model_id'=>$id,'asnswer_text'=>$text,'answer_create'=>$date]);
         return View::redirect('',['success'=>'جوابیه با موفقیت ارسال شد.']);
     }
 }

@@ -5,7 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/models" isTestSource="false" packagePrefix="Models\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/controllers/admin" isTestSource="false" packagePrefix="Controllers\Back\" />
+      <sourceFolder url="file://$MODULE_DIR$/controllers" isTestSource="false" packagePrefix="Controllers\" />
+      <sourceFolder url="file://$MODULE_DIR$/systems" isTestSource="false" packagePrefix="Systems\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/rakit/validation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />
@@ -36,6 +37,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php72" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/finder" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/melipayamak/php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -9,7 +9,8 @@
     "require": {
         "rakit/validation": "^0.22.3",
         "nesbot/carbon": "^2.52",
-        "hekmatinasser/verta": "^1.12"
+        "hekmatinasser/verta": "^1.12",
+        "melipayamak/php": "1.0.0"
     },
     "autoload": {
         "psr-4": {
