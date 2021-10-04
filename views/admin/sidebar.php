@@ -41,6 +41,14 @@
                             </p>
                         </a>
                     </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="adminGetSms" class="nav-link">
+                            <i class="nav-icon fa fa-money"></i>
+                            <p>اعتبار پیامک
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-item has-treeview">
                         <a href="edit" class="nav-link">
                             <i class="nav-icon fa fa-id-card"></i>

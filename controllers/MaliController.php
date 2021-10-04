@@ -9,6 +9,7 @@ use Models\Request;
 use Models\User;
 use Systems\Auth;
 use Systems\PackPay;
+use Systems\SMS;
 use Systems\Url;
 use Systems\View;
 use Models\QB;
@@ -40,19 +41,22 @@ class MaliController
         $data = [
             'access_token' => $token,
             'amount' => $amount, //مبلغ به ریال
-            'callback_url' => Url::baseURL() . '/verify_payment', //آدرس بازگشت به سایت شما بعد از اتمام عملیات پرداخت
+            'callback_url' => 'http://tehranftth.ir/panel/verify_payment/', //آدرس بازگشت به سایت شما بعد از اتمام عملیات پرداخت
             'payer_id' => Auth::user()['user_phone'],//فیلد اختیاری شماره تلفن پرداخت کننده
             'payer_name' => Auth::user()['user_name'],//فیلد اختیاری نام پرداخت کننده
             'verify_on_request' => true,
         ];
         $send_to_bank_result = $GateWay->send_to_bank($data);
+        var_dump($send_to_bank_result);
+        return ;
         if ($send_to_bank_result['status'] == "0") {
             $reference_code = $send_to_bank_result['reference_code'];
             $QB->insert(Mali::table,['user_id'=>Auth::id(),'mali_model'=>$model,'model_id'=>$id,'mali_amount'=>$amount,'mali_reference_code'=>$reference_code,'mali_create'=>Carbon::now()->toDateTimeString()]);
             $redirect_url = "https://dashboard.packpay.ir/bank/purchase/send/?RefId=${reference_code}";
             View::redirect($redirect_url);
-        } else {
-            return View::redirect($url, ['danger' => 'دراتصال به درگاه پرداخت مشکلی پیش امده لطفا بعدا دوباره تلاش کنید.'], true);
+        }
+        else {
+            return View::redirect($url, ['danger' => 'دراتصال به درگاه پرداخت مشکلی پیش امده لطفا بعدا دوباره تلاش کنید.']);
             //echo $send_to_bank_result['message'];
         }
     }
@@ -102,6 +106,11 @@ class MaliController
         (new Validation())::Validate($_POST,['payment_amount' => 'required|numeric']);
         (new Mali())->setPayment($amount);
         return View::redirect('../admin',['success'=>'هزینه کارشناسی با موفقیت تغییر کرد']);
+    }
+
+    public function restSms(){
+        $amount=SMS::GetCredit();
+        return View::make('admin/restSms',['amount'=>$amount]);
     }
 
     public function adminPayment(){

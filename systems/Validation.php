@@ -10,8 +10,8 @@ class Validation
 
     public static function Validate($parameter, $rules,$file=null)
     {
-       if(isset($file)){
-           $total = count($file['name']);
+        $total = count($file['name']);
+        if($file['size'][0] > 0){
            for ($i = 0; $i < $total; $i++) {
                $size = $file['size'][$i];
                if( $size > 1000000)
@@ -22,15 +22,20 @@ class Validation
            }
        }
         $validator = new Validator();
+        $validator->setMessages(
+           [
+               'required' => 'الزمامی مباشد',
+               'numeric' => 'معتبر نیست'
+           ]
+        );
         $validation = $validator->validate($parameter, $rules);
+
         if ($validation->fails()) {
             $errors = $validation->errors();
             $errors = $errors->firstOfAll();
             $msg = '';
             foreach ($errors as $error)
                 $msg .= "<pre>$error</pre>";
-
-            $validation->setMessages(self::fa_message());
             return View::redirect('', ['danger' => $msg], true);
         }
     }

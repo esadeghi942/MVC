@@ -1,25 +1,26 @@
 <?php
 
 namespace Systems;
-use Melipayamak\MelipayamakApi;
 
 class SMS
 {
-const username = '09127266505', password = '7220';
-    static function send($to,$text){
-        try{
-            $api = new MelipayamakApi(self::username,self::password);
-            $sms = $api->sms();
-           // $to = '09123456789';
-            $from = 'tehranftth';
-           // $text = 'تست وب سرویس ملی پیامک';
-            $response = $sms->send($to,$from,$text);
-            $json = json_decode($response);
-            //echo $json->Value;
-            return true;
-        }catch(\Exception $e){
-            return false;
-            echo $e->getMessage();
-        }
+    private const username = '09127266505', password = '@aSni9lDTH';
+
+    static function send($to, $text)
+    {
+        $sms_client = new \SoapClient('http://api.payamak-panel.com/post/send.asmx?wsdl', array('encoding' => 'UTF-8'));
+        $parameters['username'] = self::username;
+        $parameters['password'] = self::password;
+        $parameters['to'] =$to;
+        $parameters['text'] = $text;
+        $parameters['isflash'] = true;
+        return $sms_client->SendSimpleSMS2($parameters)->SendSimpleSMS2Result != 11;
+    }
+
+    static function GetCredit(){
+        $sms_client = new \SoapClient('http://api.payamak-panel.com/post/Send.asmx?wsdl', array('encoding'=>'UTF-8'));
+        $parameters['username'] = self::username;
+        $parameters['password'] = self::password;
+        return number_format($sms_client->GetCredit($parameters)->GetCreditResult);
     }
 }

@@ -38,8 +38,8 @@ class Url
 
     public static function baseURL()
     {
-        return 'localhost/panel/';
-        //return $_SERVER['HTTP_HOST'];
+        //return 'localhost/panel/';
+        return $_SERVER['HTTP_HOST'];
     }
 
     public static function vd($d, $vd = false)

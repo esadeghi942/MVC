@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 ini_set('memory_limit', '3000M');
 ini_set('max_execution_time', 3000); // Secounds
 ini_set('serialize_precision', 14);
+ini_set("soap.wsdl_cache_enabled", "0");
 
 // set_time_limit(0);
 // end todo

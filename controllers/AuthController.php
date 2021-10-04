@@ -115,7 +115,7 @@ class AuthController
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
         $QB->insert('resetpassword', ['user_phone' => $phone, 'reset_code' => $code, 'reset_expired' => Carbon::now()->addMinute(4)]);
         //Send SMS
-        $res=SMS::send($phone, $code."سامانه فیبر نوری تهران \n بازیابی رمز عبور کد تایید شما :");
+        $res=SMS::send(ltrim($phone,0), "سامانه فیبر نوری تهران \n بازیابی رمز عبور کد تایید شما :".$code);
         if($res)
             return View::redirect('../recovery_password?user=' . $phone,['success'=>'کد تایید به شماره موبایل وارد شده ارسال شد.']);
         return View::redirect('',['danger'=>'خطایی در ارسال کد تایید به وجود آمده.']);
@@ -132,7 +132,7 @@ class AuthController
         $QB->delete('resetpassword')->where('user_phone', $phone)->exec();
         $QB->insert('resetpassword', ['user_phone' => $phone, 'reset_code' => $code, 'reset_expired' => Carbon::now()->addMinute(10)]);
         //Send SMS
-        $res=SMS::send($phone, $code."سامانه فیبر نوری تهران \n  کد تایید شما :");
+        $res=SMS::send($phone, "سامانه فیبر نوری تهران \n  کد تایید شما :".$code);
         if($res)
             return View::redirect('../sendcode?user=' . $phone,['success'=>'کد تایید به شماره موبایل وارد شده ارسال شد.']);
         return View::redirect('',['danger'=>'خطایی در ارسال کد تایید به وجود آمده.']);

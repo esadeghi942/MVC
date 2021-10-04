@@ -10,7 +10,7 @@ include 'views/admin/sidebar.php';
                 <div class="card-body">
                     <form method="POST">
                         <div class="row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-12">
                                 <label class="control-label">هزینه کارشناسی<small>(ریال)</small></label>
                                 <input id="payment_amount" type="text"
                                        class="form-control"

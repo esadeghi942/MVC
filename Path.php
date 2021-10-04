@@ -95,6 +95,9 @@ $paths = array(
     'adminCustomer' => array('before' => 'check_admin', 'get' => [CustomerController::class, 'adminCustomer'], 'post' => [CommentController::class,'newGroupComment'], 'after' => ''),
     'adminDeleteCustomer' => array('before' => 'check_admin', 'get' => '', 'post' => [CustomerController::class,'delete'], 'after' => ''),
 
+    //SMS Rest Payment
+    'adminGetSms' => array('before' => 'check_admin', 'get' => [MaliController::class,'restSms'], 'post' => '', 'after' => ''),
+
     //superAdmin
     'adminUserCreate' => array('before' => 'check_superadmin', 'get' => ['admin/user/create'], 'post' => [AuthController::class, 'adminStore'], 'after' => ''),
     'adminUserIndex' => array('before' => 'check_superadmin', 'get' => [UserController::class, 'adminAll'], 'post' => '', 'after' => ''),
