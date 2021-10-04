@@ -104,32 +104,32 @@ include 'views/user/sidebar.php'; ?>
                                 </div>
                             <div class="row col-12">
                             <div class="form-group col-md-6">
-                                <label class="control-label">تعداد واحد</label>
+                                <label class="control-label">تعداد واحد<small class="text-danger">*</small></label>
                                 <input placeholder="تعداد واحد" id="request_count_unit" type="text"
                                        class="form-control" required
                                        name="request_count_unit" value="" autofocus>
                             </div>
                             <div class="form-group col-6">
-                                <label class="control-label">تعداد درخواست شما</label>
+                                <label class="control-label">تعداد درخواست شما<small class="text-danger">*</small></label>
                                 <input placeholder="تعداد درخواست شما" id="request_count_request" type="text"
                                        class="form-control" required
                                        name="request_count_request" value="" autofocus>
                             </div>
                             <div class="form-group col-6">
-                                <label class="control-label">تعداد متقاضی در ساختمان</label>
+                                <label class="control-label">تعداد متقاضی در ساختمان<small class="text-danger">*</small></label>
                                 <input placeholder="تعداد متقاضی در ساختمان" id="request_build_request" type="text"
                                        class="form-control" required
                                        name="request_build_request" value="" autofocus>
                             </div>
                             <div class="form-group col-6">
-                                <label class="control-label">تلفن ثابت</label>
+                                <label class="control-label">تلفن ثابت<small class="text-danger">*</small></label>
                                 <input placeholder="تلفن ثابت" id="request_fix_number" type="text"
                                        class="form-control" required
                                        name="request_fix_number" value="" autofocus>
                             </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <label class="control-label">آدرس دقیق برای کارشناسی</label>
+                                <label class="control-label">آدرس دقیق برای کارشناسی<small class="text-danger">*</small></label>
                                 <textarea name="request_address" class="form-control" required rows="3"></textarea>
                             </div>
                             <div class="form-group col-md-12">

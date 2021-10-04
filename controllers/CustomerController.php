@@ -83,7 +83,7 @@ class CustomerController
             Validation::Validate($_POST, [
                 'company' => 'required',
                 'namayande' => 'required',
-                'phone_namayande' => 'required',
+                'phone_namayande' => 'numeric|required',
                 'activity' => 'required',
             ]);
         }
@@ -121,7 +121,7 @@ class CustomerController
             Validation::Validate($_POST, [
                 'company' => 'required',
                 'namayande' => 'required',
-                'phone_namayande' => 'required',
+                'phone_namayande' => 'numeric|required',
                 'activity' => 'required',
             ]);
         }

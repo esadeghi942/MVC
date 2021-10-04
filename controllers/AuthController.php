@@ -4,7 +4,6 @@ namespace Controllers;
 
 use Models\QB;
 use Models\User;
-use Rakit\Validation\Validator;
 use Systems\Auth;
 use Systems\Cookie;
 use Systems\Date;
@@ -86,7 +85,7 @@ class AuthController
     function check_before_register(){
 
         Validation::Validate($_POST,[
-            'name' => 'required|min:4',
+            'name' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:6',
             'confirm-password' => 'required|same:password',
@@ -251,7 +250,7 @@ class AuthController
         $email = $_POST['email'];
         $password = $_POST['password'];
         Validation::Validate($_POST,[
-            'name' => 'required|min:4',
+            'name' => 'required',
             'email' => 'required|email',
         ]);
 

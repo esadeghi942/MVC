@@ -39,6 +39,7 @@ class RequestController
             'request_count_request' => 'required|numeric',
             'request_build_request' => 'required|numeric',
             'request_address' => 'required',
+            'request_fix_number' => 'required|numeric',
         ],$_FILES['request_file']);
 
         $QB = QB::getInstance();
@@ -68,6 +69,7 @@ class RequestController
             'request_count_unit' => 'required|numeric',
             'request_count_request' => 'required|numeric',
             'request_build_request' => 'required|numeric',
+            'request_fix_number' => 'required|numeric',
             'request_address' => 'required',
         ],$_FILES['request_file']);
         $QB = QB::getInstance();
