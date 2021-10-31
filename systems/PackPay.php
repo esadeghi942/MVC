@@ -4,9 +4,9 @@ namespace Systems;
 
 class PackPay
 {
-    private const client_id="sSpxZfxGSPWNF79itzGz";
-    private const secret_id="Y6xNl5TQtx9RIyUU8osWjzwJpNurVY";
-    private const refresh_token="069833d6-84bb-42cc-bbf2-e0a60592d731";
+    private const client_id="*************************";
+    private const secret_id="**************************";
+    private const refresh_token="***********************";
 
     private function request($method)
     {
