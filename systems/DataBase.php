@@ -7,9 +7,9 @@ $db_config = [
     //Localhost
     "development" => [
         "host" => "localhost",
-        "database" => "tehran_ftth",
-        "username" => "root",
-        "password" => ""
+        "database" => "************",
+        "username" => "******",
+        "password" => "**********"
     ],
     //Server
     "production" => [
