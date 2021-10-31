@@ -23,9 +23,9 @@ $db_config = [
 class DataBase
 {
     private $host = 'localhost';
-    private $db = 'tehran_ftth';
-    private $user = 'root';
-    private $pass = '';
+    private $db = '*********';
+    private $user = '*******';
+    private $pass = '********';
 
     public $pdo;
 
