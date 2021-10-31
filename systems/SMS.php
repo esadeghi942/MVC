@@ -4,7 +4,7 @@ namespace Systems;
 
 class SMS
 {
-    private const username = '09127266505', password = '@aSni9lDTH';
+    private const username = '*************', password = '************';
 
     static function send($to, $text)
     {
