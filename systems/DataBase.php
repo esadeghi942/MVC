@@ -14,9 +14,9 @@ $db_config = [
     //Server
     "production" => [
         "host" => "tehranftth.ir",
-        "database" => "tehran_ftth",
-        "username" => "almas",
-        "password" => "aSni9lDTH"
+        "database" => "**********",
+        "username" => "*********",
+        "password" => "********"
     ]
 ];
 
